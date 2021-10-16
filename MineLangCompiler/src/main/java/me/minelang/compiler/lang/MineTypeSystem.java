@@ -10,6 +10,8 @@ import me.minelang.compiler.lang.types.MineBigInteger;
 import me.minelang.compiler.lang.types.MineFunction;
 import me.minelang.compiler.lang.types.MineNone;
 
+import java.math.BigInteger;
+
 @TypeSystem({
         boolean.class,
         byte.class, short.class, int.class, long.class, MineBigInteger.class, float.class, double.class, MineBigDecimal.class,
@@ -20,6 +22,24 @@ public abstract class MineTypeSystem {
     @CompilerDirectives.TruffleBoundary(allowInlining = true)
     public static short castByteToShort(byte aByte) {
         return aByte;
+    }
+
+    @ImplicitCast
+    @CompilerDirectives.TruffleBoundary(allowInlining = true)
+    public static int castByteToInt(byte aByte) {
+        return aByte;
+    }
+
+    @ImplicitCast
+    @CompilerDirectives.TruffleBoundary(allowInlining = true)
+    public static long castByteToLong(byte aByte) {
+        return aByte;
+    }
+
+    @ImplicitCast
+    @CompilerDirectives.TruffleBoundary(allowInlining = true)
+    public static MineBigInteger castByteToBigInteger(byte aByte) {
+        return new MineBigInteger(BigInteger.valueOf(aByte));
     }
 
     @ImplicitCast
@@ -36,8 +56,26 @@ public abstract class MineTypeSystem {
 
     @ImplicitCast
     @CompilerDirectives.TruffleBoundary(allowInlining = true)
+    public static MineBigDecimal castByteToBigDecimal(byte aByte) {
+        return new MineBigDecimal(BigInteger.valueOf(aByte));
+    }
+
+    @ImplicitCast
+    @CompilerDirectives.TruffleBoundary(allowInlining = true)
     public static int castShortToInt(short aShort) {
         return aShort;
+    }
+
+    @ImplicitCast
+    @CompilerDirectives.TruffleBoundary(allowInlining = true)
+    public static long castShortToLong(short aShort) {
+        return aShort;
+    }
+
+    @ImplicitCast
+    @CompilerDirectives.TruffleBoundary(allowInlining = true)
+    public static MineBigInteger castShortToBigInteger(short aShort) {
+        return new MineBigInteger(BigInteger.valueOf(aShort));
     }
 
     @ImplicitCast
@@ -54,8 +92,20 @@ public abstract class MineTypeSystem {
 
     @ImplicitCast
     @CompilerDirectives.TruffleBoundary(allowInlining = true)
+    public static MineBigDecimal castShortToBigDecimal(short aShort) {
+        return new MineBigDecimal(BigInteger.valueOf(aShort));
+    }
+
+    @ImplicitCast
+    @CompilerDirectives.TruffleBoundary(allowInlining = true)
     public static long castIntToLong(int aInt) {
         return aInt;
+    }
+
+    @ImplicitCast
+    @CompilerDirectives.TruffleBoundary(allowInlining = true)
+    public static MineBigInteger castIntToBigInteger(int aInt) {
+        return new MineBigInteger(BigInteger.valueOf(aInt));
     }
 
     @ImplicitCast
@@ -68,6 +118,12 @@ public abstract class MineTypeSystem {
     @CompilerDirectives.TruffleBoundary(allowInlining = true)
     public static double castIntToDouble(int aLong) {
         return aLong;
+    }
+
+    @ImplicitCast
+    @CompilerDirectives.TruffleBoundary(allowInlining = true)
+    public static MineBigDecimal castIntToBigDecimal(int aInt) {
+        return new MineBigDecimal(BigInteger.valueOf(aInt));
     }
 
     @ImplicitCast
@@ -98,6 +154,12 @@ public abstract class MineTypeSystem {
     @CompilerDirectives.TruffleBoundary(allowInlining = true)
     public static double castFloatToDouble(float aLong) {
         return aLong;
+    }
+
+    @ImplicitCast
+    @CompilerDirectives.TruffleBoundary(allowInlining = true)
+    public static MineBigDecimal castFloatToBigDecimal(float aLong) {
+        return new MineBigDecimal(aLong);
     }
 
     @ImplicitCast

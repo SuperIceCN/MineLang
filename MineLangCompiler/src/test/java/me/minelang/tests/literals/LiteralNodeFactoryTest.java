@@ -1,3 +1,5 @@
+package me.minelang.tests.literals;
+
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import me.minelang.compiler.lang.nodes.literial.*;
 import me.minelang.compiler.lang.types.MineBigDecimal;
