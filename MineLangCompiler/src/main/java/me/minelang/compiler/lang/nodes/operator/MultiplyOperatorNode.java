@@ -7,14 +7,14 @@ import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.types.MineBigDecimal;
 import me.minelang.compiler.lang.types.MineBigInteger;
 
-@NodeInfo(language = "MineLang", shortName = "-", description = "operatorMinus")
+@NodeInfo(language = "MineLang", shortName = "*", description = "operatorMultiply")
 @NodeChild(value = "left", type = MineNode.class)
 @NodeChild(value = "right", type = MineNode.class)
-public abstract class MinusOperatorNode extends AbstractOperatorNode {
+public abstract class MultiplyOperatorNode extends AbstractOperatorNode {
 
     @Specialization(rewriteOn = ArithmeticException.class)
     byte getBytes(byte a, byte b) {
-        var x = a - b;
+        var x = a * b;
         var r = (byte) x;
         if (x == r) {
             return r;
@@ -25,7 +25,7 @@ public abstract class MinusOperatorNode extends AbstractOperatorNode {
 
     @Specialization(rewriteOn = ArithmeticException.class)
     short getShorts(short a, short b) {
-        var x = a - b;
+        var x = a * b;
         var r = (short) x;
         if (x == r) {
             return r;
@@ -36,30 +36,22 @@ public abstract class MinusOperatorNode extends AbstractOperatorNode {
 
     @Specialization(rewriteOn = ArithmeticException.class)
     int getInts(int a, int b) {
-        if(b != Integer.MIN_VALUE){
-            return Math.addExact(a, -b);
-        }else {
-            throw new ArithmeticException("int overflow");
-        }
+        return Math.multiplyExact(a, b);
     }
 
     @Specialization(rewriteOn = ArithmeticException.class)
     long getLongs(long a, long b) {
-        if(b != Long.MIN_VALUE){
-            return Math.addExact(a, -b);
-        }else {
-            throw new ArithmeticException("long overflow");
-        }
+        return Math.multiplyExact(a, b);
     }
 
     @Specialization
     MineBigInteger getBigIntegers(MineBigInteger a, MineBigInteger b) {
-        return new MineBigInteger(a.getValue().add(b.getValue().negate()));
+        return new MineBigInteger(a.getValue().multiply(b.getValue()));
     }
 
     @Specialization(rewriteOn = ArithmeticException.class)
     float getFloats(float a, float b) {
-        var x = a - b;
+        var x = a * b;
         if (x >= Float.MAX_VALUE || x <= Float.MIN_VALUE) {
             return x;
         } else {
@@ -69,7 +61,7 @@ public abstract class MinusOperatorNode extends AbstractOperatorNode {
 
     @Specialization(rewriteOn = ArithmeticException.class)
     double getDoubles(double a, double b) {
-        var x = a - b;
+        var x = a * b;
         if (x >= Double.MIN_VALUE || x <= Double.MAX_VALUE) {
             return x;
         } else {
@@ -79,6 +71,6 @@ public abstract class MinusOperatorNode extends AbstractOperatorNode {
 
     @Specialization
     MineBigDecimal getBigDecimals(MineBigDecimal a, MineBigDecimal b) {
-        return new MineBigDecimal(a.getValue().add(b.getValue().negate()));
+        return new MineBigDecimal(a.getValue().multiply(b.getValue()));
     }
 }

@@ -21,11 +21,11 @@ public final class LiteralNodeFactory {
              * 8 和 17 在这里是经验数字，通常超出它们所表述的长度范围的字符串都不满足当前精度要求
              * 所以我们将这样的值提升一个精度以尽可能确保运算正确性
              */
-            if (!(r1 >= Float.MAX_VALUE) && !(r1 <= Float.MIN_VALUE) && len <= 8) {
+            if (r1 <= Float.MAX_VALUE && r1 >= -Float.MAX_VALUE && len <= 8) {
                 return FloatLiteralNodeFactory.create(r1);
             }
             var r2 = Double.parseDouble(number);
-            if (!(r2 >= Double.MAX_VALUE) && !(r2 <= Double.MIN_VALUE) && len <= 17) {
+            if (r2 <= Double.MAX_VALUE && r2 >= -Double.MAX_VALUE && len <= 17) {
                 return DoubleLiteralNodeFactory.create(r2);
             }
             //全都不满足时使用高精度计算，但会显著降低计算速度，所以我们尽量使用浮点数
