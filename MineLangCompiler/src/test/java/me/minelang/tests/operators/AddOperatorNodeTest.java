@@ -22,6 +22,7 @@ public class AddOperatorNodeTest {
                 LiteralNodeFactory.getInstance().createNumberNode("2399999999999999999999999999999"),
                 LiteralNodeFactory.getInstance().createNumberNode("2499999999999999999999999999999999999999999999999.333333333333333333333333333333")
         );
+        System.out.println(result);
         Assert.assertEquals("2500000000000000002399999999999999999999999999998.333333333333333333333333333333", result.toString());
     }
 
@@ -32,6 +33,7 @@ public class AddOperatorNodeTest {
                 LiteralNodeFactory.getInstance().createNumberNode("43")
         );
         System.out.println(result);
+        Assert.assertEquals(243598, result);
     }
 
     @Test
@@ -41,6 +43,7 @@ public class AddOperatorNodeTest {
                 LiteralNodeFactory.getInstance().createNumberNode("4300000")
         );
         System.out.println(result);
+        Assert.assertEquals(4300243.440002441d, result);
     }
 
     @Test
@@ -50,5 +53,6 @@ public class AddOperatorNodeTest {
                 LiteralNodeFactory.getInstance().createNumberNode("1")
         );
         System.out.println(result);
+        Assert.assertEquals((short) 128, result);
     }
 }
