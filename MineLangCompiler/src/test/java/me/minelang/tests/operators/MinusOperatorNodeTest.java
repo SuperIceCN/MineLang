@@ -17,7 +17,7 @@ public class MinusOperatorNodeTest {
     }
 
     @Test
-    public void testAdd1() {
+    public void testMinus1() {
         var result = min(
                 LiteralNodeFactory.getInstance().createNumberNode("2399999999999999999999999999999"),
                 LiteralNodeFactory.getInstance().createNumberNode("2499999999999999999999999999999999999999999999999.333333333333333333333333333333")
@@ -27,7 +27,7 @@ public class MinusOperatorNodeTest {
     }
 
     @Test
-    public void testAdd2() {
+    public void testMinus2() {
         var result = min(
                 LiteralNodeFactory.getInstance().createNumberNode("243555"),
                 LiteralNodeFactory.getInstance().createNumberNode("43")
@@ -37,7 +37,7 @@ public class MinusOperatorNodeTest {
     }
 
     @Test
-    public void testAdd3() {
+    public void testMinus3() {
         var result = min(
                 LiteralNodeFactory.getInstance().createNumberNode("243.44"),
                 LiteralNodeFactory.getInstance().createNumberNode("4300000")
@@ -47,7 +47,7 @@ public class MinusOperatorNodeTest {
     }
 
     @Test
-    public void testAdd4() {
+    public void testMinus4() {
         var result = min(
                 LiteralNodeFactory.getInstance().createNumberNode("127"),
                 LiteralNodeFactory.getInstance().createNumberNode("-1")
