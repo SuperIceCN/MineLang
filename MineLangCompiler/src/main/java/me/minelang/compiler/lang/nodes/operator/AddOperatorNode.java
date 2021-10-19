@@ -52,7 +52,7 @@ public abstract class AddOperatorNode extends AbstractOperatorNode {
     @Specialization(rewriteOn = ArithmeticException.class)
     float addFloats(float a, float b) {
         var x = a + b;
-        if (x >= Float.MAX_VALUE || x <= Float.MIN_VALUE) {
+        if (x >= -Float.MAX_VALUE || x <= Float.MAX_VALUE) {
             return x;
         } else {
             throw new ArithmeticException("float overflow");
@@ -62,7 +62,7 @@ public abstract class AddOperatorNode extends AbstractOperatorNode {
     @Specialization(rewriteOn = ArithmeticException.class)
     double addDoubles(double a, double b) {
         var x = a + b;
-        if (x >= Double.MIN_VALUE || x <= Double.MAX_VALUE) {
+        if (x >= -Double.MAX_VALUE || x <= Double.MAX_VALUE) {
             return x;
         } else {
             throw new ArithmeticException("double overflow");

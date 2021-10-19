@@ -47,7 +47,7 @@ public abstract class DivideOperatorNode extends AbstractOperatorNode {
     @Specialization(rewriteOn = ArithmeticException.class, guards = "notZero(b)")
     float getFloats(float a, float b) {
         var x = a / b;
-        if (x >= Float.MAX_VALUE || x <= Float.MIN_VALUE) {
+        if (x >= -Float.MAX_VALUE || x <= Float.MAX_VALUE) {
             return x;
         } else {
             throw new ArithmeticException("float overflow");
@@ -57,7 +57,7 @@ public abstract class DivideOperatorNode extends AbstractOperatorNode {
     @Specialization(rewriteOn = ArithmeticException.class, guards = "notZero(b)")
     double getDoubles(double a, double b) {
         var x = a / b;
-        if (x >= Double.MIN_VALUE || x <= Double.MAX_VALUE) {
+        if (x >= -Double.MAX_VALUE || x <= Double.MAX_VALUE) {
             return x;
         } else {
             throw new ArithmeticException("double overflow");

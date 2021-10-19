@@ -43,7 +43,7 @@ public class AddOperatorNodeTest {
                 LiteralNodeFactory.getInstance().createNumberNode("4300000")
         );
         System.out.println(result);
-        Assert.assertEquals(4300243.440002441d, result);
+        Assert.assertEquals(4300243.5f, result);
     }
 
     @Test
