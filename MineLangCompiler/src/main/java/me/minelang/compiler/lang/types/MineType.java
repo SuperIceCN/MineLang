@@ -38,6 +38,12 @@ public final class MineType implements TruffleObject {
      */
     public static final MineType NUMBER = new MineType("Byte", (l, v) -> l.isNumber(v) || v instanceof MineBigInteger || v instanceof MineBigDecimal);
     public static final MineType NONE = new MineType("None", InteropLibrary::isNull);
+    public static final MineType NAN = new MineType("Nan", (l, v) -> {
+        if(v == MineNan.SINGLETON) return true;
+        else if(v instanceof Float f) return Float.isNaN(f);
+        else if(v instanceof Double d) return Double.isNaN(d);
+        return false;
+    });
     public static final MineType STRING = new MineType("String", InteropLibrary::isString);
     public static final MineType BOOLEAN = new MineType("Boolean", InteropLibrary::isBoolean);
     public static final MineType FUNCTION = new MineType("Function", InteropLibrary::isExecutable);
@@ -48,7 +54,7 @@ public final class MineType implements TruffleObject {
      * TODO: 2021/10/12 考虑将函数作为对象的可行性
      */
     @CompilationFinal(dimensions = 1)
-    public static final MineType[] PRECEDENCE = new MineType[]{NONE, BOOLEAN, NUMBER, STRING, FUNCTION, OBJECT};
+    public static final MineType[] PRECEDENCE = new MineType[]{NONE, NAN, BOOLEAN, NUMBER, STRING, FUNCTION, OBJECT};
 
     private final String name;
     private final TypeCheck isInstance;

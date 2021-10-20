@@ -1,11 +1,13 @@
 package me.minelang.compiler.lang.nodes.operator;
 
+import com.oracle.truffle.api.dsl.Fallback;
 import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.types.MineBigDecimal;
 import me.minelang.compiler.lang.types.MineBigInteger;
+import me.minelang.compiler.lang.types.MineNan;
 
 @NodeInfo(language = "MineLang", shortName = "-", description = "operatorNegative")
 @NodeChild(value = "node", type = MineNode.class)
@@ -64,5 +66,11 @@ public abstract class NegativeOperatorNode extends AbstractOperatorNode {
     @Specialization
     MineBigDecimal getBigDecimal(MineBigDecimal a){
         return new MineBigDecimal(a.getValue().negate());
+    }
+
+    @Fallback
+    @SuppressWarnings("unused")
+    Object get(Object a){
+        return MineNan.SINGLETON;
     }
 }

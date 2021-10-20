@@ -5,17 +5,14 @@ import com.oracle.truffle.api.dsl.ImplicitCast;
 import com.oracle.truffle.api.dsl.TypeCast;
 import com.oracle.truffle.api.dsl.TypeCheck;
 import com.oracle.truffle.api.dsl.TypeSystem;
-import me.minelang.compiler.lang.types.MineBigDecimal;
-import me.minelang.compiler.lang.types.MineBigInteger;
-import me.minelang.compiler.lang.types.MineFunction;
-import me.minelang.compiler.lang.types.MineNone;
+import me.minelang.compiler.lang.types.*;
 
 import java.math.BigInteger;
 
 @TypeSystem({
         boolean.class,
         byte.class, short.class, int.class, long.class, MineBigInteger.class, float.class, double.class, MineBigDecimal.class,
-        String.class, MineFunction.class, MineNone.class
+        String.class, MineFunction.class, MineNone.class, MineNan.class
 })
 public abstract class MineTypeSystem {
     @ImplicitCast
@@ -195,6 +192,23 @@ public abstract class MineTypeSystem {
     public static MineNone asMineNone(Object value){
         assert isMineNone(value);
         return MineNone.SINGLETON;
+    }
+
+    @TypeCheck(MineNan.class)
+    public static boolean isMineNan(Object value){
+        if(value == MineNan.SINGLETON) return true;
+        else if(value instanceof Float f) return Float.isNaN(f);
+        else if(value instanceof Double d) return Double.isNaN(d);
+        return false;
+    }
+
+    /*
+     * 同上
+     */
+    @TypeCast(MineNan.class)
+    public static MineNan asMineNan(Object value){
+        assert isMineNone(value);
+        return MineNan.SINGLETON;
     }
 
 }

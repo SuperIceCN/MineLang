@@ -1,11 +1,13 @@
 package me.minelang.compiler.lang.nodes.operator;
 
+import com.oracle.truffle.api.dsl.Fallback;
 import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.types.MineBigDecimal;
 import me.minelang.compiler.lang.types.MineBigInteger;
+import me.minelang.compiler.lang.types.MineNan;
 
 @NodeInfo(language = "MineLang", shortName = "+", description = "operatorAdd")
 @NodeChild(value = "left", type = MineNode.class)
@@ -77,5 +79,14 @@ public abstract class AddOperatorNode extends AbstractOperatorNode {
     @Specialization
     String addStrings(String a, String b) {
         return a + b;
+    }
+
+    @Fallback
+    @SuppressWarnings("unused")
+    Object get(Object a, Object b){
+        if(a instanceof String || b instanceof String){
+            return new StringBuilder().append(a).append(b);
+        }
+        return MineNan.SINGLETON;
     }
 }

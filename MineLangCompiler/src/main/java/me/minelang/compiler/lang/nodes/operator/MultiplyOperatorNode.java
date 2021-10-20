@@ -1,11 +1,13 @@
 package me.minelang.compiler.lang.nodes.operator;
 
+import com.oracle.truffle.api.dsl.Fallback;
 import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.types.MineBigDecimal;
 import me.minelang.compiler.lang.types.MineBigInteger;
+import me.minelang.compiler.lang.types.MineNan;
 
 @NodeInfo(language = "MineLang", shortName = "*", description = "operatorMultiply")
 @NodeChild(value = "left", type = MineNode.class)
@@ -72,5 +74,11 @@ public abstract class MultiplyOperatorNode extends AbstractOperatorNode {
     @Specialization
     MineBigDecimal getBigDecimals(MineBigDecimal a, MineBigDecimal b) {
         return new MineBigDecimal(a.getValue().multiply(b.getValue()));
+    }
+
+    @Fallback
+    @SuppressWarnings("unused")
+    Object get(Object a, Object b){
+        return MineNan.SINGLETON;
     }
 }

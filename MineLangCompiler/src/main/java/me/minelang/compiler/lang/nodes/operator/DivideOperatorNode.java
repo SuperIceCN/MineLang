@@ -8,7 +8,7 @@ import com.oracle.truffle.api.nodes.NodeInfo;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.types.MineBigDecimal;
 import me.minelang.compiler.lang.types.MineBigInteger;
-import me.minelang.compiler.lang.types.MineNone;
+import me.minelang.compiler.lang.types.MineNan;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -39,12 +39,12 @@ public abstract class DivideOperatorNode extends AbstractOperatorNode {
         return a / b;
     }
 
-    @Specialization(guards = "notZero(b)")
+    @Specialization(guards = "notZeroBI(b)")
     MineBigInteger getBigIntegers(MineBigInteger a, MineBigInteger b) {
         return new MineBigInteger(a.getValue().multiply(b.getValue()));
     }
 
-    @Specialization(rewriteOn = ArithmeticException.class, guards = "notZero(b)")
+    @Specialization(rewriteOn = ArithmeticException.class, guards = "notZeroF(b)")
     float getFloats(float a, float b) {
         var x = a / b;
         if (x >= -Float.MAX_VALUE || x <= Float.MAX_VALUE) {
@@ -54,7 +54,7 @@ public abstract class DivideOperatorNode extends AbstractOperatorNode {
         }
     }
 
-    @Specialization(rewriteOn = ArithmeticException.class, guards = "notZero(b)")
+    @Specialization(rewriteOn = ArithmeticException.class, guards = "notZeroD(b)")
     double getDoubles(double a, double b) {
         var x = a / b;
         if (x >= -Double.MAX_VALUE || x <= Double.MAX_VALUE) {
@@ -64,37 +64,38 @@ public abstract class DivideOperatorNode extends AbstractOperatorNode {
         }
     }
 
-    @Specialization(guards = "notZero(b)")
+    @Specialization(guards = "notZeroBD(b)")
     MineBigDecimal getBigDecimals(MineBigDecimal a, MineBigDecimal b) {
         return new MineBigDecimal(a.getValue().divide(b.getValue(), RoundingMode.HALF_UP));
     }
 
     /**
-     * 如果除法出错，就返回None
+     * 如果除法出错，就返回Nan
+     * @// TODO: 2021/10/20 当除数为零时直接返回Nan而不是尝试所有特化
      */
     @Fallback
     @SuppressWarnings("unused")
     Object get(Object a, Object b){
-        return MineNone.SINGLETON;
+        return MineNan.SINGLETON;
     }
 
     @CompilerDirectives.TruffleBoundary(allowInlining = true)
-    boolean notZero(float v){
+    boolean notZeroF(float v){
         return v != 0f;
     }
 
     @CompilerDirectives.TruffleBoundary(allowInlining = true)
-    boolean notZero(double v){
+    boolean notZeroD(double v){
         return v != 0d;
     }
 
     @CompilerDirectives.TruffleBoundary(allowInlining = true)
-    boolean notZero(MineBigInteger v){
+    boolean notZeroBI(MineBigInteger v){
         return !v.getValue().equals(BigInteger.ZERO);
     }
 
     @CompilerDirectives.TruffleBoundary(allowInlining = true)
-    boolean notZero(MineBigDecimal v){
-        return !v.getValue().equals(BigDecimal.ZERO);
+    boolean notZeroBD(MineBigDecimal v){
+        return v.getValue().compareTo(BigDecimal.ZERO) != 0;
     }
 }

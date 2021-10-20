@@ -4,6 +4,7 @@ import com.oracle.truffle.api.Truffle;
 import me.minelang.compiler.lang.nodes.MineRootNode;
 import me.minelang.compiler.lang.nodes.literial.LiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.operator.DivideOperatorNodeFactory;
+import me.minelang.compiler.lang.types.MineNan;
 import me.minelang.compiler.lang.types.MineNone;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,5 +32,10 @@ public class DivideOperatorNodeTest {
     @Test
     public void testDivide3() {
         Assert.assertEquals(-10.0f, (float) div("98.82", "-9.882"), 0.00001f);
+    }
+
+    @Test
+    public void testDivide4() {
+        Assert.assertEquals(MineNan.SINGLETON, div("12.34", "0"));
     }
 }
