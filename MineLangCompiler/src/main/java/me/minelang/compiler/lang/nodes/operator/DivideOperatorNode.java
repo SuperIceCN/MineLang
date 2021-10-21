@@ -19,32 +19,62 @@ import java.math.RoundingMode;
 @NodeChild(value = "right", type = MineNode.class)
 public abstract class DivideOperatorNode extends AbstractOperatorNode {
 
-    @Specialization(guards = "b != 0")
+    @Specialization(guards = "b == 0")
+    MineNan nanBytes(byte a, byte b) {
+        return MineNan.SINGLETON;
+    }
+
+    @Specialization(replaces = "nanBytes")
     byte getBytes(byte a, byte b) {
         return (byte) (a / b);
     }
 
-    @Specialization(guards = "b != 0")
+    @Specialization(guards = "b == 0")
+    MineNan nanShorts(short a, short b) {
+        return MineNan.SINGLETON;
+    }
+
+    @Specialization(replaces = "nanShorts")
     short getShorts(short a, short b) {
         return (short) (a / b);
     }
 
-    @Specialization(guards = "b != 0")
+    @Specialization(guards = "b == 0")
+    MineNan nanInts(int a, int b) {
+        return MineNan.SINGLETON;
+    }
+
+    @Specialization(replaces = "nanInts")
     int getInts(int a, int b) {
         return a / b;
     }
 
-    @Specialization(guards = "b != 0")
+    @Specialization(guards = "b == 0")
+    MineNan nanLongs(long a, long b) {
+        return MineNan.SINGLETON;
+    }
+
+    @Specialization(replaces = "nanLongs")
     long getLongs(long a, long b) {
         return a / b;
     }
 
-    @Specialization(guards = "notZeroBI(b)")
+    @Specialization(guards = "!notZeroBI(b)")
+    MineNan nanBigIntegers(MineBigInteger a, MineBigInteger b) {
+        return MineNan.SINGLETON;
+    }
+
+    @Specialization(replaces = "nanBigIntegers")
     MineBigInteger getBigIntegers(MineBigInteger a, MineBigInteger b) {
         return new MineBigInteger(a.getValue().multiply(b.getValue()));
     }
 
-    @Specialization(rewriteOn = ArithmeticException.class, guards = "notZeroF(b)")
+    @Specialization(guards = "!notZeroF(b)")
+    MineNan nanFloats(float a, float b) {
+        return MineNan.SINGLETON;
+    }
+
+    @Specialization(rewriteOn = ArithmeticException.class, replaces = "nanFloats")
     float getFloats(float a, float b) {
         var x = a / b;
         if (x >= -Float.MAX_VALUE || x <= Float.MAX_VALUE) {
@@ -54,7 +84,12 @@ public abstract class DivideOperatorNode extends AbstractOperatorNode {
         }
     }
 
-    @Specialization(rewriteOn = ArithmeticException.class, guards = "notZeroD(b)")
+    @Specialization(guards = "!notZeroD(b)")
+    MineNan nanDoubles(double a, double b) {
+        return MineNan.SINGLETON;
+    }
+
+    @Specialization(rewriteOn = ArithmeticException.class, replaces = "nanDoubles")
     double getDoubles(double a, double b) {
         var x = a / b;
         if (x >= -Double.MAX_VALUE || x <= Double.MAX_VALUE) {
@@ -64,14 +99,18 @@ public abstract class DivideOperatorNode extends AbstractOperatorNode {
         }
     }
 
-    @Specialization(guards = "notZeroBD(b)")
+    @Specialization(guards = "!notZeroBD(b)")
+    MineNan nanBigDecimals(MineBigDecimal a, MineBigDecimal b) {
+        return MineNan.SINGLETON;
+    }
+
+    @Specialization(replaces = "nanBigDecimals")
     MineBigDecimal getBigDecimals(MineBigDecimal a, MineBigDecimal b) {
         return new MineBigDecimal(a.getValue().divide(b.getValue(), RoundingMode.HALF_UP));
     }
 
     /**
      * 如果除法出错，就返回Nan
-     * @// TODO: 2021/10/20 当除数为零时直接返回Nan而不是尝试所有特化
      */
     @Fallback
     @SuppressWarnings("unused")

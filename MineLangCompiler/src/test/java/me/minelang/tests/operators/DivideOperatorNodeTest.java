@@ -5,7 +5,6 @@ import me.minelang.compiler.lang.nodes.MineRootNode;
 import me.minelang.compiler.lang.nodes.literial.LiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.operator.DivideOperatorNodeFactory;
 import me.minelang.compiler.lang.types.MineNan;
-import me.minelang.compiler.lang.types.MineNone;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,7 +20,7 @@ public class DivideOperatorNodeTest {
 
     @Test
     public void testDivide1() {
-        Assert.assertEquals(MineNone.SINGLETON, div("2", "0"));
+        Assert.assertEquals(MineNan.SINGLETON, div("2", "0"));
     }
 
     @Test
