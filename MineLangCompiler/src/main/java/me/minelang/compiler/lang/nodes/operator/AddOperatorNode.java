@@ -85,7 +85,7 @@ public abstract class AddOperatorNode extends AbstractOperatorNode {
     @SuppressWarnings("unused")
     Object get(Object a, Object b){
         if(a instanceof String || b instanceof String){
-            return new StringBuilder().append(a).append(b);
+            return String.valueOf(a) + b;
         }
         return MineNan.SINGLETON;
     }

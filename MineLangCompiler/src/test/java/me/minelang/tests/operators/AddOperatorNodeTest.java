@@ -55,4 +55,22 @@ public class AddOperatorNodeTest {
         System.out.println(result);
         Assert.assertEquals((short) 128, result);
     }
+
+    @Test
+    public void testAddStr1() {
+        var result = add(
+                LiteralNodeFactory.getInstance().createStringNode("Hello "),
+                LiteralNodeFactory.getInstance().createStringNode("world!")
+        );
+        Assert.assertEquals("Hello world!", result);
+    }
+
+    @Test
+    public void testAddStr2() {
+        var result = add(
+                LiteralNodeFactory.getInstance().createStringNode("Lucky num: "),
+                LiteralNodeFactory.getInstance().createNumberNode("2233.2233")
+        );
+        Assert.assertEquals("Lucky num: 2233.2233", result);
+    }
 }
