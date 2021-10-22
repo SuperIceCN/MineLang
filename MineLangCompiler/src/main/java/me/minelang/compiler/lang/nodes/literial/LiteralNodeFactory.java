@@ -51,6 +51,14 @@ public final class LiteralNodeFactory {
         }
     }
 
+    public BoolLiteralNode createBoolNode(String bool){
+        return createBoolNode(Boolean.parseBoolean(bool));
+    }
+
+    public BoolLiteralNode createBoolNode(boolean bool){
+        return BoolLiteralNodeFactory.create(bool);
+    }
+
     public static LiteralNodeFactory getInstance() {
         return INSTANCE;
     }
