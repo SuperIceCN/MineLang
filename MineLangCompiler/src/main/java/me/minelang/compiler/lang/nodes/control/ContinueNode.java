@@ -2,6 +2,7 @@ package me.minelang.compiler.lang.nodes.control;
 
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
+import me.minelang.compiler.lang.exceptions.LoopContinueException;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.types.MineNone;
 
@@ -9,6 +10,6 @@ import me.minelang.compiler.lang.types.MineNone;
 public abstract class ContinueNode extends MineNode {
     @Specialization
     MineNone exe() {
-        return MineNone.SINGLETON;
+        throw LoopContinueException.create();
     }
 }
