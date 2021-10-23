@@ -8,17 +8,33 @@ on:
 
 jobs:
   build:
-
+    name: 编译Java
     runs-on: ubuntu-latest
 
     steps:
     - name: 检出仓库内容
       uses: actions/checkout@v2
-    - name: 配置GraalVM 16环境
+
+    - name: 缓存Maven依赖项
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
+    - name: 配置GraalVM环境
       uses: DeLaGuardo/setup-graalvm@5.0
       with:
         graalvm: '21.2.0'
         java: 'java16'
         arch: 'amd64'
-    - name: Build with Maven
+
+    - name: Maven构建
       run: mvn -B package --file pom.xml
+
+    - name: 上传MineCompiler的jar包
+      uses: actions/upload-artifact@v2
+      with:
+        name: MineCompiler.jar
+        path: MineLangCompiler/target/MineLangCompiler-1.0-SNAPSHOT.jar
