@@ -18,6 +18,11 @@ public class MineRootNode extends RootNode {
         this.bodyNodes = bodyNodes;
     }
 
+    public MineRootNode(FrameDescriptor frameDescriptor, MineNode... bodyNodes) {
+        super(null, frameDescriptor);
+        this.bodyNodes = bodyNodes;
+    }
+
     public MineRootNode(MineLanguage language, MineNode... bodyNodes) {
         super(language);
         this.bodyNodes = bodyNodes;
@@ -40,6 +45,7 @@ public class MineRootNode extends RootNode {
 
     @Override
     public String toString() {
+        CompilerAsserts.neverPartOfCompilation();
         return Arrays.toString(this.bodyNodes);
     }
 }

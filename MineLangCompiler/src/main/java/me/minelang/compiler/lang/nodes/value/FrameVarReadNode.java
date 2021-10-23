@@ -1,66 +1,70 @@
 package me.minelang.compiler.lang.nodes.value;
 
 import com.oracle.truffle.api.CompilerDirectives;
+import com.oracle.truffle.api.dsl.NodeField;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.frame.FrameSlotTypeException;
 import com.oracle.truffle.api.frame.MaterializedFrame;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 
-@NodeInfo(language = "MineLang", shortName = "localVarRead"
-        , description = "Read the value stored in a local variable in the current scope.")
-public abstract class LocalVarReadNode extends AbstractVarNode {
+@NodeInfo(language = "MineLang", shortName = "lookUpVarRead"
+        , description = "Read the value stored in a local variable in outer scopes.")
+@NodeField(name = "frame", type = MaterializedFrame.class)
+public abstract class FrameVarReadNode extends AbstractVarNode {
+    abstract MaterializedFrame getFrame();
+    
     @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     byte readByte(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
-        return virtualFrame.getByte(getSlot());
+        return getFrame().getByte(getSlot());
     }
 
     @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     int readInt(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
-        return virtualFrame.getInt(getSlot());
+        return getFrame().getInt(getSlot());
     }
 
     @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     long readLong(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
-        return virtualFrame.getLong(getSlot());
+        return getFrame().getLong(getSlot());
     }
 
     @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     boolean readBoolean(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
-        return virtualFrame.getBoolean(getSlot());
+        return getFrame().getBoolean(getSlot());
     }
 
     @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     float readFloat(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
-        return virtualFrame.getFloat(getSlot());
+        return getFrame().getFloat(getSlot());
     }
 
     @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     double readDouble(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
-        return virtualFrame.getDouble(getSlot());
+        return getFrame().getDouble(getSlot());
     }
 
     @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     Object readObject(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
-        return virtualFrame.getObject(getSlot());
+        return getFrame().getObject(getSlot());
     }
 
     @Specialization(replaces = {"readByte", "readInt", "readLong", "readBoolean", "readFloat", "readDouble", "readObject"})
     Object read(VirtualFrame virtualFrame) {
-        if(virtualFrame.getArguments().length > 0){
-            if(virtualFrame.getArguments()[0] instanceof MaterializedFrame outerFrame){
+        if(getFrame().getArguments().length > 0){
+            if(getFrame().getArguments()[0] instanceof MaterializedFrame outerFrame){
                 CompilerDirectives.transferToInterpreterAndInvalidate();
                 var newReadNode = FrameVarReadNodeFactory.create(getSlot(), outerFrame);
-                return this.replace(newReadNode).read(virtualFrame);
+                return this.replace(newReadNode).read(getFrame());
             }
         }
-        return virtualFrame.getValue(getSlot());
+        return getFrame().getValue(getSlot());
     }
 }
