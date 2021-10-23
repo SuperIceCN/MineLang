@@ -4,7 +4,7 @@ import com.oracle.truffle.api.nodes.ControlFlowException;
 
 import java.io.Serial;
 
-public class LoopBreakException extends ControlFlowException {
+public final class LoopBreakException extends ControlFlowException {
     @Serial
     private static final long serialVersionUID = -8562545277317690467L;
     public static final LoopBreakException SINGLETON = new LoopBreakException();

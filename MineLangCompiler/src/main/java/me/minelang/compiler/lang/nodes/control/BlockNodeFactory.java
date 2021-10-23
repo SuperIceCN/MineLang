@@ -4,7 +4,7 @@ import com.oracle.truffle.api.frame.FrameDescriptor;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.types.MineNone;
 
-public class BlockNodeFactory {
+public final class BlockNodeFactory {
     public static BlockNode create(FrameDescriptor descriptor, MineNode... bodyNodes) {
         return new BlockNode(descriptor, bodyNodes);
     }

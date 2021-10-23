@@ -6,7 +6,7 @@ import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.nodes.control.EmptyNodeFactory;
 import me.minelang.compiler.lang.types.MineNone;
 
-public class ConditionUtil {
+public final class ConditionUtil {
     /**
      * 测试条件节点是否为真，
      * bool: true/false，
