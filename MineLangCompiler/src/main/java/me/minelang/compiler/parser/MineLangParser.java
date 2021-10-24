@@ -1,10 +1,13 @@
-// Generated from D:/MineLang/MineCompiler/src/main/antlr\MineLang.g4 by ANTLR 4.9.1
+// Generated from D:/MineLang/MineLangCompiler/src/main/antlr\MineLang.g4 by ANTLR 4.9.1
 package me.minelang.compiler.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class MineLangParser extends Parser {
@@ -16,15 +19,14 @@ public class MineLangParser extends Parser {
 	public static final int
 		FUNC=1, RETURN=2, USING=3, IN=4, IF=5, ELIF=6, ELSE=7, LOOP=8, BREAK=9, 
 		CONTINUE=10, COMMA=11, LB=12, RB=13, LA=14, RA=15, START=16, END=17, DOT=18, 
-		EQ=19, NEQ=20, SET=21, PLUS=22, MINUS=23, MUTIPLY=24, DEVIDE=25, POWER=26, 
-		NOT=27, GTR=28, GTREQ=29, LWR=30, LWREQ=31, STRING=32, INT=33, REAL=34, 
-		BOOL=35, NONE=36, ID=37, WS=38, COMMENT=39, MUTICOMMENT=40;
+		EQ=19, NEQ=20, SET=21, PLUS=22, MINUS=23, MUTIPLY=24, DEVIDE=25, REMAIN=26, 
+		NOT=27, GTR=28, GTREQ=29, LWR=30, LWREQ=31, STRING=32, INT=33, DEC=34, 
+		BOOL=35, NONE=36, NAN=37, ID=38, WS=39, COMMENT=40, MUTICOMMENT=41;
 	public static final int
-		RULE_program = 0, RULE_pkgName = 1, RULE_funcArgs = 2, RULE_callArgs = 3, 
-		RULE_block = 4, RULE_stat = 5, RULE_expr = 6;
+		RULE_program = 0, RULE_callArgs = 1, RULE_expr = 2;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"program", "pkgName", "funcArgs", "callArgs", "block", "stat", "expr"
+			"program", "callArgs", "expr"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -34,7 +36,8 @@ public class MineLangParser extends Parser {
 			null, "'func'", "'return'", "'using'", "'in'", "'if'", null, "'else'", 
 			"'loop'", "'break'", "'continue'", "','", "'('", "')'", "'['", "']'", 
 			"'{'", "'}'", "'.'", "'=='", "'!='", "'='", "'+'", "'-'", "'*'", "'/'", 
-			"'^'", "'!'", "'>'", "'>='", "'<'", "'<='", null, null, null, null, "'none'"
+			"'%'", "'!'", "'>'", "'>='", "'<'", "'<='", null, null, null, null, "'none'", 
+			"'nan'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -42,9 +45,9 @@ public class MineLangParser extends Parser {
 		return new String[] {
 			null, "FUNC", "RETURN", "USING", "IN", "IF", "ELIF", "ELSE", "LOOP", 
 			"BREAK", "CONTINUE", "COMMA", "LB", "RB", "LA", "RA", "START", "END", 
-			"DOT", "EQ", "NEQ", "SET", "PLUS", "MINUS", "MUTIPLY", "DEVIDE", "POWER", 
-			"NOT", "GTR", "GTREQ", "LWR", "LWREQ", "STRING", "INT", "REAL", "BOOL", 
-			"NONE", "ID", "WS", "COMMENT", "MUTICOMMENT"
+			"DOT", "EQ", "NEQ", "SET", "PLUS", "MINUS", "MUTIPLY", "DEVIDE", "REMAIN", 
+			"NOT", "GTR", "GTREQ", "LWR", "LWREQ", "STRING", "INT", "DEC", "BOOL", 
+			"NONE", "NAN", "ID", "WS", "COMMENT", "MUTICOMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -100,11 +103,11 @@ public class MineLangParser extends Parser {
 
 	public static class ProgramContext extends ParserRuleContext {
 		public TerminalNode EOF() { return getToken(MineLangParser.EOF, 0); }
-		public List<StatContext> stat() {
-			return getRuleContexts(StatContext.class);
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
 		}
-		public StatContext stat(int i) {
-			return getRuleContext(StatContext.class,i);
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
 		}
 		public ProgramContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -132,181 +135,22 @@ public class MineLangParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(17);
+			setState(9);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << FUNC) | (1L << RETURN) | (1L << USING) | (1L << IF) | (1L << LOOP) | (1L << BREAK) | (1L << CONTINUE) | (1L << STRING) | (1L << INT) | (1L << REAL) | (1L << BOOL) | (1L << NONE) | (1L << ID))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << LOOP) | (1L << BREAK) | (1L << LB) | (1L << START) | (1L << STRING) | (1L << INT) | (1L << DEC) | (1L << BOOL) | (1L << NONE) | (1L << NAN) | (1L << ID))) != 0)) {
 				{
 				{
-				setState(14);
-				stat();
+				setState(6);
+				expr(0);
 				}
 				}
-				setState(19);
+				setState(11);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(20);
-			match(Recognizer.EOF);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class PkgNameContext extends ParserRuleContext {
-		public List<TerminalNode> ID() { return getTokens(MineLangParser.ID); }
-		public TerminalNode ID(int i) {
-			return getToken(MineLangParser.ID, i);
-		}
-		public List<TerminalNode> DOT() { return getTokens(MineLangParser.DOT); }
-		public TerminalNode DOT(int i) {
-			return getToken(MineLangParser.DOT, i);
-		}
-		public PkgNameContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_pkgName; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterPkgName(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitPkgName(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitPkgName(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final PkgNameContext pkgName() throws RecognitionException {
-		PkgNameContext _localctx = new PkgNameContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_pkgName);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(22);
-			match(ID);
-			setState(27);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==DOT) {
-				{
-				{
-				setState(23);
-				match(DOT);
-				setState(24);
-				match(ID);
-				}
-				}
-				setState(29);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class FuncArgsContext extends ParserRuleContext {
-		public TerminalNode LB() { return getToken(MineLangParser.LB, 0); }
-		public TerminalNode RB() { return getToken(MineLangParser.RB, 0); }
-		public List<TerminalNode> ID() { return getTokens(MineLangParser.ID); }
-		public TerminalNode ID(int i) {
-			return getToken(MineLangParser.ID, i);
-		}
-		public List<TerminalNode> COMMA() { return getTokens(MineLangParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(MineLangParser.COMMA, i);
-		}
-		public FuncArgsContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_funcArgs; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterFuncArgs(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitFuncArgs(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitFuncArgs(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final FuncArgsContext funcArgs() throws RecognitionException {
-		FuncArgsContext _localctx = new FuncArgsContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_funcArgs);
-		int _la;
-		try {
-			int _alt;
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(30);
-			match(LB);
-			setState(32);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==ID) {
-				{
-				setState(31);
-				match(ID);
-				}
-			}
-
-			setState(38);
-			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					{
-					{
-					setState(34);
-					match(COMMA);
-					setState(35);
-					match(ID);
-					}
-					} 
-				}
-				setState(40);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
-			}
-			setState(42);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==COMMA) {
-				{
-				setState(41);
-				match(COMMA);
-				}
-			}
-
-			setState(44);
-			match(RB);
+			setState(12);
+			match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -354,509 +198,54 @@ public class MineLangParser extends Parser {
 
 	public final CallArgsContext callArgs() throws RecognitionException {
 		CallArgsContext _localctx = new CallArgsContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_callArgs);
+		enterRule(_localctx, 2, RULE_callArgs);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(46);
+			setState(14);
 			match(LB);
-			setState(48);
+			setState(16);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << STRING) | (1L << INT) | (1L << REAL) | (1L << BOOL) | (1L << NONE) | (1L << ID))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << LOOP) | (1L << BREAK) | (1L << LB) | (1L << START) | (1L << STRING) | (1L << INT) | (1L << DEC) | (1L << BOOL) | (1L << NONE) | (1L << NAN) | (1L << ID))) != 0)) {
 				{
-				setState(47);
+				setState(15);
 				expr(0);
 				}
 			}
 
-			setState(54);
+			setState(22);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(50);
+					setState(18);
 					match(COMMA);
-					setState(51);
+					setState(19);
 					expr(0);
 					}
 					} 
 				}
-				setState(56);
+				setState(24);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
 			}
-			setState(58);
+			setState(26);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==COMMA) {
 				{
-				setState(57);
+				setState(25);
 				match(COMMA);
 				}
 			}
 
-			setState(60);
+			setState(28);
 			match(RB);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class BlockContext extends ParserRuleContext {
-		public TerminalNode START() { return getToken(MineLangParser.START, 0); }
-		public TerminalNode END() { return getToken(MineLangParser.END, 0); }
-		public List<StatContext> stat() {
-			return getRuleContexts(StatContext.class);
-		}
-		public StatContext stat(int i) {
-			return getRuleContext(StatContext.class,i);
-		}
-		public BlockContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_block; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitBlock(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final BlockContext block() throws RecognitionException {
-		BlockContext _localctx = new BlockContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_block);
-		int _la;
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(62);
-			match(START);
-			setState(66);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << FUNC) | (1L << RETURN) | (1L << USING) | (1L << IF) | (1L << LOOP) | (1L << BREAK) | (1L << CONTINUE) | (1L << STRING) | (1L << INT) | (1L << REAL) | (1L << BOOL) | (1L << NONE) | (1L << ID))) != 0)) {
-				{
-				{
-				setState(63);
-				stat();
-				}
-				}
-				setState(68);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(69);
-			match(END);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class StatContext extends ParserRuleContext {
-		public StatContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_stat; }
-	 
-		public StatContext() { }
-		public void copyFrom(StatContext ctx) {
-			super.copyFrom(ctx);
-		}
-	}
-	public static class FuncCallStatContext extends StatContext {
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public CallArgsContext callArgs() {
-			return getRuleContext(CallArgsContext.class,0);
-		}
-		public FuncCallStatContext(StatContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterFuncCallStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitFuncCallStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitFuncCallStat(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class IfelseStatContext extends StatContext {
-		public TerminalNode IF() { return getToken(MineLangParser.IF, 0); }
-		public List<TerminalNode> LB() { return getTokens(MineLangParser.LB); }
-		public TerminalNode LB(int i) {
-			return getToken(MineLangParser.LB, i);
-		}
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public List<TerminalNode> RB() { return getTokens(MineLangParser.RB); }
-		public TerminalNode RB(int i) {
-			return getToken(MineLangParser.RB, i);
-		}
-		public List<BlockContext> block() {
-			return getRuleContexts(BlockContext.class);
-		}
-		public BlockContext block(int i) {
-			return getRuleContext(BlockContext.class,i);
-		}
-		public List<TerminalNode> ELIF() { return getTokens(MineLangParser.ELIF); }
-		public TerminalNode ELIF(int i) {
-			return getToken(MineLangParser.ELIF, i);
-		}
-		public TerminalNode ELSE() { return getToken(MineLangParser.ELSE, 0); }
-		public IfelseStatContext(StatContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterIfelseStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitIfelseStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitIfelseStat(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class LoopStatContext extends StatContext {
-		public TerminalNode LOOP() { return getToken(MineLangParser.LOOP, 0); }
-		public BlockContext block() {
-			return getRuleContext(BlockContext.class,0);
-		}
-		public LoopStatContext(StatContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterLoopStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitLoopStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitLoopStat(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ReturnStatContext extends StatContext {
-		public TerminalNode RETURN() { return getToken(MineLangParser.RETURN, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public ReturnStatContext(StatContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterReturnStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitReturnStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitReturnStat(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ContinueStatContext extends StatContext {
-		public TerminalNode CONTINUE() { return getToken(MineLangParser.CONTINUE, 0); }
-		public ContinueStatContext(StatContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterContinueStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitContinueStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitContinueStat(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class FuncDeclareStatContext extends StatContext {
-		public TerminalNode FUNC() { return getToken(MineLangParser.FUNC, 0); }
-		public TerminalNode ID() { return getToken(MineLangParser.ID, 0); }
-		public BlockContext block() {
-			return getRuleContext(BlockContext.class,0);
-		}
-		public List<FuncArgsContext> funcArgs() {
-			return getRuleContexts(FuncArgsContext.class);
-		}
-		public FuncArgsContext funcArgs(int i) {
-			return getRuleContext(FuncArgsContext.class,i);
-		}
-		public FuncDeclareStatContext(StatContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterFuncDeclareStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitFuncDeclareStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitFuncDeclareStat(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class VarSetStatContext extends StatContext {
-		public TerminalNode ID() { return getToken(MineLangParser.ID, 0); }
-		public TerminalNode SET() { return getToken(MineLangParser.SET, 0); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public VarSetStatContext(StatContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterVarSetStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitVarSetStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitVarSetStat(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class UsingStatContext extends StatContext {
-		public TerminalNode USING() { return getToken(MineLangParser.USING, 0); }
-		public TerminalNode ID() { return getToken(MineLangParser.ID, 0); }
-		public TerminalNode IN() { return getToken(MineLangParser.IN, 0); }
-		public PkgNameContext pkgName() {
-			return getRuleContext(PkgNameContext.class,0);
-		}
-		public UsingStatContext(StatContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterUsingStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitUsingStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitUsingStat(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class BreakStatContext extends StatContext {
-		public TerminalNode BREAK() { return getToken(MineLangParser.BREAK, 0); }
-		public BreakStatContext(StatContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterBreakStat(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitBreakStat(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitBreakStat(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final StatContext stat() throws RecognitionException {
-		StatContext _localctx = new StatContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_stat);
-		int _la;
-		try {
-			setState(116);
-			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
-			case 1:
-				_localctx = new FuncCallStatContext(_localctx);
-				enterOuterAlt(_localctx, 1);
-				{
-				setState(71);
-				expr(0);
-				setState(72);
-				callArgs();
-				}
-				break;
-			case 2:
-				_localctx = new FuncDeclareStatContext(_localctx);
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(74);
-				match(FUNC);
-				setState(75);
-				match(ID);
-				setState(79);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				while (_la==LB) {
-					{
-					{
-					setState(76);
-					funcArgs();
-					}
-					}
-					setState(81);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				}
-				setState(82);
-				block();
-				}
-				break;
-			case 3:
-				_localctx = new ReturnStatContext(_localctx);
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(83);
-				match(RETURN);
-				setState(84);
-				expr(0);
-				}
-				break;
-			case 4:
-				_localctx = new UsingStatContext(_localctx);
-				enterOuterAlt(_localctx, 4);
-				{
-				setState(85);
-				match(USING);
-				setState(86);
-				match(ID);
-				setState(87);
-				match(IN);
-				setState(88);
-				pkgName();
-				}
-				break;
-			case 5:
-				_localctx = new VarSetStatContext(_localctx);
-				enterOuterAlt(_localctx, 5);
-				{
-				setState(89);
-				match(ID);
-				setState(90);
-				match(SET);
-				setState(91);
-				expr(0);
-				}
-				break;
-			case 6:
-				_localctx = new IfelseStatContext(_localctx);
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(92);
-				match(IF);
-				setState(93);
-				match(LB);
-				setState(94);
-				expr(0);
-				setState(95);
-				match(RB);
-				setState(96);
-				block();
-				setState(105);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				while (_la==ELIF) {
-					{
-					{
-					setState(97);
-					match(ELIF);
-					setState(98);
-					match(LB);
-					setState(99);
-					expr(0);
-					setState(100);
-					match(RB);
-					setState(101);
-					block();
-					}
-					}
-					setState(107);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				}
-				setState(110);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==ELSE) {
-					{
-					setState(108);
-					match(ELSE);
-					setState(109);
-					block();
-					}
-				}
-
-				}
-				break;
-			case 7:
-				_localctx = new LoopStatContext(_localctx);
-				enterOuterAlt(_localctx, 7);
-				{
-				setState(112);
-				match(LOOP);
-				setState(113);
-				block();
-				}
-				break;
-			case 8:
-				_localctx = new ContinueStatContext(_localctx);
-				enterOuterAlt(_localctx, 8);
-				{
-				setState(114);
-				match(CONTINUE);
-				}
-				break;
-			case 9:
-				_localctx = new BreakStatContext(_localctx);
-				enterOuterAlt(_localctx, 9);
-				{
-				setState(115);
-				match(BREAK);
-				}
-				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -881,26 +270,164 @@ public class MineLangParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class PowerExprContext extends ExprContext {
+	public static class VarSetExprContext extends ExprContext {
+		public TerminalNode ID() { return getToken(MineLangParser.ID, 0); }
+		public TerminalNode SET() { return getToken(MineLangParser.SET, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public VarSetExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterVarSetExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitVarSetExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitVarSetExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IfelseExprContext extends ExprContext {
+		public TerminalNode IF() { return getToken(MineLangParser.IF, 0); }
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
 		}
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode POWER() { return getToken(MineLangParser.POWER, 0); }
-		public PowerExprContext(ExprContext ctx) { copyFrom(ctx); }
+		public List<TerminalNode> ELIF() { return getTokens(MineLangParser.ELIF); }
+		public TerminalNode ELIF(int i) {
+			return getToken(MineLangParser.ELIF, i);
+		}
+		public TerminalNode ELSE() { return getToken(MineLangParser.ELSE, 0); }
+		public IfelseExprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterPowerExpr(this);
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterIfelseExpr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitPowerExpr(this);
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitIfelseExpr(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitPowerExpr(this);
+			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitIfelseExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class MutiplyDevideRemainExprContext extends ExprContext {
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public TerminalNode MUTIPLY() { return getToken(MineLangParser.MUTIPLY, 0); }
+		public TerminalNode DEVIDE() { return getToken(MineLangParser.DEVIDE, 0); }
+		public TerminalNode REMAIN() { return getToken(MineLangParser.REMAIN, 0); }
+		public MutiplyDevideRemainExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterMutiplyDevideRemainExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitMutiplyDevideRemainExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitMutiplyDevideRemainExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BracketExprContext extends ExprContext {
+		public TerminalNode LB() { return getToken(MineLangParser.LB, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public TerminalNode RB() { return getToken(MineLangParser.RB, 0); }
+		public BracketExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterBracketExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitBracketExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitBracketExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class PlusMinusExprContext extends ExprContext {
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public TerminalNode PLUS() { return getToken(MineLangParser.PLUS, 0); }
+		public TerminalNode MINUS() { return getToken(MineLangParser.MINUS, 0); }
+		public PlusMinusExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterPlusMinusExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitPlusMinusExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitPlusMinusExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class FuncCallExprContext extends ExprContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public CallArgsContext callArgs() {
+			return getRuleContext(CallArgsContext.class,0);
+		}
+		public FuncCallExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterFuncCallExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitFuncCallExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitFuncCallExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BreakExprContext extends ExprContext {
+		public TerminalNode BREAK() { return getToken(MineLangParser.BREAK, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public BreakExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterBreakExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitBreakExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitBreakExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -921,30 +448,6 @@ public class MineLangParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitNotExpr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class MutiplyDevideExprContext extends ExprContext {
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public TerminalNode MUTIPLY() { return getToken(MineLangParser.MUTIPLY, 0); }
-		public TerminalNode DEVIDE() { return getToken(MineLangParser.DEVIDE, 0); }
-		public MutiplyDevideExprContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterMutiplyDevideExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitMutiplyDevideExpr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitMutiplyDevideExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -995,10 +498,11 @@ public class MineLangParser extends Parser {
 	}
 	public static class LiteralExprContext extends ExprContext {
 		public TerminalNode INT() { return getToken(MineLangParser.INT, 0); }
-		public TerminalNode REAL() { return getToken(MineLangParser.REAL, 0); }
+		public TerminalNode DEC() { return getToken(MineLangParser.DEC, 0); }
 		public TerminalNode STRING() { return getToken(MineLangParser.STRING, 0); }
 		public TerminalNode BOOL() { return getToken(MineLangParser.BOOL, 0); }
 		public TerminalNode NONE() { return getToken(MineLangParser.NONE, 0); }
+		public TerminalNode NAN() { return getToken(MineLangParser.NAN, 0); }
 		public LiteralExprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -1031,49 +535,47 @@ public class MineLangParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class PlusMinusExprContext extends ExprContext {
+	public static class EndlessLoopExprContext extends ExprContext {
+		public TerminalNode LOOP() { return getToken(MineLangParser.LOOP, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public EndlessLoopExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterEndlessLoopExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitEndlessLoopExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitEndlessLoopExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class BlockExprContext extends ExprContext {
+		public TerminalNode START() { return getToken(MineLangParser.START, 0); }
+		public TerminalNode END() { return getToken(MineLangParser.END, 0); }
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
 		}
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode PLUS() { return getToken(MineLangParser.PLUS, 0); }
-		public TerminalNode MINUS() { return getToken(MineLangParser.MINUS, 0); }
-		public PlusMinusExprContext(ExprContext ctx) { copyFrom(ctx); }
+		public BlockExprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterPlusMinusExpr(this);
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterBlockExpr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitPlusMinusExpr(this);
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitBlockExpr(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitPlusMinusExpr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class FuncCallExprContext extends ExprContext {
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
-		public CallArgsContext callArgs() {
-			return getRuleContext(CallArgsContext.class,0);
-		}
-		public FuncCallExprContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterFuncCallExpr(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitFuncCallExpr(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitFuncCallExpr(this);
+			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitBlockExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1113,29 +615,25 @@ public class MineLangParser extends Parser {
 		int _parentState = getState();
 		ExprContext _localctx = new ExprContext(_ctx, _parentState);
 		ExprContext _prevctx = _localctx;
-		int _startState = 12;
-		enterRecursionRule(_localctx, 12, RULE_expr, _p);
+		int _startState = 4;
+		enterRecursionRule(_localctx, 4, RULE_expr, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(121);
+			setState(68);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case STRING:
-			case INT:
-			case REAL:
-			case BOOL:
-			case NONE:
+			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
+			case 1:
 				{
 				_localctx = new LiteralExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(119);
+				setState(31);
 				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << STRING) | (1L << INT) | (1L << REAL) | (1L << BOOL) | (1L << NONE))) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << STRING) | (1L << INT) | (1L << DEC) | (1L << BOOL) | (1L << NONE) | (1L << NAN))) != 0)) ) {
 				_errHandler.recoverInline(this);
 				}
 				else {
@@ -1145,51 +643,155 @@ public class MineLangParser extends Parser {
 				}
 				}
 				break;
-			case ID:
+			case 2:
+				{
+				_localctx = new VarSetExprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(32);
+				match(ID);
+				setState(33);
+				match(SET);
+				setState(34);
+				expr(14);
+				}
+				break;
+			case 3:
 				{
 				_localctx = new VarUseExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(120);
+				setState(35);
 				match(ID);
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
+			case 4:
+				{
+				_localctx = new BreakExprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(36);
+				match(BREAK);
+				setState(37);
+				expr(5);
+				}
+				break;
+			case 5:
+				{
+				_localctx = new BracketExprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(38);
+				match(LB);
+				setState(39);
+				expr(0);
+				setState(40);
+				match(RB);
+				}
+				break;
+			case 6:
+				{
+				_localctx = new IfelseExprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(42);
+				match(IF);
+				setState(43);
+				expr(0);
+				setState(44);
+				expr(0);
+				setState(51);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+					if ( _alt==1 ) {
+						{
+						{
+						setState(45);
+						match(ELIF);
+						setState(46);
+						expr(0);
+						setState(47);
+						expr(0);
+						}
+						} 
+					}
+					setState(53);
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+				}
+				setState(56);
+				_errHandler.sync(this);
+				switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
+				case 1:
+					{
+					setState(54);
+					match(ELSE);
+					setState(55);
+					expr(0);
+					}
+					break;
+				}
+				}
+				break;
+			case 7:
+				{
+				_localctx = new EndlessLoopExprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(58);
+				match(LOOP);
+				setState(59);
+				expr(2);
+				}
+				break;
+			case 8:
+				{
+				_localctx = new BlockExprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(60);
+				match(START);
+				setState(64);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << LOOP) | (1L << BREAK) | (1L << LB) | (1L << START) | (1L << STRING) | (1L << INT) | (1L << DEC) | (1L << BOOL) | (1L << NONE) | (1L << NAN) | (1L << ID))) != 0)) {
+					{
+					{
+					setState(61);
+					expr(0);
+					}
+					}
+					setState(66);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(67);
+				match(END);
+				}
+				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(147);
+			setState(91);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,15,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(145);
+					setState(89);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 					case 1:
 						{
-						_localctx = new PowerExprContext(new ExprContext(_parentctx, _parentState));
+						_localctx = new MutiplyDevideRemainExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(123);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(124);
-						match(POWER);
-						setState(125);
-						expr(5);
-						}
-						break;
-					case 2:
-						{
-						_localctx = new MutiplyDevideExprContext(new ExprContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(126);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(127);
+						setState(70);
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
+						setState(71);
 						_la = _input.LA(1);
-						if ( !(_la==MUTIPLY || _la==DEVIDE) ) {
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MUTIPLY) | (1L << DEVIDE) | (1L << REMAIN))) != 0)) ) {
 						_errHandler.recoverInline(this);
 						}
 						else {
@@ -1197,17 +799,17 @@ public class MineLangParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(128);
-						expr(5);
+						setState(72);
+						expr(10);
 						}
 						break;
-					case 3:
+					case 2:
 						{
 						_localctx = new PlusMinusExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(129);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(130);
+						setState(73);
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
+						setState(74);
 						_la = _input.LA(1);
 						if ( !(_la==PLUS || _la==MINUS) ) {
 						_errHandler.recoverInline(this);
@@ -1217,17 +819,17 @@ public class MineLangParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(131);
-						expr(4);
+						setState(75);
+						expr(9);
 						}
 						break;
-					case 4:
+					case 3:
 						{
 						_localctx = new IsEqExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(132);
-						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(133);
+						setState(76);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(77);
 						_la = _input.LA(1);
 						if ( !(_la==EQ || _la==NEQ) ) {
 						_errHandler.recoverInline(this);
@@ -1237,17 +839,17 @@ public class MineLangParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(134);
-						expr(3);
+						setState(78);
+						expr(8);
 						}
 						break;
-					case 5:
+					case 4:
 						{
 						_localctx = new CompareExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(135);
-						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-						setState(136);
+						setState(79);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(80);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << GTR) | (1L << GTREQ) | (1L << LWR) | (1L << LWREQ))) != 0)) ) {
 						_errHandler.recoverInline(this);
@@ -1257,48 +859,48 @@ public class MineLangParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(137);
-						expr(2);
+						setState(81);
+						expr(7);
+						}
+						break;
+					case 5:
+						{
+						_localctx = new GetExprContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(82);
+						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
+						setState(83);
+						match(DOT);
+						setState(84);
+						match(ID);
 						}
 						break;
 					case 6:
 						{
-						_localctx = new GetExprContext(new ExprContext(_parentctx, _parentState));
+						_localctx = new FuncCallExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(138);
-						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
-						setState(139);
-						match(DOT);
-						setState(140);
-						match(ID);
+						setState(85);
+						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
+						setState(86);
+						callArgs();
 						}
 						break;
 					case 7:
 						{
-						_localctx = new FuncCallExprContext(new ExprContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(141);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(142);
-						callArgs();
-						}
-						break;
-					case 8:
-						{
 						_localctx = new NotExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(143);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(144);
+						setState(87);
+						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
+						setState(88);
 						match(NOT);
 						}
 						break;
 					}
 					} 
 				}
-				setState(149);
+				setState(93);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,15,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
 			}
 			}
 		}
@@ -1315,7 +917,7 @@ public class MineLangParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 6:
+		case 2:
 			return expr_sempred((ExprContext)_localctx, predIndex);
 		}
 		return true;
@@ -1323,70 +925,51 @@ public class MineLangParser extends Parser {
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 5);
+			return precpred(_ctx, 9);
 		case 1:
-			return precpred(_ctx, 4);
-		case 2:
-			return precpred(_ctx, 3);
-		case 3:
-			return precpred(_ctx, 2);
-		case 4:
-			return precpred(_ctx, 1);
-		case 5:
 			return precpred(_ctx, 8);
-		case 6:
+		case 2:
 			return precpred(_ctx, 7);
-		case 7:
+		case 3:
 			return precpred(_ctx, 6);
+		case 4:
+			return precpred(_ctx, 12);
+		case 5:
+			return precpred(_ctx, 11);
+		case 6:
+			return precpred(_ctx, 10);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3*\u0099\4\2\t\2\4"+
-		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\7\2\22\n\2\f\2\16\2"+
-		"\25\13\2\3\2\3\2\3\3\3\3\3\3\7\3\34\n\3\f\3\16\3\37\13\3\3\4\3\4\5\4#"+
-		"\n\4\3\4\3\4\7\4\'\n\4\f\4\16\4*\13\4\3\4\5\4-\n\4\3\4\3\4\3\5\3\5\5\5"+
-		"\63\n\5\3\5\3\5\7\5\67\n\5\f\5\16\5:\13\5\3\5\5\5=\n\5\3\5\3\5\3\6\3\6"+
-		"\7\6C\n\6\f\6\16\6F\13\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\7\7P\n\7\f\7"+
-		"\16\7S\13\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3"+
-		"\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7j\n\7\f\7\16\7m\13\7\3\7\3\7\5\7q\n\7\3"+
-		"\7\3\7\3\7\3\7\5\7w\n\7\3\b\3\b\3\b\5\b|\n\b\3\b\3\b\3\b\3\b\3\b\3\b\3"+
-		"\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\7\b\u0094"+
-		"\n\b\f\b\16\b\u0097\13\b\3\b\2\3\16\t\2\4\6\b\n\f\16\2\7\3\2\"&\3\2\32"+
-		"\33\3\2\30\31\3\2\25\26\3\2\36!\2\u00ae\2\23\3\2\2\2\4\30\3\2\2\2\6 \3"+
-		"\2\2\2\b\60\3\2\2\2\n@\3\2\2\2\fv\3\2\2\2\16{\3\2\2\2\20\22\5\f\7\2\21"+
-		"\20\3\2\2\2\22\25\3\2\2\2\23\21\3\2\2\2\23\24\3\2\2\2\24\26\3\2\2\2\25"+
-		"\23\3\2\2\2\26\27\7\2\2\3\27\3\3\2\2\2\30\35\7\'\2\2\31\32\7\24\2\2\32"+
-		"\34\7\'\2\2\33\31\3\2\2\2\34\37\3\2\2\2\35\33\3\2\2\2\35\36\3\2\2\2\36"+
-		"\5\3\2\2\2\37\35\3\2\2\2 \"\7\16\2\2!#\7\'\2\2\"!\3\2\2\2\"#\3\2\2\2#"+
-		"(\3\2\2\2$%\7\r\2\2%\'\7\'\2\2&$\3\2\2\2\'*\3\2\2\2(&\3\2\2\2()\3\2\2"+
-		"\2),\3\2\2\2*(\3\2\2\2+-\7\r\2\2,+\3\2\2\2,-\3\2\2\2-.\3\2\2\2./\7\17"+
-		"\2\2/\7\3\2\2\2\60\62\7\16\2\2\61\63\5\16\b\2\62\61\3\2\2\2\62\63\3\2"+
-		"\2\2\638\3\2\2\2\64\65\7\r\2\2\65\67\5\16\b\2\66\64\3\2\2\2\67:\3\2\2"+
-		"\28\66\3\2\2\289\3\2\2\29<\3\2\2\2:8\3\2\2\2;=\7\r\2\2<;\3\2\2\2<=\3\2"+
-		"\2\2=>\3\2\2\2>?\7\17\2\2?\t\3\2\2\2@D\7\22\2\2AC\5\f\7\2BA\3\2\2\2CF"+
-		"\3\2\2\2DB\3\2\2\2DE\3\2\2\2EG\3\2\2\2FD\3\2\2\2GH\7\23\2\2H\13\3\2\2"+
-		"\2IJ\5\16\b\2JK\5\b\5\2Kw\3\2\2\2LM\7\3\2\2MQ\7\'\2\2NP\5\6\4\2ON\3\2"+
-		"\2\2PS\3\2\2\2QO\3\2\2\2QR\3\2\2\2RT\3\2\2\2SQ\3\2\2\2Tw\5\n\6\2UV\7\4"+
-		"\2\2Vw\5\16\b\2WX\7\5\2\2XY\7\'\2\2YZ\7\6\2\2Zw\5\4\3\2[\\\7\'\2\2\\]"+
-		"\7\27\2\2]w\5\16\b\2^_\7\7\2\2_`\7\16\2\2`a\5\16\b\2ab\7\17\2\2bk\5\n"+
-		"\6\2cd\7\b\2\2de\7\16\2\2ef\5\16\b\2fg\7\17\2\2gh\5\n\6\2hj\3\2\2\2ic"+
-		"\3\2\2\2jm\3\2\2\2ki\3\2\2\2kl\3\2\2\2lp\3\2\2\2mk\3\2\2\2no\7\t\2\2o"+
-		"q\5\n\6\2pn\3\2\2\2pq\3\2\2\2qw\3\2\2\2rs\7\n\2\2sw\5\n\6\2tw\7\f\2\2"+
-		"uw\7\13\2\2vI\3\2\2\2vL\3\2\2\2vU\3\2\2\2vW\3\2\2\2v[\3\2\2\2v^\3\2\2"+
-		"\2vr\3\2\2\2vt\3\2\2\2vu\3\2\2\2w\r\3\2\2\2xy\b\b\1\2y|\t\2\2\2z|\7\'"+
-		"\2\2{x\3\2\2\2{z\3\2\2\2|\u0095\3\2\2\2}~\f\7\2\2~\177\7\34\2\2\177\u0094"+
-		"\5\16\b\7\u0080\u0081\f\6\2\2\u0081\u0082\t\3\2\2\u0082\u0094\5\16\b\7"+
-		"\u0083\u0084\f\5\2\2\u0084\u0085\t\4\2\2\u0085\u0094\5\16\b\6\u0086\u0087"+
-		"\f\4\2\2\u0087\u0088\t\5\2\2\u0088\u0094\5\16\b\5\u0089\u008a\f\3\2\2"+
-		"\u008a\u008b\t\6\2\2\u008b\u0094\5\16\b\4\u008c\u008d\f\n\2\2\u008d\u008e"+
-		"\7\24\2\2\u008e\u0094\7\'\2\2\u008f\u0090\f\t\2\2\u0090\u0094\5\b\5\2"+
-		"\u0091\u0092\f\b\2\2\u0092\u0094\7\35\2\2\u0093}\3\2\2\2\u0093\u0080\3"+
-		"\2\2\2\u0093\u0083\3\2\2\2\u0093\u0086\3\2\2\2\u0093\u0089\3\2\2\2\u0093"+
-		"\u008c\3\2\2\2\u0093\u008f\3\2\2\2\u0093\u0091\3\2\2\2\u0094\u0097\3\2"+
-		"\2\2\u0095\u0093\3\2\2\2\u0095\u0096\3\2\2\2\u0096\17\3\2\2\2\u0097\u0095"+
-		"\3\2\2\2\22\23\35\"(,\628<DQkpv{\u0093\u0095";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3+a\4\2\t\2\4\3\t\3"+
+		"\4\4\t\4\3\2\7\2\n\n\2\f\2\16\2\r\13\2\3\2\3\2\3\3\3\3\5\3\23\n\3\3\3"+
+		"\3\3\7\3\27\n\3\f\3\16\3\32\13\3\3\3\5\3\35\n\3\3\3\3\3\3\4\3\4\3\4\3"+
+		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4\64"+
+		"\n\4\f\4\16\4\67\13\4\3\4\3\4\5\4;\n\4\3\4\3\4\3\4\3\4\7\4A\n\4\f\4\16"+
+		"\4D\13\4\3\4\5\4G\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
+		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4\\\n\4\f\4\16\4_\13\4\3\4\2\3\6\5\2\4"+
+		"\6\2\7\3\2\"\'\3\2\32\34\3\2\30\31\3\2\25\26\3\2\36!\2r\2\13\3\2\2\2\4"+
+		"\20\3\2\2\2\6F\3\2\2\2\b\n\5\6\4\2\t\b\3\2\2\2\n\r\3\2\2\2\13\t\3\2\2"+
+		"\2\13\f\3\2\2\2\f\16\3\2\2\2\r\13\3\2\2\2\16\17\7\2\2\3\17\3\3\2\2\2\20"+
+		"\22\7\16\2\2\21\23\5\6\4\2\22\21\3\2\2\2\22\23\3\2\2\2\23\30\3\2\2\2\24"+
+		"\25\7\r\2\2\25\27\5\6\4\2\26\24\3\2\2\2\27\32\3\2\2\2\30\26\3\2\2\2\30"+
+		"\31\3\2\2\2\31\34\3\2\2\2\32\30\3\2\2\2\33\35\7\r\2\2\34\33\3\2\2\2\34"+
+		"\35\3\2\2\2\35\36\3\2\2\2\36\37\7\17\2\2\37\5\3\2\2\2 !\b\4\1\2!G\t\2"+
+		"\2\2\"#\7(\2\2#$\7\27\2\2$G\5\6\4\20%G\7(\2\2&\'\7\13\2\2\'G\5\6\4\7("+
+		")\7\16\2\2)*\5\6\4\2*+\7\17\2\2+G\3\2\2\2,-\7\7\2\2-.\5\6\4\2.\65\5\6"+
+		"\4\2/\60\7\b\2\2\60\61\5\6\4\2\61\62\5\6\4\2\62\64\3\2\2\2\63/\3\2\2\2"+
+		"\64\67\3\2\2\2\65\63\3\2\2\2\65\66\3\2\2\2\66:\3\2\2\2\67\65\3\2\2\28"+
+		"9\7\t\2\29;\5\6\4\2:8\3\2\2\2:;\3\2\2\2;G\3\2\2\2<=\7\n\2\2=G\5\6\4\4"+
+		">B\7\22\2\2?A\5\6\4\2@?\3\2\2\2AD\3\2\2\2B@\3\2\2\2BC\3\2\2\2CE\3\2\2"+
+		"\2DB\3\2\2\2EG\7\23\2\2F \3\2\2\2F\"\3\2\2\2F%\3\2\2\2F&\3\2\2\2F(\3\2"+
+		"\2\2F,\3\2\2\2F<\3\2\2\2F>\3\2\2\2G]\3\2\2\2HI\f\13\2\2IJ\t\3\2\2J\\\5"+
+		"\6\4\fKL\f\n\2\2LM\t\4\2\2M\\\5\6\4\13NO\f\t\2\2OP\t\5\2\2P\\\5\6\4\n"+
+		"QR\f\b\2\2RS\t\6\2\2S\\\5\6\4\tTU\f\16\2\2UV\7\24\2\2V\\\7(\2\2WX\f\r"+
+		"\2\2X\\\5\4\3\2YZ\f\f\2\2Z\\\7\35\2\2[H\3\2\2\2[K\3\2\2\2[N\3\2\2\2[Q"+
+		"\3\2\2\2[T\3\2\2\2[W\3\2\2\2[Y\3\2\2\2\\_\3\2\2\2][\3\2\2\2]^\3\2\2\2"+
+		"^\7\3\2\2\2_]\3\2\2\2\f\13\22\30\34\65:BF[]";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

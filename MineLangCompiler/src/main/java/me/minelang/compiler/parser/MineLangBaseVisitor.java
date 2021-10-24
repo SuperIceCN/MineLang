@@ -1,4 +1,4 @@
-// Generated from D:/MineLang/MineCompiler/src/main/antlr\MineLang.g4 by ANTLR 4.9.1
+// Generated from D:/MineLang/MineLangCompiler/src/main/antlr\MineLang.g4 by ANTLR 4.9.1
 package me.minelang.compiler.parser;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -24,20 +24,6 @@ public class MineLangBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPkgName(MineLangParser.PkgNameContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitFuncArgs(MineLangParser.FuncArgsContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitCallArgs(MineLangParser.CallArgsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -45,77 +31,49 @@ public class MineLangBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBlock(MineLangParser.BlockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVarSetExpr(MineLangParser.VarSetExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFuncCallStat(MineLangParser.FuncCallStatContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIfelseExpr(MineLangParser.IfelseExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFuncDeclareStat(MineLangParser.FuncDeclareStatContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMutiplyDevideRemainExpr(MineLangParser.MutiplyDevideRemainExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitReturnStat(MineLangParser.ReturnStatContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBracketExpr(MineLangParser.BracketExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUsingStat(MineLangParser.UsingStatContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPlusMinusExpr(MineLangParser.PlusMinusExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVarSetStat(MineLangParser.VarSetStatContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFuncCallExpr(MineLangParser.FuncCallExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIfelseStat(MineLangParser.IfelseStatContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitLoopStat(MineLangParser.LoopStatContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitContinueStat(MineLangParser.ContinueStatContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitBreakStat(MineLangParser.BreakStatContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitPowerExpr(MineLangParser.PowerExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBreakExpr(MineLangParser.BreakExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -123,13 +81,6 @@ public class MineLangBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitNotExpr(MineLangParser.NotExprContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitMutiplyDevideExpr(MineLangParser.MutiplyDevideExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -164,14 +115,14 @@ public class MineLangBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPlusMinusExpr(MineLangParser.PlusMinusExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEndlessLoopExpr(MineLangParser.EndlessLoopExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFuncCallExpr(MineLangParser.FuncCallExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBlockExpr(MineLangParser.BlockExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

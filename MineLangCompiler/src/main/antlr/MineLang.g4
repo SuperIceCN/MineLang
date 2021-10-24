@@ -1,45 +1,34 @@
 grammar MineLang;
 
-program: stat*
+program: expr*
   EOF
   ;
 
-pkgName: ID (DOT ID)*;
-funcArgs: LB ID? (COMMA ID)* COMMA? RB;
 callArgs: LB expr? (COMMA expr)* COMMA? RB;
-block: START stat* END;
 
-stat: expr callArgs #funcCallStat
-  | FUNC ID funcArgs? block #funcDeclareStat
-  | RETURN expr #returnStat
-  | USING ID IN pkgName #usingStat
-  | ID SET expr #varSetStat
-  | IF expr block (ELIF expr block)* (ELSE block)? #ifelseStat
-  | LOOP block #loopStat
-  | CONTINUE #continueStat
-  | BREAK #breakStat
-  ;
-
-expr: (INT | REAL | STRING | BOOL | NONE) #literalExpr
-  | ID #varUseExpr
-  | expr DOT ID #getExpr
-  | expr callArgs #funcCallExpr
-  | expr NOT #notExpr
-  | <assoc=right> expr POWER expr #powerExpr
-  | expr (MUTIPLY | DEVIDE | REMAIN) expr #mutiplyDevideRemainExpr
-  | expr (PLUS | MINUS) expr #plusMinusExpr
-  | expr (EQ | NEQ) expr #isEqExpr
-  | expr (GTR | GTREQ | LWR | LWREQ) expr #compareExpr
-  | LB expr RB #bracketExpr
-  | FUNC funcArgs? block #lambdaFuncExpr
-  ;
+expr: (INT | DEC | STRING | BOOL | NONE | NAN) #literalExpr
+    | ID SET expr #varSetExpr
+    | ID #varUseExpr
+    | expr DOT ID #getExpr
+    | expr callArgs #funcCallExpr
+    | expr NOT #notExpr
+    | expr (MUTIPLY | DEVIDE | REMAIN) expr #mutiplyDevideRemainExpr
+    | expr (PLUS | MINUS) expr #plusMinusExpr
+    | expr (EQ | NEQ) expr #isEqExpr
+    | expr (GTR | GTREQ | LWR | LWREQ) expr #compareExpr
+    | BREAK expr #breakExpr
+    | LB expr RB #bracketExpr
+    | IF expr expr (ELIF expr expr)* (ELSE expr)? #ifelseExpr
+    | LOOP expr #endlessLoopExpr
+    | START expr* END #blockExpr
+    ;
 
 FUNC: 'func';
 RETURN: 'return';
 USING: 'using';
 IN: 'in';
 IF: 'if';
-ELIF: 'else' ' '* 'if';
+ELIF: 'elif' | 'else' ' '* 'if';
 ELSE: 'else';
 LOOP: 'loop';
 BREAK: 'break';
@@ -59,7 +48,6 @@ PLUS: '+';
 MINUS: '-';
 MUTIPLY: '*';
 DEVIDE: '/';
-POWER: '^';
 REMAIN: '%';
 NOT: '!';
 GTR: '>';
@@ -72,9 +60,10 @@ fragment INTEGER: [0-9]+;
 fragment ESCAPECHAR: '\\'. ;
 STRING: '"' (ESCAPECHAR | ~('"' | '\\'))* '"' | '\'' (ESCAPECHAR | ~('\'' | '\\'))* '\'';
 INT: INTEGER;
-REAL: INTEGER'.'INTEGER;
+DEC: INTEGER'.'INTEGER;
 BOOL: 'true' | 'false';
 NONE: 'none';
+NAN: 'nan';
 
 fragment IDStart: ~[0-9 @[\]\-+=()*&^%!~`?<>,.:;"'\\|！#【】{}：。“”‘’/？《》，、·￥…（）；\r\n];
 fragment IDPart: ~[ @[\]\-+=()*&^%!~`?<>,.:;"'\\|！#【】{}：。“”‘’/？《》，、·￥…（）；\r\n];

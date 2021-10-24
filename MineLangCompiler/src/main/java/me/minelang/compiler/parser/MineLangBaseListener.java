@@ -1,4 +1,4 @@
-// Generated from D:/MineLang/MineCompiler/src/main/antlr\MineLang.g4 by ANTLR 4.9.1
+// Generated from D:/MineLang/MineLangCompiler/src/main/antlr\MineLang.g4 by ANTLR 4.9.1
 package me.minelang.compiler.parser;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -28,30 +28,6 @@ public class MineLangBaseListener implements MineLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPkgName(MineLangParser.PkgNameContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPkgName(MineLangParser.PkgNameContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFuncArgs(MineLangParser.FuncArgsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFuncArgs(MineLangParser.FuncArgsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterCallArgs(MineLangParser.CallArgsContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -64,133 +40,85 @@ public class MineLangBaseListener implements MineLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBlock(MineLangParser.BlockContext ctx) { }
+	@Override public void enterVarSetExpr(MineLangParser.VarSetExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBlock(MineLangParser.BlockContext ctx) { }
+	@Override public void exitVarSetExpr(MineLangParser.VarSetExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFuncCallStat(MineLangParser.FuncCallStatContext ctx) { }
+	@Override public void enterIfelseExpr(MineLangParser.IfelseExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFuncCallStat(MineLangParser.FuncCallStatContext ctx) { }
+	@Override public void exitIfelseExpr(MineLangParser.IfelseExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFuncDeclareStat(MineLangParser.FuncDeclareStatContext ctx) { }
+	@Override public void enterMutiplyDevideRemainExpr(MineLangParser.MutiplyDevideRemainExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFuncDeclareStat(MineLangParser.FuncDeclareStatContext ctx) { }
+	@Override public void exitMutiplyDevideRemainExpr(MineLangParser.MutiplyDevideRemainExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReturnStat(MineLangParser.ReturnStatContext ctx) { }
+	@Override public void enterBracketExpr(MineLangParser.BracketExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitReturnStat(MineLangParser.ReturnStatContext ctx) { }
+	@Override public void exitBracketExpr(MineLangParser.BracketExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterUsingStat(MineLangParser.UsingStatContext ctx) { }
+	@Override public void enterPlusMinusExpr(MineLangParser.PlusMinusExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitUsingStat(MineLangParser.UsingStatContext ctx) { }
+	@Override public void exitPlusMinusExpr(MineLangParser.PlusMinusExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVarSetStat(MineLangParser.VarSetStatContext ctx) { }
+	@Override public void enterFuncCallExpr(MineLangParser.FuncCallExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVarSetStat(MineLangParser.VarSetStatContext ctx) { }
+	@Override public void exitFuncCallExpr(MineLangParser.FuncCallExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIfelseStat(MineLangParser.IfelseStatContext ctx) { }
+	@Override public void enterBreakExpr(MineLangParser.BreakExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIfelseStat(MineLangParser.IfelseStatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLoopStat(MineLangParser.LoopStatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLoopStat(MineLangParser.LoopStatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterContinueStat(MineLangParser.ContinueStatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitContinueStat(MineLangParser.ContinueStatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBreakStat(MineLangParser.BreakStatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBreakStat(MineLangParser.BreakStatContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPowerExpr(MineLangParser.PowerExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPowerExpr(MineLangParser.PowerExprContext ctx) { }
+	@Override public void exitBreakExpr(MineLangParser.BreakExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -203,18 +131,6 @@ public class MineLangBaseListener implements MineLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNotExpr(MineLangParser.NotExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterMutiplyDevideExpr(MineLangParser.MutiplyDevideExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMutiplyDevideExpr(MineLangParser.MutiplyDevideExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -268,25 +184,25 @@ public class MineLangBaseListener implements MineLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPlusMinusExpr(MineLangParser.PlusMinusExprContext ctx) { }
+	@Override public void enterEndlessLoopExpr(MineLangParser.EndlessLoopExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPlusMinusExpr(MineLangParser.PlusMinusExprContext ctx) { }
+	@Override public void exitEndlessLoopExpr(MineLangParser.EndlessLoopExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterFuncCallExpr(MineLangParser.FuncCallExprContext ctx) { }
+	@Override public void enterBlockExpr(MineLangParser.BlockExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitFuncCallExpr(MineLangParser.FuncCallExprContext ctx) { }
+	@Override public void exitBlockExpr(MineLangParser.BlockExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

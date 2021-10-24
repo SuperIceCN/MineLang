@@ -1,4 +1,4 @@
-// Generated from D:/MineLang/MineCompiler/src/main/antlr\MineLang.g4 by ANTLR 4.9.1
+// Generated from D:/MineLang/MineLangCompiler/src/main/antlr\MineLang.g4 by ANTLR 4.9.1
 package me.minelang.compiler.parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -18,26 +18,6 @@ public interface MineLangListener extends ParseTreeListener {
 	 */
 	void exitProgram(MineLangParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MineLangParser#pkgName}.
-	 * @param ctx the parse tree
-	 */
-	void enterPkgName(MineLangParser.PkgNameContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MineLangParser#pkgName}.
-	 * @param ctx the parse tree
-	 */
-	void exitPkgName(MineLangParser.PkgNameContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link MineLangParser#funcArgs}.
-	 * @param ctx the parse tree
-	 */
-	void enterFuncArgs(MineLangParser.FuncArgsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MineLangParser#funcArgs}.
-	 * @param ctx the parse tree
-	 */
-	void exitFuncArgs(MineLangParser.FuncArgsContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link MineLangParser#callArgs}.
 	 * @param ctx the parse tree
 	 */
@@ -48,135 +28,89 @@ public interface MineLangListener extends ParseTreeListener {
 	 */
 	void exitCallArgs(MineLangParser.CallArgsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MineLangParser#block}.
-	 * @param ctx the parse tree
-	 */
-	void enterBlock(MineLangParser.BlockContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link MineLangParser#block}.
-	 * @param ctx the parse tree
-	 */
-	void exitBlock(MineLangParser.BlockContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code funcCallStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void enterFuncCallStat(MineLangParser.FuncCallStatContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code funcCallStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void exitFuncCallStat(MineLangParser.FuncCallStatContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code funcDeclareStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void enterFuncDeclareStat(MineLangParser.FuncDeclareStatContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code funcDeclareStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void exitFuncDeclareStat(MineLangParser.FuncDeclareStatContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code returnStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void enterReturnStat(MineLangParser.ReturnStatContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code returnStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void exitReturnStat(MineLangParser.ReturnStatContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code usingStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void enterUsingStat(MineLangParser.UsingStatContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code usingStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void exitUsingStat(MineLangParser.UsingStatContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code varSetStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void enterVarSetStat(MineLangParser.VarSetStatContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code varSetStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void exitVarSetStat(MineLangParser.VarSetStatContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ifelseStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void enterIfelseStat(MineLangParser.IfelseStatContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ifelseStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void exitIfelseStat(MineLangParser.IfelseStatContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code loopStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void enterLoopStat(MineLangParser.LoopStatContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code loopStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void exitLoopStat(MineLangParser.LoopStatContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code continueStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void enterContinueStat(MineLangParser.ContinueStatContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code continueStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void exitContinueStat(MineLangParser.ContinueStatContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code breakStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void enterBreakStat(MineLangParser.BreakStatContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code breakStat}
-	 * labeled alternative in {@link MineLangParser#stat}.
-	 * @param ctx the parse tree
-	 */
-	void exitBreakStat(MineLangParser.BreakStatContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code powerExpr}
+	 * Enter a parse tree produced by the {@code varSetExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterPowerExpr(MineLangParser.PowerExprContext ctx);
+	void enterVarSetExpr(MineLangParser.VarSetExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code powerExpr}
+	 * Exit a parse tree produced by the {@code varSetExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitPowerExpr(MineLangParser.PowerExprContext ctx);
+	void exitVarSetExpr(MineLangParser.VarSetExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ifelseExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfelseExpr(MineLangParser.IfelseExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ifelseExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfelseExpr(MineLangParser.IfelseExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code mutiplyDevideRemainExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterMutiplyDevideRemainExpr(MineLangParser.MutiplyDevideRemainExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code mutiplyDevideRemainExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitMutiplyDevideRemainExpr(MineLangParser.MutiplyDevideRemainExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code bracketExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterBracketExpr(MineLangParser.BracketExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code bracketExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitBracketExpr(MineLangParser.BracketExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code plusMinusExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterPlusMinusExpr(MineLangParser.PlusMinusExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code plusMinusExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitPlusMinusExpr(MineLangParser.PlusMinusExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code funcCallExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncCallExpr(MineLangParser.FuncCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code funcCallExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncCallExpr(MineLangParser.FuncCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code breakExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterBreakExpr(MineLangParser.BreakExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code breakExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitBreakExpr(MineLangParser.BreakExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code notExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
@@ -189,18 +123,6 @@ public interface MineLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNotExpr(MineLangParser.NotExprContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code mutiplyDevideExpr}
-	 * labeled alternative in {@link MineLangParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterMutiplyDevideExpr(MineLangParser.MutiplyDevideExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code mutiplyDevideExpr}
-	 * labeled alternative in {@link MineLangParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitMutiplyDevideExpr(MineLangParser.MutiplyDevideExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code isEqExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
@@ -250,29 +172,29 @@ public interface MineLangListener extends ParseTreeListener {
 	 */
 	void exitVarUseExpr(MineLangParser.VarUseExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code plusMinusExpr}
+	 * Enter a parse tree produced by the {@code endlessLoopExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterPlusMinusExpr(MineLangParser.PlusMinusExprContext ctx);
+	void enterEndlessLoopExpr(MineLangParser.EndlessLoopExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code plusMinusExpr}
+	 * Exit a parse tree produced by the {@code endlessLoopExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitPlusMinusExpr(MineLangParser.PlusMinusExprContext ctx);
+	void exitEndlessLoopExpr(MineLangParser.EndlessLoopExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code funcCallExpr}
+	 * Enter a parse tree produced by the {@code blockExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void enterFuncCallExpr(MineLangParser.FuncCallExprContext ctx);
+	void enterBlockExpr(MineLangParser.BlockExprContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code funcCallExpr}
+	 * Exit a parse tree produced by the {@code blockExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree
 	 */
-	void exitFuncCallExpr(MineLangParser.FuncCallExprContext ctx);
+	void exitBlockExpr(MineLangParser.BlockExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code compareExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
