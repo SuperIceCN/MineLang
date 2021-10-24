@@ -8,32 +8,27 @@ import me.minelang.compiler.lang.nodes.MineNode;
 
 @NodeInfo(language = "MineLang", shortName = "loop", description = "A simple endless loop.")
 public final class EndlessLoopNode extends MineNode {
-    @Child LoopNode loopNode;
-    @Child MineNode elseBlock;
+    @Child
+    LoopNode loopNode;
 
     private final MineNode bodyNode;
 
-    EndlessLoopNode(MineNode conditionNode, MineNode bodyNode, MineNode elseBlock) {
+    EndlessLoopNode(MineNode bodyNode) {
         this.bodyNode = bodyNode;
-        this.loopNode = Truffle.getRuntime().createLoopNode(new RepeatNode(conditionNode, bodyNode));
-        this.elseBlock = elseBlock;
+        this.loopNode = Truffle.getRuntime().createLoopNode(new RepeatNode(EmptyNodeFactory.create(), bodyNode));
     }
 
+    /*
+     * 此处不用考虑正常退出后执行else块的问题，因为无限循环根本不会正常退出
+     */
     @Override
     public Object execute(VirtualFrame frame) {
-        if(bodyNode instanceof BlockNode blockNode) {
+        if (bodyNode instanceof BlockNode blockNode) {
             var descriptor = blockNode.descriptor;
             var blockFrame = Truffle.getRuntime().createVirtualFrame(new Object[]{frame.materialize()}, descriptor);
-            loopNode.execute(blockFrame);
-        }else {
-            loopNode.execute(frame);
-        }
-        if(elseBlock instanceof BlockNode blockNode) {
-            var descriptor = blockNode.descriptor;
-            var blockFrame = Truffle.getRuntime().createVirtualFrame(new Object[]{frame.materialize()}, descriptor);
-            return elseBlock.execute(blockFrame);
-        }else {
-            return elseBlock.execute(frame);
+            return ((LoopStatus) loopNode.execute(blockFrame)).result();
+        } else {
+            return ((LoopStatus) loopNode.execute(frame)).result();
         }
     }
 }

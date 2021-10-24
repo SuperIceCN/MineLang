@@ -19,6 +19,7 @@ public final class ConditionUtil {
      * @return 是否为真
      */
     public static boolean testCondition(MineNode conditionNode, VirtualFrame frame) {
+        // 占位节点永远为真（死循环会用这个占条件节点位）
         if (conditionNode == EmptyNodeFactory.create()) {
             return true;
         }

@@ -27,6 +27,8 @@ public final class RepeatNode extends Node implements RepeatingNode {
     private final BranchProfile breakTaken = BranchProfile.create();
     private final ConditionProfile conditionProfile = ConditionProfile.createCountingProfile();
 
+    private LoopStatus LOOP_RETURN_VALUE = LoopStatus.Continue;
+
     public RepeatNode(MineNode conditionNode, MineNode bodyNode) {
         this.conditionNode = conditionNode;
         this.bodyNode = bodyNode;
@@ -35,6 +37,7 @@ public final class RepeatNode extends Node implements RepeatingNode {
     @Override
     public boolean executeRepeating(VirtualFrame frame) {
         if (!conditionProfile.profile(ConditionUtil.testCondition(conditionNode, frame))) {
+            LOOP_RETURN_VALUE = new LoopStatus(true, null);
             return false;
         }
         try {
@@ -47,7 +50,22 @@ public final class RepeatNode extends Node implements RepeatingNode {
         } catch (LoopBreakException ex) {
             // 记录break造成的控制流更改
             breakTaken.enter();
+            LOOP_RETURN_VALUE = new LoopStatus(false, ex.getReturnValue());
             return false;
         }
+    }
+
+    @Override
+    public Object executeRepeatingWithValue(VirtualFrame frame) {
+        if (executeRepeating(frame)) {
+            return LoopStatus.Continue;
+        } else {
+            return LOOP_RETURN_VALUE;
+        }
+    }
+
+    @Override
+    public Object initialLoopStatus() {
+        return LoopStatus.Continue;
     }
 }
