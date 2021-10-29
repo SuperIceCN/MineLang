@@ -19,7 +19,7 @@ public final class MineNone implements TruffleObject {
 
     @Override
     public String toString() {
-        return "None";
+        return "none";
     }
 
     @ExportMessage
@@ -62,6 +62,6 @@ public final class MineNone implements TruffleObject {
 
     @ExportMessage
     Object toDisplayString(@SuppressWarnings("unused") boolean allowSideEffects) {
-        return "None";
+        return "none";
     }
 }

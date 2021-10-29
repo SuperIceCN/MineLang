@@ -85,15 +85,15 @@ public class ParserTest {
 
     @Test
     public void testParse7() {
-        Assert.assertEquals(5.1f, eval("""
+        Assert.assertEquals("c: none", eval("""
                 b = 22.33
                 a = {
                     c = b
                     b = 1.70
                     b * 3
-                    c
+                    'c: ' + c
                 }
                 a
-                """).asFloat(), 0.00001f);
+                """).toString());
     }
 }

@@ -19,7 +19,7 @@ public final class MineNan implements TruffleObject {
 
     @Override
     public String toString() {
-        return "Nan";
+        return "nan";
     }
 
     @ExportMessage
@@ -62,6 +62,6 @@ public final class MineNan implements TruffleObject {
 
     @ExportMessage
     Object toDisplayString(@SuppressWarnings("unused") boolean allowSideEffects) {
-        return "Nan";
+        return "nan";
     }
 }
