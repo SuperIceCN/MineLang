@@ -2,9 +2,8 @@ package me.minelang.compiler.parser;
 
 import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.frame.FrameSlot;
-import com.oracle.truffle.api.frame.FrameSlotKind;
-import me.minelang.compiler.lang.nodes.literial.*;
 import me.minelang.compiler.lang.nodes.value.AbstractVarNode;
+import me.minelang.compiler.utils.FrameSlotKindUtil;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -48,21 +47,13 @@ public final class LexicalScope {
         var expectNode = expect.singleNode();
         if (expectNode instanceof AbstractVarNode node && expect.extraValue() instanceof FrameDescriptor descriptor) {
             return fd.addFrameSlot(name, descriptor.getFrameSlotKind(node.getSlot()));
-        } else if (expectNode instanceof ByteLiteralNode) {
-            return fd.addFrameSlot(name, FrameSlotKind.Byte);
-        } else if (expectNode instanceof ShortLiteralNode || expectNode instanceof IntLiteralNode) {
-            return fd.addFrameSlot(name, FrameSlotKind.Int);
-        } else if (expectNode instanceof LongLiteralNode) {
-            return fd.addFrameSlot(name, FrameSlotKind.Long);
-        } else if (expectNode instanceof BoolLiteralNode) {
-            return fd.addFrameSlot(name, FrameSlotKind.Boolean);
-        } else if (expectNode instanceof FloatLiteralNode) {
-            return fd.addFrameSlot(name, FrameSlotKind.Float);
-        } else if (expectNode instanceof DoubleLiteralNode) {
-            return fd.addFrameSlot(name, FrameSlotKind.Double);
         } else {
-            return fd.addFrameSlot(name, FrameSlotKind.Object);
+            return fd.addFrameSlot(name, FrameSlotKindUtil.calcForNode(expectNode));
         }
+    }
+
+    public FrameSlot declare(String name) {
+        return fd.addFrameSlot(name);
     }
 
     @Override

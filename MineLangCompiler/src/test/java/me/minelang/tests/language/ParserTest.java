@@ -63,4 +63,37 @@ public class ParserTest {
 
         System.out.println("Time average: " + (end - start) / 100.0 + "ms");
     }
+
+    @Test
+    public void testParse5() {
+        Assert.assertEquals(5.1f, eval("""
+                a = {1.70 * 3}
+                a
+                """).asFloat(), 0.00001f);
+    }
+
+    @Test
+    public void testParse6() {
+        Assert.assertEquals(5.1f, eval("""
+                a = {
+                    b = 1.70
+                    b * 3
+                }
+                a
+                """).asFloat(), 0.00001f);
+    }
+
+    @Test
+    public void testParse7() {
+        Assert.assertEquals(5.1f, eval("""
+                b = 22.33
+                a = {
+                    c = b
+                    b = 1.70
+                    b * 3
+                    c
+                }
+                a
+                """).asFloat(), 0.00001f);
+    }
 }

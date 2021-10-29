@@ -14,6 +14,7 @@ import me.minelang.compiler.lang.nodes.value.LocalVarWriteNodeFactory;
 import me.minelang.compiler.lang.types.MineNone;
 import me.minelang.compiler.parser.exceptions.InvalidParseNodeException;
 import me.minelang.compiler.parser.exceptions.VarNotFoundException;
+import me.minelang.compiler.utils.FrameSlotKindUtil;
 import me.minelang.compiler.utils.StringUtil;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -22,8 +23,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import static me.minelang.compiler.parser.VisitResult.of;
 import static me.minelang.compiler.parser.LexicalScope.of;
+import static me.minelang.compiler.parser.VisitResult.of;
 
 public class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>> {
     public final String sourceName;
@@ -53,8 +54,11 @@ public class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>> {
     public VisitResult<?> visitBlockExpr(MineLangParser.BlockExprContext ctx) {
         var nodes = new ArrayList<MineNode>();
         var fd = of(getScope(ctx), new FrameDescriptor(MineNone.SINGLETON));
+        ctx.expr().stream().filter(exprContext -> exprContext instanceof MineLangParser.VarSetExprContext)
+                .forEach(exprContext -> nodes.add(LocalVarWriteNodeFactory.create(NoneLiteralNodeFactory.create()
+                        , fd.declare(((MineLangParser.VarSetExprContext) exprContext).ID().getText()))));
         ctx.expr().forEach(exprContext -> nodes.add(visit(scope(exprContext, fd)).singleNode()));
-        return of(BlockNodeFactory.create(fd.getFrameDescriptor(), nodes.toArray(new MineNode[]{}))
+        return of(BlockNodeFactory.create(fd.getFrameDescriptor(), true, nodes.toArray(new MineNode[]{}))
                 .setSourceSection(section(ctx)));
     }
 
@@ -192,7 +196,7 @@ public class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>> {
         var slot = fd.find(ctx.ID().getText());
         if (slot == null) {
             throw new VarNotFoundException(ctx);
-        }else {
+        } else {
             return of(slot.frameDescriptor(), LocalVarReadNodeFactory.create(slot.frameSlot()));
         }
     }
@@ -204,6 +208,11 @@ public class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>> {
         var content = visit(scope(ctx.expr(), fd));
         if (slot == null) {
             slot = fd.declare(ctx.ID().getText(), content);
+        }else {
+            var exactKind = FrameSlotKindUtil.calcForNode(content.singleNode());
+            if (fd.getFrameDescriptor().getFrameSlotKind(slot) != exactKind) {
+                fd.getFrameDescriptor().setFrameSlotKind(slot, exactKind);
+            }
         }
         return of(fd, LocalVarWriteNodeFactory.create(content.singleNode(), slot));
     }
