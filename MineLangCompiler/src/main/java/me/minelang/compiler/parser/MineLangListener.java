@@ -52,18 +52,6 @@ public interface MineLangListener extends ParseTreeListener {
 	 */
 	void exitIfelseExpr(MineLangParser.IfelseExprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code mutiplyDevideRemainExpr}
-	 * labeled alternative in {@link MineLangParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterMutiplyDevideRemainExpr(MineLangParser.MutiplyDevideRemainExprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code mutiplyDevideRemainExpr}
-	 * labeled alternative in {@link MineLangParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitMutiplyDevideRemainExpr(MineLangParser.MutiplyDevideRemainExprContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code bracketExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree
@@ -160,6 +148,18 @@ public interface MineLangListener extends ParseTreeListener {
 	 */
 	void exitLiteralExpr(MineLangParser.LiteralExprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code logicExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicExpr(MineLangParser.LogicExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code logicExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicExpr(MineLangParser.LogicExprContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code varUseExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree
@@ -195,6 +195,30 @@ public interface MineLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBlockExpr(MineLangParser.BlockExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code positiveNegativeExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterPositiveNegativeExpr(MineLangParser.PositiveNegativeExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code positiveNegativeExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitPositiveNegativeExpr(MineLangParser.PositiveNegativeExprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code multiplyDivideRemainExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterMultiplyDivideRemainExpr(MineLangParser.MultiplyDivideRemainExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code multiplyDivideRemainExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitMultiplyDivideRemainExpr(MineLangParser.MultiplyDivideRemainExprContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code compareExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.

@@ -37,13 +37,6 @@ public interface MineLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIfelseExpr(MineLangParser.IfelseExprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code mutiplyDevideRemainExpr}
-	 * labeled alternative in {@link MineLangParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMutiplyDevideRemainExpr(MineLangParser.MutiplyDevideRemainExprContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code bracketExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree
@@ -100,6 +93,13 @@ public interface MineLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLiteralExpr(MineLangParser.LiteralExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code logicExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicExpr(MineLangParser.LogicExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code varUseExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree
@@ -120,6 +120,20 @@ public interface MineLangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBlockExpr(MineLangParser.BlockExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code positiveNegativeExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPositiveNegativeExpr(MineLangParser.PositiveNegativeExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code multiplyDivideRemainExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiplyDivideRemainExpr(MineLangParser.MultiplyDivideRemainExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code compareExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.

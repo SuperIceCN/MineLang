@@ -1,22 +1,24 @@
 package me.minelang.compiler.lang.nodes;
 
+import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.dsl.GenerateNodeFactory;
 import com.oracle.truffle.api.dsl.TypeSystemReference;
+import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
+import com.oracle.truffle.api.source.SourceSection;
 import me.minelang.compiler.lang.MineTypeSystem;
-import me.minelang.compiler.lang.types.MineBigDecimal;
-import me.minelang.compiler.lang.types.MineBigInteger;
-import me.minelang.compiler.lang.types.MineFunction;
-import me.minelang.compiler.lang.types.MineNone;
 import me.minelang.compiler.lang.MineTypeSystemGen;
+import me.minelang.compiler.lang.types.*;
 
 @TypeSystemReference(MineTypeSystem.class)
 @GenerateNodeFactory
 @NodeInfo(language = "MineLang", shortName = "abstract", description = "The abstract base node for all expressions")
 public abstract class MineNode extends Node {
+    @CompilerDirectives.CompilationFinal
+    private SourceSection sourceSection = null;
+
     public boolean executeBool(VirtualFrame frame) throws UnexpectedResultException {
         return MineTypeSystemGen.expectBoolean(this.execute(frame));
     }
@@ -65,5 +67,19 @@ public abstract class MineNode extends Node {
         return MineTypeSystemGen.expectMineNone(this.execute(frame));
     }
 
+    public MineNan executeNan(VirtualFrame frame) throws UnexpectedResultException {
+        return MineTypeSystemGen.expectMineNan(this.execute(frame));
+    }
+
     public abstract Object execute(VirtualFrame frame);
+
+    @Override
+    public SourceSection getSourceSection() {
+        return this.sourceSection;
+    }
+
+    public final MineNode setSourceSection(SourceSection sourceSection) {
+        this.sourceSection = sourceSection;
+        return this;
+    }
 }

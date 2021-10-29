@@ -7,15 +7,17 @@ program: expr*
 callArgs: LB expr? (COMMA expr)* COMMA? RB;
 
 expr: (INT | DEC | STRING | BOOL | NONE | NAN) #literalExpr
-    | ID SET expr #varSetExpr
     | ID #varUseExpr
     | expr DOT ID #getExpr
     | expr callArgs #funcCallExpr
-    | expr NOT #notExpr
-    | expr (MUTIPLY | DEVIDE | REMAIN) expr #mutiplyDevideRemainExpr
+    | NOT expr #notExpr
+    | expr (MULTIPLY | DIVIDE | REMAIN) expr #multiplyDivideRemainExpr
     | expr (PLUS | MINUS) expr #plusMinusExpr
+    | (PLUS | MINUS) expr #positiveNegativeExpr
     | expr (EQ | NEQ) expr #isEqExpr
     | expr (GTR | GTREQ | LWR | LWREQ) expr #compareExpr
+    | expr ((AND AND) | (OR OR)) expr #logicExpr
+    | ID SET expr #varSetExpr
     | BREAK expr #breakExpr
     | LB expr RB #bracketExpr
     | IF expr expr (ELIF expr expr)* (ELSE expr)? #ifelseExpr
@@ -46,10 +48,12 @@ NEQ: '!=';
 SET: '=';
 PLUS: '+';
 MINUS: '-';
-MUTIPLY: '*';
-DEVIDE: '/';
+MULTIPLY: '*';
+DIVIDE: '/';
 REMAIN: '%';
 NOT: '!';
+AND: '&';
+OR: '|';
 GTR: '>';
 GTREQ: '>=';
 LWR: '<';

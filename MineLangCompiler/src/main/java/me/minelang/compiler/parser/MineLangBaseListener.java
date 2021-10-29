@@ -64,18 +64,6 @@ public class MineLangBaseListener implements MineLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMutiplyDevideRemainExpr(MineLangParser.MutiplyDevideRemainExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMutiplyDevideRemainExpr(MineLangParser.MutiplyDevideRemainExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterBracketExpr(MineLangParser.BracketExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -172,6 +160,18 @@ public class MineLangBaseListener implements MineLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLogicExpr(MineLangParser.LogicExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLogicExpr(MineLangParser.LogicExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVarUseExpr(MineLangParser.VarUseExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -203,6 +203,30 @@ public class MineLangBaseListener implements MineLangListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBlockExpr(MineLangParser.BlockExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPositiveNegativeExpr(MineLangParser.PositiveNegativeExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPositiveNegativeExpr(MineLangParser.PositiveNegativeExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMultiplyDivideRemainExpr(MineLangParser.MultiplyDivideRemainExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMultiplyDivideRemainExpr(MineLangParser.MultiplyDivideRemainExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

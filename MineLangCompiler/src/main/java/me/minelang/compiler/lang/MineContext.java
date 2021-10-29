@@ -1,10 +1,30 @@
 package me.minelang.compiler.lang;
 
 import com.oracle.truffle.api.TruffleLanguage;
+import com.oracle.truffle.api.frame.FrameDescriptor;
+import me.minelang.compiler.lang.types.MineNone;
 
 public final class MineContext {
-    TruffleLanguage.Env env;
-    public MineContext(TruffleLanguage.Env env) {
+    private final MineLanguage language;
+    private final TruffleLanguage.Env env;
+
+    private final FrameDescriptor rootFrameDescriptor;
+
+    public MineContext(MineLanguage language, TruffleLanguage.Env env) {
+        this.language = language;
         this.env = env;
+        this.rootFrameDescriptor = new FrameDescriptor(MineNone.SINGLETON);
+    }
+
+    public MineLanguage getLanguage() {
+        return language;
+    }
+
+    public TruffleLanguage.Env getEnv() {
+        return env;
+    }
+
+    public FrameDescriptor getRootFrameDescriptor() {
+        return rootFrameDescriptor;
     }
 }

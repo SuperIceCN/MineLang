@@ -9,7 +9,7 @@ import me.minelang.compiler.lang.nodes.MineNode;
 @NodeInfo(language = "MineLang", shortName = "abstractVar", description = "Base class for variable operate.")
 @NodeField(name = "slot", type = FrameSlot.class)
 public abstract class AbstractVarNode extends MineNode {
-    protected abstract FrameSlot getSlot();
+    public abstract FrameSlot getSlot();
 
     @Override
     public String toString() {

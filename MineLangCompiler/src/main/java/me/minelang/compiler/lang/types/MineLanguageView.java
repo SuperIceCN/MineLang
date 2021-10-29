@@ -81,7 +81,7 @@ public final class MineLanguageView implements TruffleObject {
                      * 在这里，类型是一个部分求值常量，因为我们使用@ExplodeLoop。所以这个if-else级联应该在部分计算后折叠。
                      */
                     if (type == MineType.NUMBER) {
-                        return longToString(interop.asLong(delegate));
+                        return this.delegate.toString();
                     } else if (type == MineType.BOOLEAN) {
                         return Boolean.toString(interop.asBoolean(delegate));
                     } else if (type == MineType.STRING) {
@@ -96,14 +96,6 @@ public final class MineLanguageView implements TruffleObject {
             }
         }
         return "Unsupported";
-    }
-
-    /*
-     * Long.toString对于部分求值而言不安全，所以我们将其置于ast边界之外以避免bug。
-     */
-    @TruffleBoundary
-    private static String longToString(long l) {
-        return Long.toString(l);
     }
 
     public static Object create(Object value) {
