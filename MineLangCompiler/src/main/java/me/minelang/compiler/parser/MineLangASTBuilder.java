@@ -39,6 +39,8 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
     public final ParseTreeProperty<LexicalScope> lexicalScopes = new ParseTreeProperty<>();
     public final LexicalScope rootLexicalScope;
 
+    public static final int ParallelThreshold = 32;
+
     public MineLangASTBuilder(String sourceName, String sourceContent, FrameDescriptor rootFrameDescriptor) {
         this.sourceName = sourceName;
         this.sourceContent = sourceContent;
@@ -65,7 +67,7 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
         var fd = of(getScope(ctx), new FrameDescriptor(MineNone.SINGLETON));
         var exprs = ctx.expr();
         // 执行变量声明提升操作
-        (exprs.size() > 16 ? exprs.parallelStream() : exprs.stream())
+        (exprs.size() > ParallelThreshold ? exprs.parallelStream() : exprs.stream())
                 .filter(exprContext -> exprContext instanceof MineLangParser.VarSetExprContext)
                 .filter(distinctByKey(exprContext -> exprContext.getStart().getText()))
                 .forEach(exprContext -> nodes.add(LocalVarWriteNodeFactory.create(NoneLiteralNodeFactory.create()
