@@ -14,6 +14,12 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 @TruffleLanguage.Registration(id = "MineLang", name = "MineLang")
 public final class MineLanguage extends TruffleLanguage<MineContext> {
+    private static final LanguageReference<MineLanguage> REFERENCE = LanguageReference.create(MineLanguage.class);
+
+    public static MineLanguage get(MineNode node) {
+        return REFERENCE.get(node);
+    }
+
     @Override
     protected MineContext createContext(Env env) {
         return new MineContext(this, env);
