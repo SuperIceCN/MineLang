@@ -26,8 +26,8 @@ jobs:
     - name: 配置GraalVM环境
       uses: DeLaGuardo/setup-graalvm@5.0
       with:
-        graalvm: '21.2.0'
-        java: 'java16'
+        graalvm: '21.3.0'
+        java: 'java17'
         arch: 'amd64'
 
     - name: Maven构建
