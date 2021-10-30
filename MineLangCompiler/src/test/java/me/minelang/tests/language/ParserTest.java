@@ -96,4 +96,36 @@ public class ParserTest {
                 a
                 """).toString());
     }
+
+    @Test
+    public void testParse8() {
+        Assert.assertEquals("false", eval("""
+                b = 22.33 >= 33.22
+                """).toString());
+    }
+
+    @Test
+    public void testParse9() {
+        Assert.assertEquals("lwr", eval("""
+                b = 22.33 >= 33.22
+                a = if b 'gtr' else 'lwr'
+                """).toString());
+    }
+
+    @Test
+    public void testParse10() {
+        Assert.assertEquals("Goodbye world!", eval("""
+                a = "hello world"
+                b = if a == 'Hello world!' {
+                    'Nice day!'
+                }else if a == 'hello world!' {
+                    'Correct!'
+                }else {
+                    a = 'Goodbye'
+                    a = a + ' ' + "world"
+                    a + "!"
+                }
+                b
+                """).toString());
+    }
 }

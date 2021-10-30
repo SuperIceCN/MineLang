@@ -12,13 +12,15 @@ import me.minelang.compiler.utils.ConditionUtil;
 
 @NodeInfo(language = "MineLang", shortName = "ifElse", description = "A if-else condition node.")
 public final class IfElseNode extends MineNode {
-    @Children final MineNode[] conditions;
-    @Children final BlockNode[] branches;
+    @Children
+    final MineNode[] conditions;
+    @Children
+    final MineNode[] branches;
 
     // Truffle期望通过这个玩意来收集运行时优化信息
     private final ConditionProfile profile = ConditionProfile.createCountingProfile();
 
-    IfElseNode(MineNode[] condition, BlockNode[] branches) {
+    IfElseNode(MineNode[] condition, MineNode[] branches) {
         this.conditions = condition;
         this.branches = branches;
     }
@@ -32,12 +34,16 @@ public final class IfElseNode extends MineNode {
         CompilerAsserts.partialEvaluationConstant(branches.length);
         CompilerAsserts.partialEvaluationConstant(conditions.length);
 
-        for(var i=0; i< branches.length; i++) {
-            if(i >= conditions.length || profile.profile(ConditionUtil.testCondition(conditions[i], frame))){
-                var branchBlock = branches[i];
-                var descriptor = branchBlock.descriptor;
-                var blockFrame = Truffle.getRuntime().createVirtualFrame(new Object[]{frame.materialize()}, descriptor);
-                return branchBlock.execute(blockFrame);
+        for (var i = 0; i < branches.length; i++) {
+            if (i >= conditions.length || profile.profile(ConditionUtil.testCondition(conditions[i], frame))) {
+                var branchNode = branches[i];
+                if (branchNode instanceof BlockNode branchBlock) {
+                    var descriptor = branchBlock.descriptor;
+                    var blockFrame = Truffle.getRuntime().createVirtualFrame(new Object[]{frame.materialize()}, descriptor);
+                    return branchBlock.execute(blockFrame);
+                } else {
+                    return branchNode.execute(frame);
+                }
             }
         }
 

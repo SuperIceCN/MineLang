@@ -5,6 +5,7 @@ import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.source.SourceSection;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.nodes.control.BlockNodeFactory;
+import me.minelang.compiler.lang.nodes.control.IfElseNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.LiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.NanLiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.NoneLiteralNodeFactory;
@@ -22,11 +23,15 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import static me.minelang.compiler.parser.LexicalScope.of;
 import static me.minelang.compiler.parser.VisitResult.of;
 
-public class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>> {
+public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>> {
     public final String sourceName;
     public final String sourceContent;
     public final Source truffleSource;
@@ -52,13 +57,21 @@ public class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>> {
 
     @Override
     public VisitResult<?> visitBlockExpr(MineLangParser.BlockExprContext ctx) {
+        return this.visitBlockExpr(ctx, true);
+    }
+
+    public VisitResult<?> visitBlockExpr(MineLangParser.BlockExprContext ctx, boolean useInnerFrame) {
         var nodes = new ArrayList<MineNode>();
         var fd = of(getScope(ctx), new FrameDescriptor(MineNone.SINGLETON));
-        ctx.expr().stream().filter(exprContext -> exprContext instanceof MineLangParser.VarSetExprContext)
+        var exprs = ctx.expr();
+        // 执行变量声明提升操作
+        (exprs.size() > 16 ? exprs.parallelStream() : exprs.stream())
+                .filter(exprContext -> exprContext instanceof MineLangParser.VarSetExprContext)
+                .filter(distinctByKey(exprContext -> exprContext.getStart().getText()))
                 .forEach(exprContext -> nodes.add(LocalVarWriteNodeFactory.create(NoneLiteralNodeFactory.create()
                         , fd.declare(((MineLangParser.VarSetExprContext) exprContext).ID().getText()))));
-        ctx.expr().forEach(exprContext -> nodes.add(visit(scope(exprContext, fd)).singleNode()));
-        return of(BlockNodeFactory.create(fd.getFrameDescriptor(), true, nodes.toArray(new MineNode[]{}))
+        exprs.forEach(exprContext -> nodes.add(visit(scope(exprContext, fd)).singleNode()));
+        return of(BlockNodeFactory.create(fd.getFrameDescriptor(), useInnerFrame, nodes.toArray(new MineNode[]{}))
                 .setSourceSection(section(ctx)));
     }
 
@@ -208,13 +221,45 @@ public class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>> {
         var content = visit(scope(ctx.expr(), fd));
         if (slot == null) {
             slot = fd.declare(ctx.ID().getText(), content);
-        }else {
+        } else {
             var exactKind = FrameSlotKindUtil.calcForNode(content.singleNode());
             if (fd.getFrameDescriptor().getFrameSlotKind(slot) != exactKind) {
                 fd.getFrameDescriptor().setFrameSlotKind(slot, exactKind);
             }
         }
         return of(fd, LocalVarWriteNodeFactory.create(content.singleNode(), slot));
+    }
+
+    @Override
+    public VisitResult<?> visitIfelseExpr(MineLangParser.IfelseExprContext ctx) {
+        var fd = getScope(ctx);
+        var exprs = ctx.expr();
+        var len = exprs.size();
+        var conditions = new MineNode[(len >> 1)];
+        var branches = new MineNode[len - (len >> 1)];
+        for (var i = 0; i < (len >> 1); i++) {
+            conditions[i] = visit(scope(exprs.get(i << 1), fd)).singleNode();
+            /*
+             * 如果当前处理的分支是个代码块，就通知不要使用内部帧而是Ifelse节点提供的帧
+             * 这样做是为了保留以后模式匹配等功能修改的空间
+             */
+            var brExpr = exprs.get((i << 1) + 1);
+            if (brExpr instanceof MineLangParser.BlockExprContext blockExpr) {
+                branches[i] = visitBlockExpr(scope(blockExpr, fd), false).singleNode();
+            } else {
+                branches[i] = visit(scope(brExpr, fd)).singleNode();
+            }
+        }
+        // 处理最后一个else分支
+        if ((len & 1) == 1) {
+            var brExpr = exprs.get(len - 1);
+            if (brExpr instanceof MineLangParser.BlockExprContext blockExpr) {
+                branches[((len - 1) >> 1)] = visitBlockExpr(scope(blockExpr, fd), false).singleNode();
+            } else {
+                branches[((len - 1) >> 1)] = visit(scope(brExpr, fd)).singleNode();
+            }
+        }
+        return of(IfElseNodeFactory.create(conditions, branches));
     }
 
     private SourceSection section(ParserRuleContext ctx) {
@@ -237,5 +282,10 @@ public class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>> {
 
     private LexicalScope getScope(ParserRuleContext ctx) {
         return lexicalScopes.get(ctx);
+    }
+
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
     }
 }
