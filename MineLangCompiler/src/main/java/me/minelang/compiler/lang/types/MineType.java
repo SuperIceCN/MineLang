@@ -36,7 +36,7 @@ public final class MineType implements TruffleObject {
     /*
      * 这里是自带类型的元对象常量，可能以后会有更多，此处未考虑自定义类型
      */
-    public static final MineType NUMBER = new MineType("Byte", (l, v) -> l.isNumber(v) || v instanceof MineBigInteger || v instanceof MineBigDecimal);
+    public static final MineType NUMBER = new MineType("Number", (l, v) -> l.isNumber(v) || v instanceof MineBigInteger || v instanceof MineBigDecimal);
     public static final MineType NONE = new MineType("None", InteropLibrary::isNull);
     public static final MineType NAN = new MineType("Nan", (l, v) -> {
         if(v == MineNan.SINGLETON) return true;
