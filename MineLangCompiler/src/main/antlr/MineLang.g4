@@ -23,6 +23,7 @@ expr: (INT | DEC | STRING | BOOL | NONE | NAN) #literalExpr
     | IF expr expr (ELIF expr expr)* (ELSE expr)? #ifelseExpr
     | LOOP expr #endlessLoopExpr
     | START expr* END #blockExpr
+    | GLOBAL ID+ #globalExpr
     ;
 
 FUNC: 'func';
@@ -35,6 +36,7 @@ ELSE: 'else';
 LOOP: 'loop';
 BREAK: 'break';
 CONTINUE: 'continue';
+GLOBAL: 'global';
 COMMA: ',';
 LB: '(';
 RB: ')';

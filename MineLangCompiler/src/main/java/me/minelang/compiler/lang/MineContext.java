@@ -3,7 +3,8 @@ package me.minelang.compiler.lang;
 import com.oracle.truffle.api.TruffleLanguage;
 import com.oracle.truffle.api.TruffleLanguage.ContextReference;
 import com.oracle.truffle.api.frame.FrameDescriptor;
-import me.minelang.compiler.lang.nodes.MineNode;
+import com.oracle.truffle.api.frame.MaterializedFrame;
+import com.oracle.truffle.api.nodes.Node;
 import me.minelang.compiler.lang.types.MineNone;
 
 public final class MineContext {
@@ -11,6 +12,7 @@ public final class MineContext {
     private final TruffleLanguage.Env env;
 
     private final FrameDescriptor rootFrameDescriptor;
+    private MaterializedFrame rootFrame = null;
 
     private static final ContextReference<MineContext> REFERENCE = ContextReference.create(MineLanguage.class);
 
@@ -32,7 +34,15 @@ public final class MineContext {
         return rootFrameDescriptor;
     }
 
-    public static MineContext get(MineNode node) {
+    public MaterializedFrame getRootFrame() {
+        return rootFrame;
+    }
+
+    public void setRootFrame(MaterializedFrame rootFrame) {
+        this.rootFrame = rootFrame;
+    }
+
+    public static MineContext get(Node node) {
         return REFERENCE.get(node);
     }
 }

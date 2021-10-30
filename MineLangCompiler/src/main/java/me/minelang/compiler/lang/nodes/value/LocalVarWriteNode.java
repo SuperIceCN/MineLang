@@ -12,8 +12,6 @@ import me.minelang.compiler.utils.FrameSlotKindUtil;
 @NodeInfo(language = "MineLang", shortName = "localVarWrite", description = "Write/create a value into a variable.")
 @NodeChild(value = "value", type = MineNode.class)
 public abstract class LocalVarWriteNode extends AbstractVarNode {
-    public abstract MineNode getValue();
-
     @Specialization(guards = "isByteKind(frame)")
     byte writeByte(VirtualFrame frame, byte value) {
         frame.setByte(this.getSlot(), value);
@@ -64,7 +62,7 @@ public abstract class LocalVarWriteNode extends AbstractVarNode {
         if (currentKind != expectSlotKind) {
             CompilerDirectives.transferToInterpreterAndInvalidate();
             frame.getFrameDescriptor().setFrameSlotKind(slot, expectSlotKind);
-            return this.replace(LocalVarWriteNodeFactory.create(getValue(), slot)).execute(frame);
+            return this.replace(FrameVarWriteNodeFactory.create(slot, value, frame.materialize())).execute(frame);
         }
         frame.setObject(slot, value);
         return value;

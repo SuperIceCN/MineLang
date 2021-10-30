@@ -112,6 +112,18 @@ public class MineLangBaseListener implements MineLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterGlobalExpr(MineLangParser.GlobalExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGlobalExpr(MineLangParser.GlobalExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterNotExpr(MineLangParser.NotExprContext ctx) { }
 	/**
 	 * {@inheritDoc}

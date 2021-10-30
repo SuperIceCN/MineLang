@@ -18,10 +18,11 @@ public class MineLangParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		FUNC=1, RETURN=2, USING=3, IN=4, IF=5, ELIF=6, ELSE=7, LOOP=8, BREAK=9, 
-		CONTINUE=10, COMMA=11, LB=12, RB=13, LA=14, RA=15, START=16, END=17, DOT=18, 
-		EQ=19, NEQ=20, SET=21, PLUS=22, MINUS=23, MULTIPLY=24, DIVIDE=25, REMAIN=26, 
-		NOT=27, AND=28, OR=29, GTR=30, GTREQ=31, LWR=32, LWREQ=33, STRING=34, 
-		INT=35, DEC=36, BOOL=37, NONE=38, NAN=39, ID=40, WS=41, COMMENT=42, MUTICOMMENT=43;
+		CONTINUE=10, GLOBAL=11, COMMA=12, LB=13, RB=14, LA=15, RA=16, START=17, 
+		END=18, DOT=19, EQ=20, NEQ=21, SET=22, PLUS=23, MINUS=24, MULTIPLY=25, 
+		DIVIDE=26, REMAIN=27, NOT=28, AND=29, OR=30, GTR=31, GTREQ=32, LWR=33, 
+		LWREQ=34, STRING=35, INT=36, DEC=37, BOOL=38, NONE=39, NAN=40, ID=41, 
+		WS=42, COMMENT=43, MUTICOMMENT=44;
 	public static final int
 		RULE_program = 0, RULE_callArgs = 1, RULE_expr = 2;
 	private static String[] makeRuleNames() {
@@ -34,20 +35,20 @@ public class MineLangParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'func'", "'return'", "'using'", "'in'", "'if'", null, "'else'", 
-			"'loop'", "'break'", "'continue'", "','", "'('", "')'", "'['", "']'", 
-			"'{'", "'}'", "'.'", "'=='", "'!='", "'='", "'+'", "'-'", "'*'", "'/'", 
-			"'%'", "'!'", "'&'", "'|'", "'>'", "'>='", "'<'", "'<='", null, null, 
-			null, null, "'none'", "'nan'"
+			"'loop'", "'break'", "'continue'", "'global'", "','", "'('", "')'", "'['", 
+			"']'", "'{'", "'}'", "'.'", "'=='", "'!='", "'='", "'+'", "'-'", "'*'", 
+			"'/'", "'%'", "'!'", "'&'", "'|'", "'>'", "'>='", "'<'", "'<='", null, 
+			null, null, null, "'none'", "'nan'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, "FUNC", "RETURN", "USING", "IN", "IF", "ELIF", "ELSE", "LOOP", 
-			"BREAK", "CONTINUE", "COMMA", "LB", "RB", "LA", "RA", "START", "END", 
-			"DOT", "EQ", "NEQ", "SET", "PLUS", "MINUS", "MULTIPLY", "DIVIDE", "REMAIN", 
-			"NOT", "AND", "OR", "GTR", "GTREQ", "LWR", "LWREQ", "STRING", "INT", 
-			"DEC", "BOOL", "NONE", "NAN", "ID", "WS", "COMMENT", "MUTICOMMENT"
+			"BREAK", "CONTINUE", "GLOBAL", "COMMA", "LB", "RB", "LA", "RA", "START", 
+			"END", "DOT", "EQ", "NEQ", "SET", "PLUS", "MINUS", "MULTIPLY", "DIVIDE", 
+			"REMAIN", "NOT", "AND", "OR", "GTR", "GTREQ", "LWR", "LWREQ", "STRING", 
+			"INT", "DEC", "BOOL", "NONE", "NAN", "ID", "WS", "COMMENT", "MUTICOMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -138,7 +139,7 @@ public class MineLangParser extends Parser {
 			setState(9);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << LOOP) | (1L << BREAK) | (1L << LB) | (1L << START) | (1L << PLUS) | (1L << MINUS) | (1L << NOT) | (1L << STRING) | (1L << INT) | (1L << DEC) | (1L << BOOL) | (1L << NONE) | (1L << NAN) | (1L << ID))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << LOOP) | (1L << BREAK) | (1L << GLOBAL) | (1L << LB) | (1L << START) | (1L << PLUS) | (1L << MINUS) | (1L << NOT) | (1L << STRING) | (1L << INT) | (1L << DEC) | (1L << BOOL) | (1L << NONE) | (1L << NAN) | (1L << ID))) != 0)) {
 				{
 				{
 				setState(6);
@@ -209,7 +210,7 @@ public class MineLangParser extends Parser {
 			setState(16);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << LOOP) | (1L << BREAK) | (1L << LB) | (1L << START) | (1L << PLUS) | (1L << MINUS) | (1L << NOT) | (1L << STRING) | (1L << INT) | (1L << DEC) | (1L << BOOL) | (1L << NONE) | (1L << NAN) | (1L << ID))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << LOOP) | (1L << BREAK) | (1L << GLOBAL) | (1L << LB) | (1L << START) | (1L << PLUS) | (1L << MINUS) | (1L << NOT) | (1L << STRING) | (1L << INT) | (1L << DEC) | (1L << BOOL) | (1L << NONE) | (1L << NAN) | (1L << ID))) != 0)) {
 				{
 				setState(15);
 				expr(0);
@@ -403,6 +404,27 @@ public class MineLangParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitBreakExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class GlobalExprContext extends ExprContext {
+		public TerminalNode GLOBAL() { return getToken(MineLangParser.GLOBAL, 0); }
+		public List<TerminalNode> ID() { return getTokens(MineLangParser.ID); }
+		public TerminalNode ID(int i) {
+			return getToken(MineLangParser.ID, i);
+		}
+		public GlobalExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).enterGlobalExpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof MineLangListener ) ((MineLangListener)listener).exitGlobalExpr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof MineLangVisitor ) return ((MineLangVisitor<? extends T>)visitor).visitGlobalExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -673,9 +695,9 @@ public class MineLangParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(72);
+			setState(78);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,8,_ctx) ) {
 			case 1:
 				{
 				_localctx = new LiteralExprContext(_localctx);
@@ -711,7 +733,7 @@ public class MineLangParser extends Parser {
 				setState(33);
 				match(NOT);
 				setState(34);
-				expr(13);
+				expr(14);
 				}
 				break;
 			case 4:
@@ -730,7 +752,7 @@ public class MineLangParser extends Parser {
 					consume();
 				}
 				setState(36);
-				expr(10);
+				expr(11);
 				}
 				break;
 			case 5:
@@ -743,7 +765,7 @@ public class MineLangParser extends Parser {
 				setState(38);
 				match(SET);
 				setState(39);
-				expr(6);
+				expr(7);
 				}
 				break;
 			case 6:
@@ -754,7 +776,7 @@ public class MineLangParser extends Parser {
 				setState(40);
 				match(BREAK);
 				setState(41);
-				expr(5);
+				expr(6);
 				}
 				break;
 			case 7:
@@ -823,7 +845,7 @@ public class MineLangParser extends Parser {
 				setState(62);
 				match(LOOP);
 				setState(63);
-				expr(2);
+				expr(3);
 				}
 				break;
 			case 10:
@@ -836,7 +858,7 @@ public class MineLangParser extends Parser {
 				setState(68);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << LOOP) | (1L << BREAK) | (1L << LB) | (1L << START) | (1L << PLUS) | (1L << MINUS) | (1L << NOT) | (1L << STRING) | (1L << INT) | (1L << DEC) | (1L << BOOL) | (1L << NONE) | (1L << NAN) | (1L << ID))) != 0)) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << LOOP) | (1L << BREAK) | (1L << GLOBAL) | (1L << LB) | (1L << START) | (1L << PLUS) | (1L << MINUS) | (1L << NOT) | (1L << STRING) | (1L << INT) | (1L << DEC) | (1L << BOOL) | (1L << NONE) | (1L << NAN) | (1L << ID))) != 0)) {
 					{
 					{
 					setState(65);
@@ -851,26 +873,55 @@ public class MineLangParser extends Parser {
 				match(END);
 				}
 				break;
+			case 11:
+				{
+				_localctx = new GlobalExprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(72);
+				match(GLOBAL);
+				setState(74); 
+				_errHandler.sync(this);
+				_alt = 1;
+				do {
+					switch (_alt) {
+					case 1:
+						{
+						{
+						setState(73);
+						match(ID);
+						}
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					setState(76); 
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
+				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+				}
+				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(101);
+			setState(107);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(99);
+					setState(105);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
 					case 1:
 						{
 						_localctx = new MultiplyDivideRemainExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(74);
-						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
-						setState(75);
+						setState(80);
+						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
+						setState(81);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MULTIPLY) | (1L << DIVIDE) | (1L << REMAIN))) != 0)) ) {
 						_errHandler.recoverInline(this);
@@ -880,17 +931,17 @@ public class MineLangParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(76);
-						expr(13);
+						setState(82);
+						expr(14);
 						}
 						break;
 					case 2:
 						{
 						_localctx = new PlusMinusExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(77);
-						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
-						setState(78);
+						setState(83);
+						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
+						setState(84);
 						_la = _input.LA(1);
 						if ( !(_la==PLUS || _la==MINUS) ) {
 						_errHandler.recoverInline(this);
@@ -900,17 +951,17 @@ public class MineLangParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(79);
-						expr(12);
+						setState(85);
+						expr(13);
 						}
 						break;
 					case 3:
 						{
 						_localctx = new IsEqExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(80);
-						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
-						setState(81);
+						setState(86);
+						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
+						setState(87);
 						_la = _input.LA(1);
 						if ( !(_la==EQ || _la==NEQ) ) {
 						_errHandler.recoverInline(this);
@@ -920,17 +971,17 @@ public class MineLangParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(82);
-						expr(10);
+						setState(88);
+						expr(11);
 						}
 						break;
 					case 4:
 						{
 						_localctx = new CompareExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(83);
-						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
-						setState(84);
+						setState(89);
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
+						setState(90);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << GTR) | (1L << GTREQ) | (1L << LWR) | (1L << LWREQ))) != 0)) ) {
 						_errHandler.recoverInline(this);
@@ -940,25 +991,25 @@ public class MineLangParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(85);
-						expr(9);
+						setState(91);
+						expr(10);
 						}
 						break;
 					case 5:
 						{
 						_localctx = new LogicExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(86);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
-						setState(91);
+						setState(92);
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
+						setState(97);
 						_errHandler.sync(this);
 						switch (_input.LA(1)) {
 						case AND:
 							{
 							{
-							setState(87);
+							setState(93);
 							match(AND);
-							setState(88);
+							setState(94);
 							match(AND);
 							}
 							}
@@ -966,9 +1017,9 @@ public class MineLangParser extends Parser {
 						case OR:
 							{
 							{
-							setState(89);
+							setState(95);
 							match(OR);
-							setState(90);
+							setState(96);
 							match(OR);
 							}
 							}
@@ -976,19 +1027,19 @@ public class MineLangParser extends Parser {
 						default:
 							throw new NoViableAltException(this);
 						}
-						setState(93);
-						expr(8);
+						setState(99);
+						expr(9);
 						}
 						break;
 					case 6:
 						{
 						_localctx = new GetExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(94);
-						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
-						setState(95);
+						setState(100);
+						if (!(precpred(_ctx, 16))) throw new FailedPredicateException(this, "precpred(_ctx, 16)");
+						setState(101);
 						match(DOT);
-						setState(96);
+						setState(102);
 						match(ID);
 						}
 						break;
@@ -996,18 +1047,18 @@ public class MineLangParser extends Parser {
 						{
 						_localctx = new FuncCallExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(97);
-						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
-						setState(98);
+						setState(103);
+						if (!(precpred(_ctx, 15))) throw new FailedPredicateException(this, "precpred(_ctx, 15)");
+						setState(104);
 						callArgs();
 						}
 						break;
 					}
 					} 
 				}
-				setState(103);
+				setState(109);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
 			}
 			}
 		}
@@ -1032,53 +1083,55 @@ public class MineLangParser extends Parser {
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 12);
+			return precpred(_ctx, 13);
 		case 1:
-			return precpred(_ctx, 11);
+			return precpred(_ctx, 12);
 		case 2:
-			return precpred(_ctx, 9);
+			return precpred(_ctx, 10);
 		case 3:
-			return precpred(_ctx, 8);
+			return precpred(_ctx, 9);
 		case 4:
-			return precpred(_ctx, 7);
+			return precpred(_ctx, 8);
 		case 5:
-			return precpred(_ctx, 15);
+			return precpred(_ctx, 16);
 		case 6:
-			return precpred(_ctx, 14);
+			return precpred(_ctx, 15);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3-k\4\2\t\2\4\3\t\3"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3.q\4\2\t\2\4\3\t\3"+
 		"\4\4\t\4\3\2\7\2\n\n\2\f\2\16\2\r\13\2\3\2\3\2\3\3\3\3\5\3\23\n\3\3\3"+
 		"\3\3\7\3\27\n\3\f\3\16\3\32\13\3\3\3\5\3\35\n\3\3\3\3\3\3\4\3\4\3\4\3"+
 		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
 		"\3\4\3\4\7\48\n\4\f\4\16\4;\13\4\3\4\3\4\5\4?\n\4\3\4\3\4\3\4\3\4\7\4"+
-		"E\n\4\f\4\16\4H\13\4\3\4\5\4K\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
-		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4^\n\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4"+
-		"f\n\4\f\4\16\4i\13\4\3\4\2\3\6\5\2\4\6\2\7\3\2$)\3\2\30\31\3\2\32\34\3"+
-		"\2\25\26\3\2 #\2\177\2\13\3\2\2\2\4\20\3\2\2\2\6J\3\2\2\2\b\n\5\6\4\2"+
-		"\t\b\3\2\2\2\n\r\3\2\2\2\13\t\3\2\2\2\13\f\3\2\2\2\f\16\3\2\2\2\r\13\3"+
-		"\2\2\2\16\17\7\2\2\3\17\3\3\2\2\2\20\22\7\16\2\2\21\23\5\6\4\2\22\21\3"+
-		"\2\2\2\22\23\3\2\2\2\23\30\3\2\2\2\24\25\7\r\2\2\25\27\5\6\4\2\26\24\3"+
-		"\2\2\2\27\32\3\2\2\2\30\26\3\2\2\2\30\31\3\2\2\2\31\34\3\2\2\2\32\30\3"+
-		"\2\2\2\33\35\7\r\2\2\34\33\3\2\2\2\34\35\3\2\2\2\35\36\3\2\2\2\36\37\7"+
-		"\17\2\2\37\5\3\2\2\2 !\b\4\1\2!K\t\2\2\2\"K\7*\2\2#$\7\35\2\2$K\5\6\4"+
-		"\17%&\t\3\2\2&K\5\6\4\f\'(\7*\2\2()\7\27\2\2)K\5\6\4\b*+\7\13\2\2+K\5"+
-		"\6\4\7,-\7\16\2\2-.\5\6\4\2./\7\17\2\2/K\3\2\2\2\60\61\7\7\2\2\61\62\5"+
-		"\6\4\2\629\5\6\4\2\63\64\7\b\2\2\64\65\5\6\4\2\65\66\5\6\4\2\668\3\2\2"+
-		"\2\67\63\3\2\2\28;\3\2\2\29\67\3\2\2\29:\3\2\2\2:>\3\2\2\2;9\3\2\2\2<"+
-		"=\7\t\2\2=?\5\6\4\2><\3\2\2\2>?\3\2\2\2?K\3\2\2\2@A\7\n\2\2AK\5\6\4\4"+
-		"BF\7\22\2\2CE\5\6\4\2DC\3\2\2\2EH\3\2\2\2FD\3\2\2\2FG\3\2\2\2GI\3\2\2"+
-		"\2HF\3\2\2\2IK\7\23\2\2J \3\2\2\2J\"\3\2\2\2J#\3\2\2\2J%\3\2\2\2J\'\3"+
-		"\2\2\2J*\3\2\2\2J,\3\2\2\2J\60\3\2\2\2J@\3\2\2\2JB\3\2\2\2Kg\3\2\2\2L"+
-		"M\f\16\2\2MN\t\4\2\2Nf\5\6\4\17OP\f\r\2\2PQ\t\3\2\2Qf\5\6\4\16RS\f\13"+
-		"\2\2ST\t\5\2\2Tf\5\6\4\fUV\f\n\2\2VW\t\6\2\2Wf\5\6\4\13X]\f\t\2\2YZ\7"+
-		"\36\2\2Z^\7\36\2\2[\\\7\37\2\2\\^\7\37\2\2]Y\3\2\2\2][\3\2\2\2^_\3\2\2"+
-		"\2_f\5\6\4\n`a\f\21\2\2ab\7\24\2\2bf\7*\2\2cd\f\20\2\2df\5\4\3\2eL\3\2"+
-		"\2\2eO\3\2\2\2eR\3\2\2\2eU\3\2\2\2eX\3\2\2\2e`\3\2\2\2ec\3\2\2\2fi\3\2"+
-		"\2\2ge\3\2\2\2gh\3\2\2\2h\7\3\2\2\2ig\3\2\2\2\r\13\22\30\349>FJ]eg";
+		"E\n\4\f\4\16\4H\13\4\3\4\3\4\3\4\6\4M\n\4\r\4\16\4N\5\4Q\n\4\3\4\3\4\3"+
+		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4d\n\4\3"+
+		"\4\3\4\3\4\3\4\3\4\3\4\7\4l\n\4\f\4\16\4o\13\4\3\4\2\3\6\5\2\4\6\2\7\3"+
+		"\2%*\3\2\31\32\3\2\33\35\3\2\26\27\3\2!$\2\u0087\2\13\3\2\2\2\4\20\3\2"+
+		"\2\2\6P\3\2\2\2\b\n\5\6\4\2\t\b\3\2\2\2\n\r\3\2\2\2\13\t\3\2\2\2\13\f"+
+		"\3\2\2\2\f\16\3\2\2\2\r\13\3\2\2\2\16\17\7\2\2\3\17\3\3\2\2\2\20\22\7"+
+		"\17\2\2\21\23\5\6\4\2\22\21\3\2\2\2\22\23\3\2\2\2\23\30\3\2\2\2\24\25"+
+		"\7\16\2\2\25\27\5\6\4\2\26\24\3\2\2\2\27\32\3\2\2\2\30\26\3\2\2\2\30\31"+
+		"\3\2\2\2\31\34\3\2\2\2\32\30\3\2\2\2\33\35\7\16\2\2\34\33\3\2\2\2\34\35"+
+		"\3\2\2\2\35\36\3\2\2\2\36\37\7\20\2\2\37\5\3\2\2\2 !\b\4\1\2!Q\t\2\2\2"+
+		"\"Q\7+\2\2#$\7\36\2\2$Q\5\6\4\20%&\t\3\2\2&Q\5\6\4\r\'(\7+\2\2()\7\30"+
+		"\2\2)Q\5\6\4\t*+\7\13\2\2+Q\5\6\4\b,-\7\17\2\2-.\5\6\4\2./\7\20\2\2/Q"+
+		"\3\2\2\2\60\61\7\7\2\2\61\62\5\6\4\2\629\5\6\4\2\63\64\7\b\2\2\64\65\5"+
+		"\6\4\2\65\66\5\6\4\2\668\3\2\2\2\67\63\3\2\2\28;\3\2\2\29\67\3\2\2\29"+
+		":\3\2\2\2:>\3\2\2\2;9\3\2\2\2<=\7\t\2\2=?\5\6\4\2><\3\2\2\2>?\3\2\2\2"+
+		"?Q\3\2\2\2@A\7\n\2\2AQ\5\6\4\5BF\7\23\2\2CE\5\6\4\2DC\3\2\2\2EH\3\2\2"+
+		"\2FD\3\2\2\2FG\3\2\2\2GI\3\2\2\2HF\3\2\2\2IQ\7\24\2\2JL\7\r\2\2KM\7+\2"+
+		"\2LK\3\2\2\2MN\3\2\2\2NL\3\2\2\2NO\3\2\2\2OQ\3\2\2\2P \3\2\2\2P\"\3\2"+
+		"\2\2P#\3\2\2\2P%\3\2\2\2P\'\3\2\2\2P*\3\2\2\2P,\3\2\2\2P\60\3\2\2\2P@"+
+		"\3\2\2\2PB\3\2\2\2PJ\3\2\2\2Qm\3\2\2\2RS\f\17\2\2ST\t\4\2\2Tl\5\6\4\20"+
+		"UV\f\16\2\2VW\t\3\2\2Wl\5\6\4\17XY\f\f\2\2YZ\t\5\2\2Zl\5\6\4\r[\\\f\13"+
+		"\2\2\\]\t\6\2\2]l\5\6\4\f^c\f\n\2\2_`\7\37\2\2`d\7\37\2\2ab\7 \2\2bd\7"+
+		" \2\2c_\3\2\2\2ca\3\2\2\2de\3\2\2\2el\5\6\4\13fg\f\22\2\2gh\7\25\2\2h"+
+		"l\7+\2\2ij\f\21\2\2jl\5\4\3\2kR\3\2\2\2kU\3\2\2\2kX\3\2\2\2k[\3\2\2\2"+
+		"k^\3\2\2\2kf\3\2\2\2ki\3\2\2\2lo\3\2\2\2mk\3\2\2\2mn\3\2\2\2n\7\3\2\2"+
+		"\2om\3\2\2\2\16\13\22\30\349>FNPckm";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

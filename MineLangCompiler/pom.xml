@@ -135,6 +135,11 @@
             <artifactId>commons-math3</artifactId>
             <version>3.6.1</version>
         </dependency>
+        <dependency>
+            <groupId>it.unimi.dsi</groupId>
+            <artifactId>fastutil</artifactId>
+            <version>8.5.6</version>
+        </dependency>
 
     </dependencies>
 

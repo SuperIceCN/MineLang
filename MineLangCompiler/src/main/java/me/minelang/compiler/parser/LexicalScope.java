@@ -2,20 +2,30 @@ package me.minelang.compiler.parser;
 
 import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.frame.FrameSlot;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import me.minelang.compiler.lang.nodes.value.AbstractVarNode;
 import me.minelang.compiler.utils.FrameSlotKindUtil;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public final class LexicalScope {
+    private final LexicalScope root;
     private final LexicalScope parent;
     private final FrameDescriptor fd;
-    public final HashMap<String, FrameSlot> cacheSlots = new HashMap<>(8, 0.875f);
+    public final Map<String, FrameSlotWithDescriptor> cacheSlots = new HashMap<>(8, 0.875f);
+    public final Set<String> availableGlobals = new ObjectOpenHashSet<>();
 
     private LexicalScope(LexicalScope parent, FrameDescriptor fd) {
         this.parent = parent;
         this.fd = fd;
+        if (parent == null) {
+            this.root = this;
+        } else {
+            this.root = parent.root;
+        }
     }
 
     public static LexicalScope of(LexicalScope parent, FrameDescriptor fd) {
@@ -26,21 +36,68 @@ public final class LexicalScope {
         return parent;
     }
 
+    public boolean isRoot() {
+        return this.root == this;
+    }
+
     public FrameDescriptor getFrameDescriptor() {
         return fd;
     }
 
+    /**
+     * 声明一个变量是全局的
+     *
+     * @param name 全局变量名称
+     */
+    public void global(String name) {
+        this.availableGlobals.add(name);
+    }
+
     public FrameSlotWithDescriptor find(String name) {
+        // 如果是全局变量就直接查找根作用域
+        if (this.availableGlobals.contains(name)) {
+            return this.root.directFind(name);
+        }
         var tmp = cacheSlots.get(name);
-        if (tmp == null) return new FrameSlotWithDescriptor(fd.findFrameSlot(name), fd);
-        if (parent != null) return parent.find(name);
-        return null;
+        if (tmp == null) {
+            var fr = fd.findFrameSlot(name);
+            FrameSlotWithDescriptor ret = null;
+            if (fr == null) {
+                if (parent != null)
+                    ret = parent.find(name);
+            } else {
+                ret = new FrameSlotWithDescriptor(fr, fd, this.isRoot());
+            }
+            if (ret != null) {
+                cacheSlots.put(name, ret);
+                return ret;
+            }
+            return null;
+        } else {
+            return tmp;
+        }
     }
 
     public FrameSlotWithDescriptor directFind(String name) {
+        // 如果是全局变量就直接查找根作用域
+        if (this.availableGlobals.contains(name)) {
+            return this.root.directFind(name);
+        }
         var tmp = cacheSlots.get(name);
-        if (tmp == null) return new FrameSlotWithDescriptor(fd.findFrameSlot(name), fd);
-        return null;
+        if (tmp == null) {
+            var fr = fd.findFrameSlot(name);
+            FrameSlotWithDescriptor ret = null;
+            if (fr != null) {
+                ret = new FrameSlotWithDescriptor(fr, fd, this.isRoot());
+            }
+            if (ret != null) {
+                cacheSlots.put(name, ret);
+                return ret;
+            }
+            return null;
+        } else {
+            return tmp;
+        }
     }
 
     public FrameSlot declare(String name, VisitResult<?> expect) {
@@ -77,6 +134,7 @@ public final class LexicalScope {
                 "fd=" + fd + ']';
     }
 
-    public static record FrameSlotWithDescriptor(FrameSlot frameSlot, FrameDescriptor frameDescriptor) {
+    public static record FrameSlotWithDescriptor(FrameSlot frameSlot, FrameDescriptor frameDescriptor,
+                                                 boolean isGlobal) {
     }
 }

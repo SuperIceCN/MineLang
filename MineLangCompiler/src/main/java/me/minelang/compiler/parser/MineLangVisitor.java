@@ -65,6 +65,13 @@ public interface MineLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBreakExpr(MineLangParser.BreakExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code globalExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGlobalExpr(MineLangParser.GlobalExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code notExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree

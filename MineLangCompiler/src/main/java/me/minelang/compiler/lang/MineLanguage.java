@@ -3,6 +3,7 @@ package me.minelang.compiler.lang;
 import com.oracle.truffle.api.CallTarget;
 import com.oracle.truffle.api.Truffle;
 import com.oracle.truffle.api.TruffleLanguage;
+import com.oracle.truffle.api.nodes.Node;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.nodes.MineRootNode;
 import me.minelang.compiler.lang.types.MineLanguageView;
@@ -16,7 +17,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 public final class MineLanguage extends TruffleLanguage<MineContext> {
     private static final LanguageReference<MineLanguage> REFERENCE = LanguageReference.create(MineLanguage.class);
 
-    public static MineLanguage get(MineNode node) {
+    public static MineLanguage get(Node node) {
         return REFERENCE.get(node);
     }
 

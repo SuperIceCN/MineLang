@@ -100,6 +100,18 @@ public interface MineLangListener extends ParseTreeListener {
 	 */
 	void exitBreakExpr(MineLangParser.BreakExprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code globalExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterGlobalExpr(MineLangParser.GlobalExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code globalExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitGlobalExpr(MineLangParser.GlobalExprContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code notExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree

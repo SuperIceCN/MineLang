@@ -10,22 +10,22 @@ import me.minelang.compiler.lang.nodes.literial.LiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.NanLiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.NoneLiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.operator.*;
-import me.minelang.compiler.lang.nodes.value.LocalVarReadNodeFactory;
-import me.minelang.compiler.lang.nodes.value.LocalVarWriteNodeFactory;
+import me.minelang.compiler.lang.nodes.value.*;
 import me.minelang.compiler.lang.types.MineNone;
 import me.minelang.compiler.parser.exceptions.InvalidParseNodeException;
 import me.minelang.compiler.parser.exceptions.VarNotFoundException;
 import me.minelang.compiler.utils.StringUtil;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static me.minelang.compiler.parser.LexicalScope.of;
 import static me.minelang.compiler.parser.VisitResult.of;
@@ -211,19 +211,30 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
         if (slot == null) {
             throw new VarNotFoundException(ctx);
         } else {
-            return of(slot.frameDescriptor(), LocalVarReadNodeFactory.create(slot.frameSlot()));
+            return of(slot.frameDescriptor(), slot.isGlobal() && !fd.isRoot() //如果本身就是全局的话，就使用一般读取变量节点以获取更高速度
+                    ? GlobalVarReadNodeFactory.create(slot.frameSlot())
+                    : LocalVarReadNodeFactory.create(slot.frameSlot()));
         }
     }
 
     @Override
     public VisitResult<?> visitVarSetExpr(MineLangParser.VarSetExprContext ctx) {
         var fd = getScope(ctx);
-        var slot = Objects.requireNonNull(fd.directFind(ctx.ID().getText())).frameSlot();
+        var scopeFindResult = fd.directFind(ctx.ID().getText());
         var content = visit(scope(ctx.expr(), fd));
-        if (slot == null) {
-            slot = fd.declare(ctx.ID().getText(), content);
-        }
-        return of(fd, LocalVarWriteNodeFactory.create(content.singleNode(), slot));
+        var slot = scopeFindResult == null ? fd.declare(ctx.ID().getText(), content) : scopeFindResult.frameSlot();
+        return of(fd, scopeFindResult != null && scopeFindResult.isGlobal() && !fd.isRoot() //如果本身就是全局的话，就使用一般读取变量节点以获取更高速度
+                ? GlobalVarWriteNodeFactory.create(content.singleNode(), slot)
+                : LocalVarWriteNodeFactory.create(content.singleNode(), slot));
+    }
+
+    @Override
+    public VisitResult<?> visitGlobalExpr(MineLangParser.GlobalExprContext ctx) {
+        var fd = getScope(ctx);
+        var ids = ctx.ID();
+        fd.availableGlobals.addAll((ids.size() > ParallelThreshold ? ids.parallelStream() : ids.stream())
+                .map(ParseTree::getText).collect(Collectors.toSet()));
+        return of(NoneLiteralNodeFactory.create());
     }
 
     @Override
