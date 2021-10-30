@@ -15,7 +15,6 @@ import me.minelang.compiler.lang.nodes.value.LocalVarWriteNodeFactory;
 import me.minelang.compiler.lang.types.MineNone;
 import me.minelang.compiler.parser.exceptions.InvalidParseNodeException;
 import me.minelang.compiler.parser.exceptions.VarNotFoundException;
-import me.minelang.compiler.utils.FrameSlotKindUtil;
 import me.minelang.compiler.utils.StringUtil;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
@@ -223,11 +222,6 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
         var content = visit(scope(ctx.expr(), fd));
         if (slot == null) {
             slot = fd.declare(ctx.ID().getText(), content);
-        } else {
-            var exactKind = FrameSlotKindUtil.calcForNode(content.singleNode());
-            if (fd.getFrameDescriptor().getFrameSlotKind(slot) != exactKind) {
-                fd.getFrameDescriptor().setFrameSlotKind(slot, exactKind);
-            }
         }
         return of(fd, LocalVarWriteNodeFactory.create(content.singleNode(), slot));
     }

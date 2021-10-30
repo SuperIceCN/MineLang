@@ -7,10 +7,13 @@ import com.oracle.truffle.api.frame.FrameSlotKind;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import me.minelang.compiler.lang.nodes.MineNode;
+import me.minelang.compiler.utils.FrameSlotKindUtil;
 
 @NodeInfo(language = "MineLang", shortName = "localVarWrite", description = "Write/create a value into a variable.")
 @NodeChild(value = "value", type = MineNode.class)
 public abstract class LocalVarWriteNode extends AbstractVarNode {
+    public abstract MineNode getValue();
+
     @Specialization(guards = "isByteKind(frame)")
     byte writeByte(VirtualFrame frame, byte value) {
         frame.setByte(this.getSlot(), value);
@@ -56,9 +59,12 @@ public abstract class LocalVarWriteNode extends AbstractVarNode {
     @Specialization(replaces = {"writeByte", "writeInt", "writeLong", "writeBoolean", "writeFloat", "writeDouble"})
     Object write(VirtualFrame frame, Object value) {
         var slot = this.getSlot();
-        if (!isObjectKind(frame)) {
+        var currentKind = frame.getFrameDescriptor().getFrameSlotKind(slot);
+        var expectSlotKind = FrameSlotKindUtil.calcForValue(value);
+        if (currentKind != expectSlotKind) {
             CompilerDirectives.transferToInterpreterAndInvalidate();
-            frame.getFrameDescriptor().setFrameSlotKind(slot, FrameSlotKind.Object);
+            frame.getFrameDescriptor().setFrameSlotKind(slot, expectSlotKind);
+            return this.replace(LocalVarWriteNodeFactory.create(getValue(), slot)).execute(frame);
         }
         frame.setObject(slot, value);
         return value;
@@ -78,10 +84,6 @@ public abstract class LocalVarWriteNode extends AbstractVarNode {
 
     boolean isBooleanKind(VirtualFrame frame) {
         return frame.getFrameDescriptor().getFrameSlotKind(getSlot()) == FrameSlotKind.Long;
-    }
-
-    boolean isObjectKind(VirtualFrame frame) {
-        return frame.getFrameDescriptor().getFrameSlotKind(getSlot()) == FrameSlotKind.Object;
     }
 
     boolean isFloatKind(VirtualFrame frame) {
