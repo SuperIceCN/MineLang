@@ -4,7 +4,7 @@ import com.oracle.truffle.api.dsl.Fallback;
 import com.oracle.truffle.api.dsl.NodeChild;
 import com.oracle.truffle.api.dsl.Specialization;
 import com.oracle.truffle.api.nodes.NodeInfo;
-import me.minelang.compiler.lang.exceptions.LoopBreakException;
+import me.minelang.compiler.lang.exceptions.control.LoopBreakException;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.types.*;
 

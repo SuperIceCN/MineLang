@@ -1,4 +1,4 @@
-package me.minelang.compiler.lang.exceptions;
+package me.minelang.compiler.lang.exceptions.control;
 
 import com.oracle.truffle.api.nodes.ControlFlowException;
 

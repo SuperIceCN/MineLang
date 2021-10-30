@@ -1,5 +1,6 @@
 package me.minelang.tests.values;
 
+import me.minelang.compiler.parser.exceptions.VarNotFoundException;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Engine;
 import org.graalvm.polyglot.Value;
@@ -27,6 +28,35 @@ public class GlobalVarTest {
                     a = a - 1
                 }
                 a
+                """).asInt());
+    }
+
+
+    @Test
+    public void testGlobalVar2() {
+        try {
+            eval("""
+                a = 1
+                {
+                    global b
+                    b
+                }
+                """);
+        }catch (VarNotFoundException e) {
+            //ignore
+        }
+    }
+
+    @Test
+    public void testGlobalVar3() {
+        Assert.assertEquals(5, eval("""
+                a = 1
+                {
+                    global a, b
+                    a = a + 1
+                    b = 3 + a
+                }
+                b
                 """).asInt());
     }
 }

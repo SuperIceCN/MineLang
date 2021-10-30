@@ -6,8 +6,8 @@ import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.nodes.RepeatingNode;
 import com.oracle.truffle.api.profiles.BranchProfile;
 import com.oracle.truffle.api.profiles.ConditionProfile;
-import me.minelang.compiler.lang.exceptions.LoopBreakException;
-import me.minelang.compiler.lang.exceptions.LoopContinueException;
+import me.minelang.compiler.lang.exceptions.control.LoopBreakException;
+import me.minelang.compiler.lang.exceptions.control.LoopContinueException;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.utils.ConditionUtil;
 

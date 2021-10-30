@@ -52,7 +52,8 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
     public VisitResult<?> visitProgram(MineLangParser.ProgramContext ctx) {
         scope(ctx, rootLexicalScope);
         var nodes = new ArrayList<MineNode>();
-        ctx.expr().forEach(exprContext -> nodes.add(visit(scope(exprContext, rootLexicalScope)).singleNode()));
+        ctx.expr().stream().filter(exprContext -> !(exprContext instanceof MineLangParser.GlobalExprContext))
+                .forEach(exprContext -> nodes.add(visit(scope(exprContext, rootLexicalScope)).singleNode()));
         return of(nodes);
     }
 
@@ -65,9 +66,18 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
         var nodes = new ArrayList<MineNode>();
         var fd = of(getScope(ctx), new FrameDescriptor(MineNone.SINGLETON));
         var exprs = ctx.expr();
+        // 执行全局变量提升操作
+        var it = exprs.listIterator();
+        while (it.hasNext()) {
+            var current = it.next();
+            if (current instanceof MineLangParser.GlobalExprContext globalExprContext) {
+                this.visitGlobalExpr(scope(globalExprContext ,fd));
+                it.remove();
+            }
+        }
         // 执行变量声明提升操作
         (exprs.size() > ParallelThreshold ? exprs.parallelStream() : exprs.stream())
-                .filter(exprContext -> exprContext instanceof MineLangParser.VarSetExprContext)
+                .filter(exprContext -> exprContext instanceof MineLangParser.VarSetExprContext varSetExprContext && !fd.isGlobal(varSetExprContext.ID().getText()))
                 .filter(distinctByKey(exprContext -> exprContext.getStart().getText()))
                 .forEach(exprContext -> nodes.add(LocalVarWriteNodeFactory.create(NoneLiteralNodeFactory.create()
                         , fd.declare(((MineLangParser.VarSetExprContext) exprContext).ID().getText()))));
@@ -208,12 +218,12 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
     public VisitResult<?> visitVarUseExpr(MineLangParser.VarUseExprContext ctx) {
         var fd = getScope(ctx);
         var slot = fd.find(ctx.ID().getText());
-        if (slot == null) {
+        if (slot.frameSlot() == null) {
             throw new VarNotFoundException(ctx);
         } else {
-            return of(slot.frameDescriptor(), slot.isGlobal() && !fd.isRoot() //如果本身就是全局的话，就使用一般读取变量节点以获取更高速度
+            return of(slot.frameDescriptor(), (slot.isGlobal() && !fd.isRoot() //如果本身就是全局的话，就使用一般读取变量节点以获取更高速度
                     ? GlobalVarReadNodeFactory.create(slot.frameSlot())
-                    : LocalVarReadNodeFactory.create(slot.frameSlot()));
+                    : LocalVarReadNodeFactory.create(slot.frameSlot()).setSourceSection(section(ctx))));
         }
     }
 
@@ -222,10 +232,10 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
         var fd = getScope(ctx);
         var scopeFindResult = fd.directFind(ctx.ID().getText());
         var content = visit(scope(ctx.expr(), fd));
-        var slot = scopeFindResult == null ? fd.declare(ctx.ID().getText(), content) : scopeFindResult.frameSlot();
-        return of(fd, scopeFindResult != null && scopeFindResult.isGlobal() && !fd.isRoot() //如果本身就是全局的话，就使用一般读取变量节点以获取更高速度
+        var slot = scopeFindResult.frameSlot() == null ? fd.declare(ctx.ID().getText(), content) : scopeFindResult.frameSlot();
+        return of(fd, (scopeFindResult.isGlobal() && !fd.isRoot() //如果本身就是全局的话，就使用一般读取变量节点以获取更高速度
                 ? GlobalVarWriteNodeFactory.create(content.singleNode(), slot)
-                : LocalVarWriteNodeFactory.create(content.singleNode(), slot));
+                : LocalVarWriteNodeFactory.create(content.singleNode(), slot)).setSourceSection(section(ctx)));
     }
 
     @Override
@@ -266,7 +276,7 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
                 branches[((len - 1) >> 1)] = visit(scope(brExpr, fd)).singleNode();
             }
         }
-        return of(IfElseNodeFactory.create(conditions, branches));
+        return of(IfElseNodeFactory.create(conditions, branches).setSourceSection(section(ctx)));
     }
 
     private SourceSection section(ParserRuleContext ctx) {

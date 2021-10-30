@@ -3,7 +3,7 @@ package me.minelang.compiler.parser.exceptions;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 
-public final class InvalidParseNodeException extends ParseException{
+public final class InvalidParseNodeException extends MineLangParseException {
     public final ParseTree invalidNode;
 
     public InvalidParseNodeException(ParseTree invalidNode, int line, int column) {

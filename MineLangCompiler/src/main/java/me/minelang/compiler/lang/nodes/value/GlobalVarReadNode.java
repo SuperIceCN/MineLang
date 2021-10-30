@@ -6,6 +6,7 @@ import com.oracle.truffle.api.frame.MaterializedFrame;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import me.minelang.compiler.lang.MineContext;
+import me.minelang.compiler.lang.exceptions.runtime.GlobalVarNotFoundException;
 
 @NodeInfo(language = "MineLang", shortName = "globalVarRead"
         , description = "Read the value stored in a global variable.")
@@ -60,6 +61,6 @@ public abstract class GlobalVarReadNode extends AbstractVarNode {
 
     @Specialization(replaces = {"readByte", "readInt", "readLong", "readBoolean", "readFloat", "readDouble", "readObject"})
     Object read(VirtualFrame virtualFrame) {
-        return getFrame().getValue(getSlot());
+        throw new GlobalVarNotFoundException(this);
     }
 }

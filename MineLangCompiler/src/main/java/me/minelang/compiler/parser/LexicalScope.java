@@ -53,9 +53,13 @@ public final class LexicalScope {
         this.availableGlobals.add(name);
     }
 
+    public boolean isGlobal(String name) {
+        return this.availableGlobals.contains(name);
+    }
+
     public FrameSlotWithDescriptor find(String name) {
         // 如果是全局变量就直接查找根作用域
-        if (this.availableGlobals.contains(name)) {
+        if (!this.isRoot() && this.isGlobal(name)) {
             return this.root.directFind(name);
         }
         var tmp = cacheSlots.get(name);
@@ -72,7 +76,7 @@ public final class LexicalScope {
                 cacheSlots.put(name, ret);
                 return ret;
             }
-            return null;
+            return new FrameSlotWithDescriptor(null, null, this.isRoot());
         } else {
             return tmp;
         }
@@ -80,7 +84,7 @@ public final class LexicalScope {
 
     public FrameSlotWithDescriptor directFind(String name) {
         // 如果是全局变量就直接查找根作用域
-        if (this.availableGlobals.contains(name)) {
+        if (!this.isRoot() && this.isGlobal(name)) {
             return this.root.directFind(name);
         }
         var tmp = cacheSlots.get(name);
@@ -94,13 +98,16 @@ public final class LexicalScope {
                 cacheSlots.put(name, ret);
                 return ret;
             }
-            return null;
+            return new FrameSlotWithDescriptor(null, null, this.isRoot());
         } else {
             return tmp;
         }
     }
 
     public FrameSlot declare(String name, VisitResult<?> expect) {
+        if(!this.isRoot() && this.isGlobal(name)) {
+            return this.root.declare(name, expect);
+        }
         var expectNode = expect.singleNode();
         if (expectNode instanceof AbstractVarNode node && expect.extraValue() instanceof FrameDescriptor descriptor) {
             return fd.addFrameSlot(name, descriptor.getFrameSlotKind(node.getSlot()));
@@ -110,6 +117,9 @@ public final class LexicalScope {
     }
 
     public FrameSlot declare(String name) {
+        if (!this.isRoot() && this.isGlobal(name)) {
+            return this.root.declare(name);
+        }
         return fd.addFrameSlot(name);
     }
 

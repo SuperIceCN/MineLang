@@ -65,7 +65,7 @@ public abstract class GlobalVarWriteNode extends AbstractVarNode {
     @Specialization(replaces = {"writeByte", "writeInt", "writeLong", "writeBoolean", "writeFloat", "writeDouble"})
     Object write(VirtualFrame frame, Object value) {
         var slot = this.getSlot();
-        var currentKind = frame.getFrameDescriptor().getFrameSlotKind(slot);
+        var currentKind = getFrame().getFrameDescriptor().getFrameSlotKind(slot);
         var expectSlotKind = FrameSlotKindUtil.calcForValue(value);
         if (currentKind != expectSlotKind) {
             CompilerDirectives.transferToInterpreterAndInvalidate();
