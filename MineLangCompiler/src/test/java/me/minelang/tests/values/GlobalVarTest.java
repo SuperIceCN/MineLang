@@ -1,8 +1,8 @@
 package me.minelang.tests.values;
 
-import me.minelang.compiler.parser.exceptions.VarNotFoundException;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Engine;
+import org.graalvm.polyglot.PolyglotException;
 import org.graalvm.polyglot.Value;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,13 +36,13 @@ public class GlobalVarTest {
     public void testGlobalVar2() {
         try {
             eval("""
-                a = 1
-                {
-                    global b
-                    b
-                }
-                """);
-        }catch (VarNotFoundException e) {
+                    a = 1
+                    {
+                        global b
+                        b
+                    }
+                    """);
+        } catch (PolyglotException e) {
             //ignore
         }
     }
@@ -57,6 +57,17 @@ public class GlobalVarTest {
                     b = 3 + a
                 }
                 b
+                """).asInt());
+    }
+
+    @Test
+    public void testGlobalVar4() {
+        Assert.assertEquals(2, eval("""
+                {
+                    global a
+                    a = 2
+                }
+                a
                 """).asInt());
     }
 }
