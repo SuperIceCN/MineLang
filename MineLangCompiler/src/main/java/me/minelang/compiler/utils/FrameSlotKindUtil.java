@@ -58,7 +58,13 @@ public class FrameSlotKindUtil {
     public static void autoSetInFrame(Frame frame, FrameSlot slot, FrameSlotKind frameSlotKind, Object value) {
         switch (frameSlotKind) {
             case Byte -> frame.setByte(slot, (Byte) value);
-            case Int -> frame.setInt(slot, (Integer) value);
+            case Int -> {
+                if(value instanceof Integer x) {
+                    frame.setInt(slot, x);
+                }else if(value instanceof Short y) {
+                    frame.setInt(slot, y);
+                }
+            }
             case Boolean -> frame.setBoolean(slot, (Boolean) value);
             case Long -> frame.setLong(slot, (Long) value);
             case Float -> frame.setFloat(slot, (Float) value);
