@@ -14,6 +14,8 @@ import me.minelang.compiler.utils.FrameSlotKindUtil;
 @NodeInfo(language = "MineLang", shortName = "globalVarWrite", description = "Write/create a value into a global variable.")
 @NodeChild(value = "value", type = MineNode.class)
 public abstract class GlobalVarWriteNode extends AbstractVarNode {
+    abstract MineNode getValue();
+
     private MaterializedFrame globalFrame = null;
 
     private MaterializedFrame getFrame() {
@@ -70,7 +72,7 @@ public abstract class GlobalVarWriteNode extends AbstractVarNode {
         if (currentKind != expectSlotKind) {
             CompilerDirectives.transferToInterpreterAndInvalidate();
             getFrame().getFrameDescriptor().setFrameSlotKind(slot, expectSlotKind);
-            return this.replace(FrameVarWriteNodeFactory.create(slot, value, getFrame())).execute(frame);
+            return this.replace(FrameVarWriteNodeFactory.create(getValue(), slot, getFrame())).execute(frame);
         }
         getFrame().setObject(slot, value);
         return value;
