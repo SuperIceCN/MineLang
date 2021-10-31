@@ -18,7 +18,8 @@ expr: (INT | DEC | STRING | BOOL | NONE | NAN) #literalExpr
     | expr (GTR | GTREQ | LWR | LWREQ) expr #compareExpr
     | expr ((AND AND) | (OR OR)) expr #logicExpr
     | ID SET expr #varSetExpr
-    | BREAK expr #breakExpr
+    | BREAK expr? #breakExpr
+    | CONTINUE #continueExpr
     | LB expr RB #bracketExpr
     | IF expr expr (ELIF expr expr)* (ELSE expr)? #ifelseExpr
     | LOOP expr #endlessLoopExpr

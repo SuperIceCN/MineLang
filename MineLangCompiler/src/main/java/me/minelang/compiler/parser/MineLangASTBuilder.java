@@ -4,8 +4,7 @@ import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.source.SourceSection;
 import me.minelang.compiler.lang.nodes.MineNode;
-import me.minelang.compiler.lang.nodes.control.BlockNodeFactory;
-import me.minelang.compiler.lang.nodes.control.IfElseNodeFactory;
+import me.minelang.compiler.lang.nodes.control.*;
 import me.minelang.compiler.lang.nodes.literial.LiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.NanLiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.NoneLiteralNodeFactory;
@@ -71,16 +70,16 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
         while (it.hasNext()) {
             var current = it.next();
             if (current instanceof MineLangParser.GlobalExprContext globalExprContext) {
-                this.visitGlobalExpr(scope(globalExprContext ,fd));
+                this.visitGlobalExpr(scope(globalExprContext, fd));
                 it.remove();
             }
         }
         // 执行变量声明提升操作
-        (exprs.size() > ParallelThreshold ? exprs.parallelStream() : exprs.stream())
-                .filter(exprContext -> exprContext instanceof MineLangParser.VarSetExprContext varSetExprContext && !fd.isGlobal(varSetExprContext.ID().getText()))
-                .filter(distinctByKey(exprContext -> exprContext.getStart().getText()))
-                .forEach(exprContext -> nodes.add(LocalVarWriteNodeFactory.create(NoneLiteralNodeFactory.create()
-                        , fd.declare(((MineLangParser.VarSetExprContext) exprContext).ID().getText()))));
+//        (exprs.size() > ParallelThreshold ? exprs.parallelStream() : exprs.stream())
+//                .filter(exprContext -> exprContext instanceof MineLangParser.VarSetExprContext varSetExprContext && !fd.isGlobal(varSetExprContext.ID().getText()))
+//                .filter(distinctByKey(exprContext -> exprContext.getStart().getText()))
+//                .forEach(exprContext -> nodes.add(LocalVarWriteNodeFactory.create(NoneLiteralNodeFactory.create()
+//                        , fd.declare(((MineLangParser.VarSetExprContext) exprContext).ID().getText()))));
         exprs.forEach(exprContext -> nodes.add(visit(scope(exprContext, fd)).singleNode()));
         return of(BlockNodeFactory.create(fd.getFrameDescriptor(), useInnerFrame, nodes.toArray(new MineNode[]{}))
                 .setSourceSection(section(ctx)));
@@ -279,9 +278,31 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
         return of(IfElseNodeFactory.create(conditions, branches).setSourceSection(section(ctx)));
     }
 
+    @Override
+    public VisitResult<?> visitEndlessLoopExpr(MineLangParser.EndlessLoopExprContext ctx) {
+        var fd = getScope(ctx);
+        var expr = ctx.expr();
+        var body = expr instanceof MineLangParser.BlockExprContext blockExprContext ?
+                visitBlockExpr(scope(blockExprContext, fd), false).singleNode()
+                : visit(scope(expr, fd)).singleNode();
+        return of(EndlessLoopNodeFactory.create(body).setSourceSection(section(ctx)));
+    }
+
+    @Override
+    public VisitResult<?> visitBreakExpr(MineLangParser.BreakExprContext ctx) {
+        var fd = getScope(ctx);
+        return of(BreakNodeFactory.create(ctx.expr() == null ? NoneLiteralNodeFactory.create()
+                : visit(scope(ctx.expr(), fd)).singleNode()).setSourceSection(section(ctx)));
+    }
+
+    @Override
+    public VisitResult<?> visitContinueExpr(MineLangParser.ContinueExprContext ctx) {
+        return of(ContinueNodeFactory.create());
+    }
+
     private SourceSection section(ParserRuleContext ctx) {
         var startIndex = ctx.getStart().getStartIndex();
-        return this.truffleSource.createSection(startIndex, ctx.getStop().getStopIndex() - startIndex);
+        return this.truffleSource.createSection(startIndex, ctx.getStop().getStopIndex() - startIndex + 1);
     }
 
     /**
