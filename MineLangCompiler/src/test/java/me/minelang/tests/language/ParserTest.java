@@ -85,7 +85,7 @@ public class ParserTest {
 
     @Test
     public void testParse7() {
-        Assert.assertEquals("c: none", eval("""
+        Assert.assertEquals("c: 22.33", eval("""
                 b = 22.33
                 a = {
                     c = b

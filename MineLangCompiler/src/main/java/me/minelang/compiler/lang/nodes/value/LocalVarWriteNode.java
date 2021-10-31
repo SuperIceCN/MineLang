@@ -64,7 +64,9 @@ public abstract class LocalVarWriteNode extends AbstractVarNode {
         if (currentKind != expectSlotKind) {
             CompilerDirectives.transferToInterpreterAndInvalidate();
             frame.getFrameDescriptor().setFrameSlotKind(slot, expectSlotKind);
-            return this.replace(FrameVarWriteNodeFactory.create(getValue(), slot, frame.materialize())).execute(frame);
+            this.replace(FrameVarWriteNodeFactory.create(getValue(), slot, frame.materialize()));
+            FrameSlotKindUtil.autoSetInFrame(frame, slot, expectSlotKind, value);
+            return value;
         }
         frame.setObject(slot, value);
         return value;

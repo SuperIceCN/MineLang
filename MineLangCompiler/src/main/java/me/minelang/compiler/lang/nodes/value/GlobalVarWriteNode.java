@@ -72,7 +72,9 @@ public abstract class GlobalVarWriteNode extends AbstractVarNode {
         if (currentKind != expectSlotKind) {
             CompilerDirectives.transferToInterpreterAndInvalidate();
             getFrame().getFrameDescriptor().setFrameSlotKind(slot, expectSlotKind);
-            return this.replace(FrameVarWriteNodeFactory.create(getValue(), slot, getFrame())).execute(frame);
+            this.replace(FrameVarWriteNodeFactory.create(getValue(), slot, getFrame()));
+            FrameSlotKindUtil.autoSetInFrame(getFrame(), slot, expectSlotKind, value);
+            return value;
         }
         getFrame().setObject(slot, value);
         return value;
