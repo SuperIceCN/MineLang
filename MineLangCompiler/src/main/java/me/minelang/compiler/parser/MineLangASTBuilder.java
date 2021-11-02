@@ -37,7 +37,8 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
     public final ParseTreeProperty<LexicalScope> lexicalScopes = new ParseTreeProperty<>();
     public final LexicalScope rootLexicalScope;
 
-    public static final int ParallelThreshold = 32;
+    public static int ParallelThresholdBase = 32;
+    public final int ParallelThreshold;
 
     public MineLangASTBuilder(String sourceName, String sourceContent, FrameDescriptor rootFrameDescriptor) {
         this.sourceName = sourceName;
@@ -45,6 +46,31 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
         this.rootLexicalScope = of(null, rootFrameDescriptor);
         this.truffleSource = Source.newBuilder("MineLang", sourceContent, sourceName)
                 .encoding(StandardCharsets.UTF_8).build();
+        var cores = Runtime.getRuntime().availableProcessors();
+        if (cores == 1) {
+            ParallelThreshold = Integer.MIN_VALUE;
+        } else if (cores == 2) {
+            ParallelThreshold = ParallelThresholdBase << 8;
+        } else if (cores == 3) {
+            ParallelThreshold = ParallelThresholdBase << 5;
+        } else if (cores < 6) {
+            ParallelThreshold = ParallelThresholdBase << 2;
+        } else if (cores < 10) {
+            ParallelThreshold = ParallelThresholdBase;
+        } else if(cores < 16){
+            ParallelThreshold = (ParallelThresholdBase >> 2) * 3;
+        } else {
+            ParallelThreshold = ParallelThresholdBase >> 1;
+        }
+    }
+
+    public VisitResult<?> visit(ParserRuleContext tree) {
+        if (tree.children.size() > ParallelThreshold) { // 通常在多核处理器上才有优势
+            tree.children = tree.children.parallelStream().filter(each -> !(each instanceof MineLangParser.SplitContext)).toList();
+        } else {
+            tree.children.removeIf(each -> each instanceof MineLangParser.SplitContext);
+        }
+        return super.visit(tree);
     }
 
     @Override

@@ -6,7 +6,8 @@ program: expr*
 
 callArgs: LB expr? (COMMA expr)* COMMA? RB;
 
-expr: (INT | DEC | STRING | BOOL | NONE | NAN) #literalExpr
+expr: SEMICOLON #split
+    |(INT | DEC | STRING | BOOL | NONE | NAN) #literalExpr
     | ID #varUseExpr
     | expr DOT ID #getExpr
     | expr callArgs #funcCallExpr
@@ -39,6 +40,7 @@ BREAK: 'break';
 CONTINUE: 'continue';
 GLOBAL: 'global';
 COMMA: ',';
+SEMICOLON: ';'+;
 LB: '(';
 RB: ')';
 LA: '[';
