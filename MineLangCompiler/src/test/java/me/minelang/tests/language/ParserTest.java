@@ -132,6 +132,7 @@ public class ParserTest {
     @Test
     public void testParse11() {
         Assert.assertEquals(64, eval("""
+                {
                 a = 2 //2
                 a = a * 2 //4
                 a = a + 1 //5
@@ -171,7 +172,7 @@ public class ParserTest {
                 a = a - 1 //3
                 a = a + 1 //4
                 a = a * 16 //64
-                a
+                }
                 """).asInt());
     }
 }
