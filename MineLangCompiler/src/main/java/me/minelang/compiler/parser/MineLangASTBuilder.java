@@ -5,11 +5,18 @@ import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.source.SourceSection;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.nodes.control.*;
+import me.minelang.compiler.lang.nodes.function.FunctionBodyNode;
+import me.minelang.compiler.lang.nodes.function.FunctionBodyNodeFactory;
+import me.minelang.compiler.lang.nodes.function.FunctionCallNodeFactory;
+import me.minelang.compiler.lang.nodes.function.FunctionDefineNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.LiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.NanLiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.NoneLiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.operator.*;
-import me.minelang.compiler.lang.nodes.value.*;
+import me.minelang.compiler.lang.nodes.value.GlobalVarReadNodeFactory;
+import me.minelang.compiler.lang.nodes.value.GlobalVarWriteNodeFactory;
+import me.minelang.compiler.lang.nodes.value.LocalVarReadNodeFactory;
+import me.minelang.compiler.lang.nodes.value.LocalVarWriteNodeFactory;
 import me.minelang.compiler.lang.types.MineNone;
 import me.minelang.compiler.parser.exceptions.InvalidParseNodeException;
 import me.minelang.compiler.parser.exceptions.VarNotFoundException;
@@ -324,6 +331,28 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
     @Override
     public VisitResult<?> visitContinueExpr(MineLangParser.ContinueExprContext ctx) {
         return of(ContinueNodeFactory.create());
+    }
+
+    @Override
+    public VisitResult<?> visitFuncDefineExpr(MineLangParser.FuncDefineExprContext ctx) {
+        var fd = getScope(ctx);
+        var ids = ctx.ID();
+        var funcName = ids.remove(0);
+        var body = ctx.expr();
+        var funcDefineNode = FunctionDefineNodeFactory.create(
+                (FunctionBodyNode) FunctionBodyNodeFactory.create(visit(scope(body, fd)).singleNode()).setSourceSection(section(body))
+                , funcName.getText(), ids.stream().map(ParseTree::getText).toArray(String[]::new)
+        ).setSourceSection(section(ctx));
+        return of(funcDefineNode);
+    }
+
+    @Override
+    public VisitResult<?> visitFuncCallExpr(MineLangParser.FuncCallExprContext ctx) {
+        var fd = getScope(ctx);
+        var getFuncNode = visit(scope(ctx.expr(), fd)).singleNode();
+        var argsNode = ctx.callArgs().expr().stream()
+                .map(each -> visit(scope(each, fd)).singleNode()).toArray(MineNode[]::new);
+        return of(FunctionCallNodeFactory.create(argsNode, getFuncNode).setSourceSection(section(ctx)));
     }
 
     private SourceSection section(ParserRuleContext ctx) {
