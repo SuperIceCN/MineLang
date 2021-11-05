@@ -1,6 +1,7 @@
 package me.minelang.compiler.lang.types;
 
 import com.oracle.truffle.api.*;
+import com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 import com.oracle.truffle.api.dsl.Cached;
 import com.oracle.truffle.api.dsl.Fallback;
 import com.oracle.truffle.api.dsl.ReportPolymorphism;
@@ -15,6 +16,9 @@ import com.oracle.truffle.api.source.SourceSection;
 import com.oracle.truffle.api.utilities.CyclicAssumption;
 import com.oracle.truffle.api.utilities.TriState;
 import me.minelang.compiler.lang.MineLanguage;
+import me.minelang.compiler.lang.nodes.MineFunctionRootNode;
+
+import java.util.Arrays;
 
 @ExportLibrary(InteropLibrary.class)
 @SuppressWarnings("static-method")
@@ -28,6 +32,8 @@ public final class MineFunction implements TruffleObject {
     public static final int INLINE_CACHE_SIZE = 8;
 
     private final String name;
+    @CompilationFinal
+    private String[] argNames = new String[0];
     private RootCallTarget callTarget;
     /**
      * 管理 {@link #callTarget} 是否稳定的推断管理器。
@@ -36,14 +42,27 @@ public final class MineFunction implements TruffleObject {
      */
     private final CyclicAssumption callTargetStable;
 
-    MineFunction(RootCallTarget callTarget) {
+    public MineFunction(RootCallTarget callTarget) {
         this.name = callTarget.getRootNode().getName();
         this.callTargetStable = new CyclicAssumption(name);
         setCallTarget(callTarget);
     }
 
+    public MineFunction(MineFunctionRootNode rootNode) {
+        this(Truffle.getRuntime().createCallTarget(rootNode));
+    }
+
     public String getName() {
         return name;
+    }
+
+    public String[] getArgNames() {
+        return argNames;
+    }
+
+    public MineFunction setArgNames(String[] argNames) {
+        this.argNames = argNames;
+        return this;
     }
 
     void setCallTarget(RootCallTarget callTarget) {
@@ -65,7 +84,8 @@ public final class MineFunction implements TruffleObject {
 
     @Override
     public String toString() {
-        return "function[" + name + "] " + callTarget.getRootNode().getSourceSection().getCharacters().toString();
+        var sig = Arrays.toString(getArgNames());
+        return "function " + name + "(" + sig.substring(1, sig.length() - 1) + ")";
     }
 
     @ExportMessage
