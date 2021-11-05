@@ -23,6 +23,13 @@ public interface MineLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCallArgs(MineLangParser.CallArgsContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code funcDefineExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFuncDefineExpr(MineLangParser.FuncDefineExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code varSetExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree

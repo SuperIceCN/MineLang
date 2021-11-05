@@ -11,6 +11,7 @@ expr: SEMICOLON #split
     | ID #varUseExpr
     | expr DOT ID #getExpr
     | expr callArgs #funcCallExpr
+    | FUNC ID LB (ID COMMA)* ID? RB expr #funcDefineExpr
     | NOT expr #notExpr
     | expr (MULTIPLY | DIVIDE | REMAIN) expr #multiplyDivideRemainExpr
     | expr (PLUS | MINUS) expr #plusMinusExpr

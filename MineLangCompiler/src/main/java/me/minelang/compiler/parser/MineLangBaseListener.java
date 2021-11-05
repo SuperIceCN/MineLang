@@ -40,6 +40,18 @@ public class MineLangBaseListener implements MineLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterFuncDefineExpr(MineLangParser.FuncDefineExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFuncDefineExpr(MineLangParser.FuncDefineExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVarSetExpr(MineLangParser.VarSetExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
