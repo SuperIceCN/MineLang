@@ -45,28 +45,31 @@ public class FunctionNodeTest {
 
     @Test
     public void testFunction4() {
-        System.out.println(eval("""
+        Assert.assertEquals("280571172992510140037611932413038677189525", eval("""
                 func 斐波那契(项数) {
                     func 计算(需求项数, 当前项数, 前两项, 前一项) {
+                        下一项项数 = 当前项数 + 1
+                        当前项内容 = 前一项
+                        下一项内容 = 前一项 + 前两项
                         if(需求项数 == 当前项数) {
                             前一项 + 前两项
                         }else {
-                            计算(需求项数, 当前项数 + 1, 前一项, 前一项 + 前两项)
+                            计算(需求项数, 下一项项数, 当前项内容, 下一项内容)
                         }
                     }
                     计算(项数, 3, 1, 1)
                 }
-                斐波那契(5)
-                """));
+                斐波那契(200)
+                """).toString());
     }
 
     @Test
     public void testFunction5() {
-        System.out.println(eval("""
+        Assert.assertEquals("ok", eval("""
                 func a(arg) {
                     if arg == 0 'ok' else a(arg - 1)
                 }
                 a(200)
-                """));
+                """).toString());
     }
 }
