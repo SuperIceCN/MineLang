@@ -42,6 +42,10 @@ public final class MineContext {
         this.rootFrame = rootFrame;
     }
 
+    public void initersImplement() {
+        this.language.initers.forEach(e -> e.implement(this));
+    }
+
     public static MineContext get(Node node) {
         return REFERENCE.get(node);
     }

@@ -175,4 +175,11 @@ public class ParserTest {
                 }
                 """).asInt());
     }
+
+    @Test
+    public void testParse12() {
+        Assert.assertEquals("hello world", eval("""
+                print("hello world")
+                """).toString());
+    }
 }

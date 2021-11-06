@@ -43,8 +43,11 @@ public final class MineRootNode extends RootNode {
     @Override
     public Object execute(VirtualFrame frame) {
         // 保存根栈帧，用于全局变量和全局函数
-        if (hasLanguagePolyglot)
-            MineContext.get(this).setRootFrame(frame.materialize());
+        if (hasLanguagePolyglot) {
+            var ctx = MineContext.get(this);
+            ctx.setRootFrame(frame.materialize());
+            ctx.initersImplement(); //初始化内建环境
+        }
         // 遍历执行每一项
         int last = this.bodyNodes.length - 1;
         CompilerAsserts.compilationConstant(last);
