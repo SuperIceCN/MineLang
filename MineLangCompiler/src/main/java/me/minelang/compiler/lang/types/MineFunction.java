@@ -6,6 +6,7 @@ import com.oracle.truffle.api.dsl.Cached;
 import com.oracle.truffle.api.dsl.Fallback;
 import com.oracle.truffle.api.dsl.ReportPolymorphism;
 import com.oracle.truffle.api.dsl.Specialization;
+import com.oracle.truffle.api.interop.ArityException;
 import com.oracle.truffle.api.interop.InteropLibrary;
 import com.oracle.truffle.api.interop.TruffleObject;
 import com.oracle.truffle.api.library.ExportLibrary;
@@ -184,25 +185,28 @@ public final class MineFunction implements TruffleObject {
          * 由于在编译代码中检查假设是不可操作的，因此DSL执行的假设检查在优化执行期间不会增加任何开销。
          * </p>
          *
+         * @param function         动态提供的函数对象
+         * @param arguments        函数的参数~~
+         * @param callTargetStable 函数未被重定义的断言
+         * @param cachedTarget     目标调用对象
+         * @param callNode         the {@link DirectCallNode} 在内联缓存调用目标 {@link CallTarget} 中生成的直接调用节点
          * @see Cached
          * @see Specialization
-         *
-         * @param function 动态提供的函数对象
-         * @param arguments 函数的参数~~
-         * @param callTargetStable 函数未被重定义的断言
-         * @param cachedTarget 目标调用对象
-         * @param callNode the {@link DirectCallNode} 在内联缓存调用目标 {@link CallTarget} 中生成的直接调用节点
          */
-        @Specialization(limit = "INLINE_CACHE_SIZE", //
-                guards = "function.getCallTarget() == cachedTarget", //
+        @Specialization(limit = "INLINE_CACHE_SIZE",
+                guards = "function.getCallTarget() == cachedTarget",
                 assumptions = "callTargetStable")
         @SuppressWarnings("unused")
         protected static Object doDirect(MineFunction function, Object[] arguments,
                                          @Cached("function.getCallTargetStable()") Assumption callTargetStable,
                                          @Cached("function.getCallTarget()") RootCallTarget cachedTarget,
-                                         @Cached("create(cachedTarget)") DirectCallNode callNode) {
+                                         @Cached("create(cachedTarget)") DirectCallNode callNode) throws ArityException {
 
-            // 内联缓存命中，我们可以直接进行重复调用
+            // 内联缓存命中，我们可以直接进行重复调用，但是参数个数检查不能少
+            final var len = function.argNames.length;
+            if (len != arguments.length) {
+                throw ArityException.create(len, len, arguments.length);
+            }
             return callNode.call(arguments);
         }
 
@@ -211,8 +215,15 @@ public final class MineFunction implements TruffleObject {
          */
         @Specialization(replaces = "doDirect")
         protected static Object doIndirect(MineFunction function, Object[] arguments,
-                                           @Cached IndirectCallNode callNode) {
-            // 貌似当前直接call就完事了，以后完善了自定义类的时候或许需要更复杂的逻辑
+                                           @Cached IndirectCallNode callNode) throws ArityException {
+            /*
+             * 貌似直接call就完事了，以后完善了自定义类的时候或许需要更复杂的逻辑
+             * 当然我们得检查一下参数个数对不对
+             */
+            final var len = function.argNames.length;
+            if (len != arguments.length) {
+                throw ArityException.create(len, len, arguments.length);
+            }
             return callNode.call(function.getCallTarget(), arguments);
         }
     }

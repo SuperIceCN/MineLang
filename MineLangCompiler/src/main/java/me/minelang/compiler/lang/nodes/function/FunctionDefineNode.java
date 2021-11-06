@@ -28,7 +28,7 @@ public abstract class FunctionDefineNode extends MineNode {
 
     @Specialization
     MineFunction define(VirtualFrame frame
-            , @Cached("frame.getFrameDescriptor().findOrAddFrameSlot(getFunctionName())") FrameSlot funcSlot) {
+            , @Cached("frame.getFrameDescriptor().findFrameSlot(getFunctionName())") FrameSlot funcSlot) {
         var funcRootNode = new MineFunctionRootNode(MineLanguage.get(this), frame, getFunctionName(), getArgNames(), this.getSourceSection(), bodyNode);
         var func = new MineFunction(funcRootNode).setArgNames(getArgNames());
         frame.setObject(funcSlot, func);

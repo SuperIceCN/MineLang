@@ -1,6 +1,7 @@
 package me.minelang.compiler.parser;
 
 import com.oracle.truffle.api.frame.FrameDescriptor;
+import com.oracle.truffle.api.frame.FrameSlotKind;
 import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.source.SourceSection;
 import me.minelang.compiler.lang.nodes.MineNode;
@@ -64,7 +65,7 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
             ParallelThreshold = ParallelThresholdBase << 2;
         } else if (cores < 10) {
             ParallelThreshold = ParallelThresholdBase;
-        } else if(cores < 16){
+        } else if (cores < 16) {
             ParallelThreshold = (ParallelThresholdBase >> 2) * 3;
         } else {
             ParallelThreshold = ParallelThresholdBase >> 1;
@@ -90,13 +91,17 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
     }
 
     @Override
-    public VisitResult<?> visitBlockExpr(MineLangParser.BlockExprContext ctx) {
-        return this.visitBlockExpr(ctx, true);
+    public VisitResult<LexicalScope> visitBlockExpr(MineLangParser.BlockExprContext ctx) {
+        return this.visitBlockExpr(ctx, new FrameDescriptor(MineNone.SINGLETON), true);
     }
 
-    public VisitResult<?> visitBlockExpr(MineLangParser.BlockExprContext ctx, boolean useInnerFrame) {
+    public VisitResult<LexicalScope> visitBlockExpr(MineLangParser.BlockExprContext ctx, boolean useInnerFrame) {
+        return this.visitBlockExpr(ctx, new FrameDescriptor(MineNone.SINGLETON), useInnerFrame);
+    }
+
+    public VisitResult<LexicalScope> visitBlockExpr(MineLangParser.BlockExprContext ctx, FrameDescriptor blockFd, boolean useInnerFrame) {
         var nodes = new ArrayList<MineNode>();
-        var fd = of(getScope(ctx), new FrameDescriptor(MineNone.SINGLETON));
+        var fd = of(getScope(ctx), blockFd);
         var exprs = ctx.expr();
         // 执行全局变量提升操作
         var it = exprs.listIterator();
@@ -114,7 +119,7 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
 //                .forEach(exprContext -> nodes.add(LocalVarWriteNodeFactory.create(NoneLiteralNodeFactory.create()
 //                        , fd.declare(((MineLangParser.VarSetExprContext) exprContext).ID().getText()))));
         exprs.forEach(exprContext -> nodes.add(visit(scope(exprContext, fd)).singleNode()));
-        return of(BlockNodeFactory.create(fd.getFrameDescriptor(), useInnerFrame, nodes.toArray(new MineNode[]{}))
+        return of(fd, BlockNodeFactory.create(fd.getFrameDescriptor(), useInnerFrame, nodes.toArray(new MineNode[]{}))
                 .setSourceSection(section(ctx)));
     }
 
@@ -337,11 +342,25 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
     public VisitResult<?> visitFuncDefineExpr(MineLangParser.FuncDefineExprContext ctx) {
         var fd = getScope(ctx);
         var ids = ctx.ID();
-        var funcName = ids.remove(0);
+        var funcName = ids.remove(0).getText();
+        var idNames = ids.stream().map(ParseTree::getText).toList();
+        var scopeFindResult = fd.directFind(funcName);
+        if (scopeFindResult.frameSlot() == null) fd.declare(funcName);
         var body = ctx.expr();
+
+        VisitResult<?> bodyNodeVisitResult;
+        if(body instanceof MineLangParser.BlockExprContext blockBody) {
+            var blockFd = new FrameDescriptor(MineNone.SINGLETON);
+            idNames.forEach(each -> blockFd.addFrameSlot(each, FrameSlotKind.Object));
+            bodyNodeVisitResult = visitBlockExpr(scope(blockBody, fd), blockFd, false);
+        } else {
+            idNames.forEach(fd::declare);
+            bodyNodeVisitResult = visit(scope(body, fd));
+        }
+
         var funcDefineNode = FunctionDefineNodeFactory.create(
-                (FunctionBodyNode) FunctionBodyNodeFactory.create(visit(scope(body, fd)).singleNode()).setSourceSection(section(body))
-                , funcName.getText(), ids.stream().map(ParseTree::getText).toArray(String[]::new)
+                (FunctionBodyNode) FunctionBodyNodeFactory.create(bodyNodeVisitResult.singleNode()).setSourceSection(section(body))
+                , funcName, idNames.toArray(String[]::new)
         ).setSourceSection(section(ctx));
         return of(funcDefineNode);
     }

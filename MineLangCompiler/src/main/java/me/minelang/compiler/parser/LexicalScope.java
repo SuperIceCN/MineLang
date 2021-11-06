@@ -2,6 +2,7 @@ package me.minelang.compiler.parser;
 
 import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.frame.FrameSlot;
+import com.oracle.truffle.api.frame.FrameSlotKind;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import me.minelang.compiler.lang.nodes.value.AbstractVarNode;
 import me.minelang.compiler.utils.FrameSlotKindUtil;
@@ -120,7 +121,7 @@ public final class LexicalScope {
         if (!this.isRoot() && this.isGlobal(name)) {
             return this.root.declare(name);
         }
-        return fd.addFrameSlot(name);
+        return fd.addFrameSlot(name, FrameSlotKind.Object);
     }
 
     @Override
