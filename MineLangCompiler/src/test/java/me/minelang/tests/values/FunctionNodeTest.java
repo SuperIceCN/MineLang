@@ -59,4 +59,14 @@ public class FunctionNodeTest {
                 斐波那契(5)
                 """));
     }
+
+    @Test
+    public void testFunction5() {
+        System.out.println(eval("""
+                func a(arg) {
+                    if arg == 0 'ok' else a(arg - 1)
+                }
+                a(200)
+                """));
+    }
 }

@@ -10,43 +10,46 @@ import com.oracle.truffle.api.nodes.NodeInfo;
 @NodeInfo(language = "MineLang", shortName = "localVarRead"
         , description = "Read the value stored in a local variable in the current scope.")
 public abstract class LocalVarReadNode extends AbstractVarNode {
-    @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
+    private boolean hasOwnership = false;
+    private boolean ownershipChecked = false;
+
+    @Specialization(guards = "checkOwnership(virtualFrame)", rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     byte readByte(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
         return virtualFrame.getByte(getSlot());
     }
 
-    @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
+    @Specialization(guards = "checkOwnership(virtualFrame)", rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     int readInt(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
         return virtualFrame.getInt(getSlot());
     }
 
-    @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
+    @Specialization(guards = "checkOwnership(virtualFrame)", rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     long readLong(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
         return virtualFrame.getLong(getSlot());
     }
 
-    @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
+    @Specialization(guards = "checkOwnership(virtualFrame)", rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     boolean readBoolean(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
         return virtualFrame.getBoolean(getSlot());
     }
 
-    @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
+    @Specialization(guards = "checkOwnership(virtualFrame)", rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     float readFloat(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
         return virtualFrame.getFloat(getSlot());
     }
 
-    @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
+    @Specialization(guards = "checkOwnership(virtualFrame)", rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     double readDouble(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
         return virtualFrame.getDouble(getSlot());
     }
 
-    @Specialization(rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
+    @Specialization(guards = "checkOwnership(virtualFrame)", rewriteOn = {FrameSlotTypeException.class, IllegalArgumentException.class})
     Object readObject(VirtualFrame virtualFrame)
             throws FrameSlotTypeException {
         return virtualFrame.getObject(getSlot());
@@ -54,13 +57,26 @@ public abstract class LocalVarReadNode extends AbstractVarNode {
 
     @Specialization(replaces = {"readByte", "readInt", "readLong", "readBoolean", "readFloat", "readDouble", "readObject"})
     Object read(VirtualFrame virtualFrame) {
-        if(virtualFrame.getArguments().length > 0){
-            if(virtualFrame.getArguments()[0] instanceof MaterializedFrame outerFrame){
+        if (virtualFrame.getArguments().length > 0) {
+            if (virtualFrame.getArguments()[0] instanceof MaterializedFrame outerFrame) {
                 CompilerDirectives.transferToInterpreterAndInvalidate();
                 var newReadNode = FrameVarReadNodeFactory.create(getSlot(), outerFrame);
-                return this.replace(newReadNode).read(virtualFrame);
+                return this.replace(newReadNode).execute(virtualFrame);
             }
         }
         return virtualFrame.getValue(getSlot());
+    }
+
+    boolean checkOwnership(VirtualFrame virtualFrame) {
+        if (!ownershipChecked) {
+            ownershipChecked = true;
+            try {
+                virtualFrame.getFrameDescriptor().getFrameSlotKind(getSlot());
+                hasOwnership = true;
+            } catch (AssertionError e) {
+                hasOwnership = false;
+            }
+        }
+        return hasOwnership;
     }
 }
