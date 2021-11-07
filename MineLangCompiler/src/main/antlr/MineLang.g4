@@ -22,6 +22,7 @@ expr: SEMICOLON #split
     | ID SET expr #varSetExpr
     | BREAK expr? #breakExpr
     | CONTINUE #continueExpr
+    | RETURN expr? #returnExpr
     | LB expr RB #bracketExpr
     | IF expr expr (ELIF expr expr)* (ELSE expr)? #ifelseExpr
     | LOOP expr #endlessLoopExpr

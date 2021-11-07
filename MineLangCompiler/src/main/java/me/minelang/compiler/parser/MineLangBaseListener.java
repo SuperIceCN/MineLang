@@ -88,6 +88,18 @@ public class MineLangBaseListener implements MineLangListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterReturnExpr(MineLangParser.ReturnExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitReturnExpr(MineLangParser.ReturnExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterPlusMinusExpr(MineLangParser.PlusMinusExprContext ctx) { }
 	/**
 	 * {@inheritDoc}

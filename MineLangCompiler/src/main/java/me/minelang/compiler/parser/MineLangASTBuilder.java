@@ -6,10 +6,7 @@ import com.oracle.truffle.api.source.Source;
 import com.oracle.truffle.api.source.SourceSection;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.nodes.control.*;
-import me.minelang.compiler.lang.nodes.function.FunctionBodyNode;
-import me.minelang.compiler.lang.nodes.function.FunctionBodyNodeFactory;
-import me.minelang.compiler.lang.nodes.function.FunctionCallNodeFactory;
-import me.minelang.compiler.lang.nodes.function.FunctionDefineNodeFactory;
+import me.minelang.compiler.lang.nodes.function.*;
 import me.minelang.compiler.lang.nodes.literial.LiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.NanLiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.NoneLiteralNodeFactory;
@@ -372,6 +369,12 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
         var argsNode = ctx.callArgs().expr().stream()
                 .map(each -> visit(scope(each, fd)).singleNode()).toArray(MineNode[]::new);
         return of(FunctionCallNodeFactory.create(argsNode, getFuncNode).setSourceSection(section(ctx)));
+    }
+
+    @Override
+    public VisitResult<?> visitReturnExpr(MineLangParser.ReturnExprContext ctx) {
+        return of(ReturnNodeFactory.create(ctx.expr() == null ? NoneLiteralNodeFactory.create() :
+                visit(scope(ctx.expr(), getScope(ctx))).singleNode()).setSourceSection(section(ctx)));
     }
 
     private SourceSection section(ParserRuleContext ctx) {

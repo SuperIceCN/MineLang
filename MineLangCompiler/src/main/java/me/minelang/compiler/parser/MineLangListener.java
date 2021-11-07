@@ -76,6 +76,18 @@ public interface MineLangListener extends ParseTreeListener {
 	 */
 	void exitBracketExpr(MineLangParser.BracketExprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code returnExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturnExpr(MineLangParser.ReturnExprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code returnExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturnExpr(MineLangParser.ReturnExprContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code plusMinusExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree

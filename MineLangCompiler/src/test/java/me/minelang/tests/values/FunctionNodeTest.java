@@ -72,4 +72,21 @@ public class FunctionNodeTest {
                 a(200)
                 """).toString());
     }
+
+    @Test
+    public void testFunction6() {
+        Assert.assertEquals(3628800, eval("""
+                func 阶乘(项数) {
+                    func 计算(当前项数) {
+                        if 当前项数 != 1 {
+                            return 当前项数 * 计算(当前项数 - 1)
+                        } else {
+                            return 1
+                        }
+                    }
+                    计算(项数)
+                }
+                阶乘(10)
+                """).asInt());
+    }
 }

@@ -59,6 +59,13 @@ public class MineLangBaseVisitor<T> extends AbstractParseTreeVisitor<T> implemen
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitReturnExpr(MineLangParser.ReturnExprContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitPlusMinusExpr(MineLangParser.PlusMinusExprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

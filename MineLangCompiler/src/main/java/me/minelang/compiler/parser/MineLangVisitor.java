@@ -51,6 +51,13 @@ public interface MineLangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBracketExpr(MineLangParser.BracketExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code returnExpr}
+	 * labeled alternative in {@link MineLangParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturnExpr(MineLangParser.ReturnExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code plusMinusExpr}
 	 * labeled alternative in {@link MineLangParser#expr}.
 	 * @param ctx the parse tree
