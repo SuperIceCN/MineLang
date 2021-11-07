@@ -43,7 +43,10 @@ public final class FunctionBodyNode extends MineNode {
         try {
             if (bodyNode instanceof BlockNode blockNode) {
                 var descriptor = blockNode.descriptor;
-                var blockFrame = Truffle.getRuntime().createVirtualFrame(new Object[]{frame.materialize()}, descriptor);
+                var blockFrame = blockNode.getExecuteFrame();
+                if (blockFrame == null) {
+                    blockFrame = blockNode.setExecuteFrame(Truffle.getRuntime().createVirtualFrame(new Object[]{frame.materialize()}, descriptor)).getExecuteFrame();
+                }
 
                 // 如果是第一次运行，那么初始化参数变量，此时需要告知原来的null是错误的
                 if (argSlots == null) {

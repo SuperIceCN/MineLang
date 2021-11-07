@@ -2,6 +2,9 @@ package me.minelang.tests;
 
 import org.apache.commons.math3.stat.descriptive.rank.Median;
 import org.apache.commons.math3.stat.descriptive.summary.Sum;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.Engine;
+import org.graalvm.polyglot.Value;
 
 import java.util.Arrays;
 
@@ -39,6 +42,14 @@ public final class TestUtil {
         var average = total / executeTime;
         var median = new Median();median.setData(times);
         return new TestResult(name, times, total, average, median.evaluate());
+    }
+
+    private static Engine engine = null;
+
+    public static Value eval(String code) {
+        engine = engine == null ? Engine.newBuilder().build() : engine;
+        var ctx = Context.newBuilder().engine(engine).build();
+        return ctx.eval("MineLang", code);
     }
 
     public interface TestWorker {
