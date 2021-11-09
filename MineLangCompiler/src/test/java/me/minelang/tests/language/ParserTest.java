@@ -185,17 +185,17 @@ public class ParserTest {
 
     @Test
     public void testParse13() {
-        System.out.println(eval("""
+        Assert.assertEquals("none", eval("""
                 (func _(){
                     return;
                 })();
-                """));
+                """).toString());
     }
 
     @Test
     public void testParse14() {
-        System.out.println(eval("""
+        Assert.assertEquals(0, eval("""
                 return 0
-                """));
+                """).asInt());
     }
 }
