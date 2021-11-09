@@ -7,6 +7,7 @@ import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.nodes.RootNode;
 import me.minelang.compiler.lang.MineContext;
 import me.minelang.compiler.lang.MineLanguage;
+import me.minelang.compiler.lang.exceptions.control.FunctionReturnException;
 
 import java.util.Arrays;
 
@@ -52,9 +53,17 @@ public final class MineRootNode extends RootNode {
         int last = this.bodyNodes.length - 1;
         CompilerAsserts.compilationConstant(last);
         for (int i = 0; i < last; i++) {
-            this.bodyNodes[i].execute(frame);
+            try {
+                this.bodyNodes[i].execute(frame);
+            } catch (FunctionReturnException e) {
+                return e.getReturnValue();
+            }
         }
-        return this.bodyNodes[last].execute(frame);
+        try {
+            return this.bodyNodes[last].execute(frame);
+        } catch (FunctionReturnException e) {
+            return e.getReturnValue();
+        }
     }
 
     @Override

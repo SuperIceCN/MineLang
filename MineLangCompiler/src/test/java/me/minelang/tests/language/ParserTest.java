@@ -191,4 +191,11 @@ public class ParserTest {
                 })();
                 """));
     }
+
+    @Test
+    public void testParse14() {
+        System.out.println(eval("""
+                return 0
+                """));
+    }
 }
