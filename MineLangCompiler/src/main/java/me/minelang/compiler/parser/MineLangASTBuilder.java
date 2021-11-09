@@ -79,6 +79,11 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
     }
 
     @Override
+    public VisitResult<?> visitSplit(MineLangParser.SplitContext ctx) {
+        return of(NoneLiteralNodeFactory.create().setSourceSection(section(ctx)));
+    }
+
+    @Override
     public VisitResult<?> visitProgram(MineLangParser.ProgramContext ctx) {
         scope(ctx, rootLexicalScope);
         var nodes = new ArrayList<MineNode>();

@@ -182,4 +182,13 @@ public class ParserTest {
                 print("hello world")
                 """).toString());
     }
+
+    @Test
+    public void testParse13() {
+        System.out.println(eval("""
+                (func _(){
+                    return;
+                })();
+                """));
+    }
 }
