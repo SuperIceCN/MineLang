@@ -45,4 +45,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: test
-      run: echo ${{join(github.event.push.commits.modified, ';')}}
+      run: echo ${{join(github.event.push.commits.*.modified, ';')}}
