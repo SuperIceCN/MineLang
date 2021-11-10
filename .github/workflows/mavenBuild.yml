@@ -41,7 +41,7 @@ jobs:
 
   action:
     name: 测试action激活条件
-    if: ${{contains(join(github.event.push.commits.modified, ';'), '.github/workflows/')}}
+    #if: ${{contains(join(github.event.push.commits.modified, ';'), '.github/workflows/')}}
     runs-on: ubuntu-latest
     steps:
     - name: test
