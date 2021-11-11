@@ -12,37 +12,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 检出仓库内容
-      uses: actions/checkout@v2
+      - name: 检出仓库内容
+        uses: actions/checkout@v2
 
-    - name: 缓存Maven依赖项
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
+      - name: 缓存Maven依赖项
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
-    - name: 配置GraalVM环境
-      uses: DeLaGuardo/setup-graalvm@5.0
-      with:
-        graalvm: '21.3.0'
-        java: 'java17'
-        arch: 'amd64'
+      - name: 配置GraalVM环境
+        uses: DeLaGuardo/setup-graalvm@5.0
+        with:
+          graalvm: '21.3.0'
+          java: 'java17'
+          arch: 'amd64'
 
-    - name: Maven构建
-      run: mvn -B package --file pom.xml
+      - name: Maven构建
+        run: mvn -B package --file pom.xml
 
-    - name: 上传MineCompiler的jar包
-      uses: actions/upload-artifact@v2
-      with:
-        name: MineCompiler.jar
-        path: MineLangCompiler/target/MineLangCompiler-1.0-SNAPSHOT.jar
+      - name: 上传MineCompiler的jar包
+        uses: actions/upload-artifact@v2
+        with:
+          name: MineCompiler.jar
+          path: MineLangCompiler/target/MineLangCompiler-1.0-SNAPSHOT.jar
 
   action:
     name: 测试action激活条件
     #if: ${{contains(join(github.event.push.commits.modified, ';'), '.github/workflows/')}}
     runs-on: ubuntu-latest
     steps:
-    - name: test
-      run: echo ${{join(github.event.push.commits.*.modified, ';')}}
+      - name: 检查文件改动情况
+        id: changed-files
+        uses: tj-actions/changed-files@v11.4
+        with:
+          since_last_remote_commit: 'true'
+      - name: test
+        if: contains(steps.changed-files.outputs.all_changed_and_modified_files, 'mavenBuild.yml')
+        run: echo yes
