@@ -37,6 +37,13 @@ jobs:
       - name: 检出仓库内容
         uses: actions/checkout@v2
 
+      - name: 配置GraalVM环境
+        uses: DeLaGuardo/setup-graalvm@5.0
+        with:
+          graalvm: ${{ env.graalvm-version }}
+          java: 'java17'
+          arch: 'amd64'
+
       - name: 缓存Maven依赖项
         id: cache
         uses: actions/cache@v2
@@ -47,14 +54,6 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}-graalvm-${{ env.graalvm-version }}
           restore-keys: |
             ${{ runner.os }}-maven-graalvm
-
-
-      - name: 配置GraalVM环境
-        uses: DeLaGuardo/setup-graalvm@5.0
-        with:
-          graalvm: ${{ env.graalvm-version }}
-          java: 'java17'
-          arch: 'amd64'
 
       - name: 获取GraalVM路径
         run: echo ${{ env.GRAALVM_HOME }}
