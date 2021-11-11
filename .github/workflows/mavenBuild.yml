@@ -29,9 +29,10 @@ jobs:
     name: 编译Java
     runs-on: ubuntu-latest
     needs: check-files
-    #if: contains(needs.check-files.outputs.changed-files, 'MineLangCompiler/')
+    if: contains(needs.check-files.outputs.changed-files, 'MineLangCompiler/')
     env:
       graalvm-version: '21.3.0'
+      java-version: 'java17'
 
     steps:
       - name: 检出仓库内容
@@ -43,20 +44,16 @@ jobs:
         with:
           path: |
             ~/.m2/repository
-            /opt/hostedtoolcache/GraalVM/21.3.0-java17-amd64/x64
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}-graalvm-${{ env.graalvm-version }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-graalvm
+            ${{ runner.os }}-maven
 
-      - name: 配置GraalVM环境
+      - name: 下载GraalVM环境
         uses: DeLaGuardo/setup-graalvm@5.0
         with:
           graalvm: ${{ env.graalvm-version }}
-          java: 'java17'
+          java: ${{ env.java-version }}
           arch: 'amd64'
-
-      - name: 获取GraalVM路径
-        run: echo ${{ env.GRAALVM_HOME }}
 
       - name: Maven构建
         run: mvn -B package --file pom.xml
