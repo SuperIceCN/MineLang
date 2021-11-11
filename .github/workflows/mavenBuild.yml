@@ -44,11 +44,15 @@ jobs:
     #if: ${{contains(join(github.event.push.commits.modified, ';'), '.github/workflows/')}}
     runs-on: ubuntu-latest
     steps:
+      - name: 检出仓库内容
+        uses: actions/checkout@v2
+
       - name: 检查文件改动情况
         id: changed-files
         uses: tj-actions/changed-files@v11.4
         with:
           since_last_remote_commit: 'true'
+
       - name: test
         if: contains(steps.changed-files.outputs.all_changed_and_modified_files, 'mavenBuild.yml')
         run: echo yes
