@@ -46,6 +46,8 @@ jobs:
     steps:
       - name: 检出仓库内容
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: 检查文件改动情况
         id: changed-files
@@ -54,5 +56,5 @@ jobs:
           since_last_remote_commit: 'true'
 
       - name: test
-        if: contains(steps.changed-files.outputs.all_changed_and_modified_files, 'README.md')
+        if: contains(steps.changed-files.outputs.all_changed_and_modified_files, '.github')
         run: echo yes
