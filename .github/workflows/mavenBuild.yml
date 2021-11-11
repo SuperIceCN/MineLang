@@ -54,5 +54,5 @@ jobs:
           since_last_remote_commit: 'true'
 
       - name: test
-        if: contains(steps.changed-files.outputs.all_changed_and_modified_files, 'mavenBuild.yml')
+        if: contains(steps.changed-files.outputs.all_changed_and_modified_files, 'README.md')
         run: echo yes
