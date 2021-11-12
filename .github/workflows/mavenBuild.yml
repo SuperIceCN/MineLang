@@ -29,7 +29,7 @@ jobs:
     name: 编译MineLang
     runs-on: ubuntu-latest
     needs: check-files
-    if: contains(needs.check-files.outputs.changed-files, 'MineLangCompiler/')
+    if: contains(join(needs.check-files.outputs.changed-files, ' '), 'MineLangCompiler/')
     env:
       graalvm-version: '21.3.0'
       java-version: 'java17'
@@ -68,7 +68,7 @@ jobs:
     name: 编译运行服务器
     runs-on: ubuntu-latest
     needs: check-files
-    if: contains(needs.check-files.outputs.changed-files, 'MineInterpreterServer/')
+    if: contains(join(needs.check-files.outputs.changed-files, ' '), 'MineInterpreterServer/')
     env:
       graalvm-version: '21.3.0'
       java-version: 'java17'
