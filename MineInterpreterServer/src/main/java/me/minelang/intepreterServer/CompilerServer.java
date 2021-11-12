@@ -34,6 +34,11 @@ public class CompilerServer extends WebSocketServer {
         super(InetSocketAddress.createUnresolved("localhost", port));
     }
 
+    /**
+     * 创建新的运行服务器
+     * @param compilerArgs 选项
+     * @return 运行服务器实例
+     */
     public static CompilerServer create(String[] compilerArgs) {
         var port = DEFAULT_SOCKET_PORT;
         var rootPath = new File("./").getAbsolutePath();
