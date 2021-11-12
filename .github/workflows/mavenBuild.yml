@@ -25,8 +25,8 @@ jobs:
         with:
           since_last_remote_commit: 'true'
 
-  build:
-    name: 编译Java
+  build-MineLang:
+    name: 编译MineLang
     runs-on: ubuntu-latest
     needs: check-files
     if: contains(needs.check-files.outputs.changed-files, 'MineLangCompiler/')
@@ -44,9 +44,9 @@ jobs:
         with:
           path: |
             ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}-MineLang
           restore-keys: |
-            ${{ runner.os }}-maven
+            ${{ runner.os }}-maven-MineLang
 
       - name: 下载GraalVM环境
         uses: DeLaGuardo/setup-graalvm@5.0
@@ -56,10 +56,49 @@ jobs:
           arch: 'amd64'
 
       - name: Maven构建
-        run: mvn -B package --file pom.xml
+        run: mvn -B package --file pom.xml --pl MineLangCompiler
 
-      - name: 上传MineCompiler的jar包
+      - name: 上传MineLang jar包
         uses: actions/upload-artifact@v2
         with:
           name: MineCompiler.jar
           path: MineLangCompiler/target/MineLangCompiler-1.0-SNAPSHOT.jar
+
+  build-InterpreterServer:
+    name: 编译运行服务器
+    runs-on: ubuntu-latest
+    needs: check-files
+    if: contains(needs.check-files.outputs.changed-files, 'MineInterpreterServer/')
+    env:
+      graalvm-version: '21.3.0'
+      java-version: 'java17'
+
+    steps:
+      - name: 检出仓库内容
+        uses: actions/checkout@v2
+
+      - name: 缓存Maven依赖项
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}-InterpreterServer
+          restore-keys: |
+            ${{ runner.os }}-maven-InterpreterServer
+
+      - name: 下载GraalVM环境
+        uses: DeLaGuardo/setup-graalvm@5.0
+        with:
+          graalvm: ${{ env.graalvm-version }}
+          java: ${{ env.java-version }}
+          arch: 'amd64'
+
+      - name: Maven构建
+        run: mvn -B package --file pom.xml --pl MineInterpreterServer
+
+      - name: 上传运行服务器jar包
+        uses: actions/upload-artifact@v2
+        with:
+          name: MineInterpreterServer.jar
+          path: MineInterpreterServer/target/MineInterpreterServer-1.0-SNAPSHOT.jar
