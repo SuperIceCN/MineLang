@@ -5,7 +5,7 @@ import me.minelang.intepreterServer.CompilerServer;
 /**
  * 数据格式
  * byte 包头
- * int 异常
+ * int 异常名称字节长度
  */
 public final class JVMExceptionPacket extends Packet {
     public JVMExceptionPacket(CompilerServer compilerServer) {
