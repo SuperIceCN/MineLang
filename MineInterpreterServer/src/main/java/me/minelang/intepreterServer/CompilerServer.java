@@ -52,7 +52,7 @@ public class CompilerServer extends WebSocketServer {
     }
 
     /**
-     * 刷新运行环境，将在全新的上下文中运行代码
+     * 刷新运行环境，这使得将在全新的上下文中运行代码
      */
     public void refreshEnv() {
         if (this.execEngine == null) {
