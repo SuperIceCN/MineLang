@@ -11,6 +11,7 @@
     <modules>
         <module>MineLangCompiler</module>
         <module>MineInterpreterServer</module>
+        <module>MineLauncher</module>
     </modules>
 
     <properties>

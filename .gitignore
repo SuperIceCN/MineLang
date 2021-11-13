@@ -1,3 +1,5 @@
 /MineLangCompiler/target/
 /MineInterpreterServer/target/
 /.idea/
+/MineLauncher/target/
+/MineLauncher/caches/
