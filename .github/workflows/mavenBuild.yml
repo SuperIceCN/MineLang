@@ -147,6 +147,10 @@ jobs:
       - name: Maven构建
         run: mvn -B package --file pom.xml --pl MineLauncher --am
 
+      - name: Install native-image component
+        run: |
+          %GRAAL_HOME%\bin\gu install native-image
+
       - name: 本机镜像编译
         run: |
           ./MineLauncher/script/build.cmd
