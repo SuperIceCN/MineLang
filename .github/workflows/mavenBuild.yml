@@ -149,5 +149,4 @@ jobs:
 
       - name: 本机镜像编译
         run: |
-          cd /d MineLauncher\script
-          build.cmd
+          ./MineLauncher/script/build.cmd

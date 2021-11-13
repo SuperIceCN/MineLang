@@ -1,4 +1,4 @@
-cd /d ../target/libs
+cd /d ./MineLauncher/target/libs
 
 echo|set /p="native-image -cp " >> compile.cmd
 
