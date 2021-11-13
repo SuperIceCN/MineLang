@@ -149,8 +149,8 @@ jobs:
 
       - name: Install native-image component
         run: |
-          gu install native-image
+          ${{ env.GRAALVM_HOME }}\bin\gu.cmd install native-image
 
       - name: 本机镜像编译
         run: |
-          ./MineLauncher/script/build.cmd
+          ./MineLauncher/script/build.cmd ${{ env.GRAALVM_HOME }}

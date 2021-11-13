@@ -1,6 +1,6 @@
 cd /d ./MineLauncher/target/libs
 
-echo|set /p="native-image -cp " >> compile.cmd
+echo|set /p="%1\bin\native-image -cp " >> compile.cmd
 
 for %%i in (*.jar) do @echo|set /p="%%i;" >> compile.cmd
 
