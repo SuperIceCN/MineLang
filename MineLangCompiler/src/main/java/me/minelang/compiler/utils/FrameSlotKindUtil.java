@@ -6,7 +6,7 @@ import com.oracle.truffle.api.frame.FrameSlotKind;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.nodes.literial.*;
 
-public class FrameSlotKindUtil {
+public final class FrameSlotKindUtil {
     /**
      * 计算节点对应的变量槽种类
      *

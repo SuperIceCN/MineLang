@@ -20,8 +20,10 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import java.util.ArrayList;
 import java.util.List;
 
-@TruffleLanguage.Registration(id = "MineLang", name = "MineLang")
+@TruffleLanguage.Registration(id = "MineLang", name = "MineLang", version = "VERSION")
 public final class MineLanguage extends TruffleLanguage<MineContext> {
+    public static final String VERSION = "0.0.1-beta";
+
     private static final LanguageReference<MineLanguage> REFERENCE = LanguageReference.create(MineLanguage.class);
 
     public static MineLanguage get(Node node) {
