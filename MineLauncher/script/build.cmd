@@ -1,3 +1,5 @@
+@echo off
+
 cd /d ./MineLauncher/target/libs
 
 echo|set /p="%1\bin\native-image -cp " >> compile.cmd
