@@ -67,6 +67,14 @@ jobs:
           name: MineCompiler.jar
           path: MineLangCompiler/target/MineLangCompiler-1.0-SNAPSHOT.jar
 
+      - name: 上传MineLang运行库
+        uses: actions/upload-artifact@v2
+        with:
+          name: MineLangLib
+          path: |
+            MineLangCompiler/target/MineLangCompiler-1.0-SNAPSHOT.jar
+            MineLangCompiler/target/jars/
+
   build-InterpreterServer:
     name: 编译运行服务器
     runs-on: ubuntu-latest

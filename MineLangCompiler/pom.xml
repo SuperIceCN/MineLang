@@ -67,6 +67,16 @@
                             <outputDirectory>${jar.dir}</outputDirectory>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>copy-dep</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
