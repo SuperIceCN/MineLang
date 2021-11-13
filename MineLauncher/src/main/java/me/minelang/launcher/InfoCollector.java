@@ -108,7 +108,7 @@ public final class InfoCollector {
     private void collectJavaVersion() {
         if (this.GraalPath != null) {
             try {
-                var process = new ProcessBuilder().command(this.GraalPath, "-version")
+                var process = new ProcessBuilder().command(this.GraalPath + "/bin/java", "-version")
                         .redirectErrorStream(true).start();
                 var reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                 process.waitFor(1000, TimeUnit.MILLISECONDS);
@@ -116,7 +116,10 @@ public final class InfoCollector {
                 while ((s = reader.readLine()) != null) {
                     if (s.contains("version")) {
                         var t = s.split("\"");
-                        if (t.length == 3) this.JavaVersion = t[1];
+                        if (t.length == 3) {
+                            this.JavaVersion = t[1];
+                            break;
+                        }
                     }
                 }
             } catch (IOException | InterruptedException e) {
