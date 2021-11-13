@@ -1,0 +1,10 @@
+{
+  "resources": [
+    {
+      "pattern": "languages/en-US.json"
+    },
+    {
+      "pattern": "languages/zh-CN.json"
+    }
+  ]
+}
