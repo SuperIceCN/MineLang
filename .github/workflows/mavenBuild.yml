@@ -149,7 +149,7 @@ jobs:
 
       - name: Install native-image component
         run: |
-          %GRAAL_HOME%\bin\gu install native-image
+          gu install native-image
 
       - name: 本机镜像编译
         run: |
