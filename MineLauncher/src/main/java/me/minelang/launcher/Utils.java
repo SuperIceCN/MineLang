@@ -3,7 +3,7 @@ package me.minelang.launcher;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class Utils {
+public final class Utils {
     public static <t, r> r ok(t obj, Function<t, r> function, r ifNull) {
         return obj == null ? ifNull : function.apply(obj);
     }

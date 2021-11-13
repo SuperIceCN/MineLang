@@ -1,0 +1,13 @@
+{
+  "print_info": "[INFO ]",
+  "print_warning": "[WARN ]",
+  "print_error": "[ERROR]",
+
+  "fail_to_load_file": "Failed to read file \"%0\".",
+  "fail_to_create_file": "Failed to create file \"%0\".",
+  "graalvm_not_found": "VM not found!",
+  "minelang_not_found": "MineLang runtime libraries not found!",
+  "fail_to_launch_minelang": "Failed to launch MineLang! Please report this problem with the following stacktrace information.",
+
+  "launcher_info": "MineLang %0.\n---------------------------------\nRunning on: %1\nFound VM: %2\nVM Version: %3 -Java%4\nFound MineLang: %5\nCopyright Superice666, 2021."
+}

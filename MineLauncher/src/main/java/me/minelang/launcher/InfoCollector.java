@@ -20,6 +20,7 @@ public final class InfoCollector {
     public String GraalVersion = null;
     public String JavaVersion = null;
     public String MineLangPath = null;
+    public String MineLangFileName = null;
     public boolean cached = false;
 
     public InfoCollector(String runningPath) {
@@ -56,6 +57,7 @@ public final class InfoCollector {
                 this.GraalVersion = ok(json.get("GraalVersion"), JsonElement::getAsString, null);
                 this.JavaVersion = ok(json.get("JavaVersion"), JsonElement::getAsString, null);
                 this.MineLangPath = ok(json.get("MineLangPath"), JsonElement::getAsString, null);
+                this.MineLangFileName = ok(json.get("MineLangFileName"), JsonElement::getAsString, null);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -80,6 +82,7 @@ public final class InfoCollector {
         ok(GraalVersion, e -> json.addProperty("GraalVersion", e));
         ok(JavaVersion, e -> json.addProperty("JavaVersion", e));
         ok(MineLangPath, e -> json.addProperty("MineLangPath", e));
+        ok(MineLangFileName, e -> json.addProperty("MineLangFileName", e));
         var str = new GsonBuilder().setPrettyPrinting().create().toJson(json);
         try {
             var writer = new FileWriter(cacheFile);
@@ -189,6 +192,9 @@ public final class InfoCollector {
             for(var jar : jarList) {
                 if(each.contains(jar)) {
                     found = true;
+                    if (jar.equals("MineLang")) {
+                        this.MineLangFileName = each;
+                    }
                     break;
                 }
             }

@@ -1,0 +1,13 @@
+{
+  "print_info": "[信息]",
+  "print_warning": "[警告]",
+  "print_error": "[错误]",
+
+  "fail_to_load_file": "加载文件\"%0\"失败。",
+  "fail_to_create_file": "创建文件\"%0\"失败。",
+  "graalvm_not_found": "无法找到虚拟机！",
+  "minelang_not_found": "无法找到MineLang运行库！",
+  "fail_to_launch_minelang": "启动MineLang失败！请报告此问题并附上下面的堆栈跟踪信息。",
+
+  "launcher_info": "MineLang启动器 %0版本\n-------------------------------------\n当前工作路径: %1\n虚拟机路径: %2\n虚拟机版本: %3 -Java%4\nMineLang路径: %5\n版权所有 超神的冰凉，2021。"
+}
