@@ -9,5 +9,16 @@
         ]
       }
     ]
+  },
+  {
+    "name": "java.lang.String",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "byte[]"
+        ]
+      }
+    ]
   }
 ]

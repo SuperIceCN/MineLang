@@ -142,26 +142,30 @@ public final class InfoCollector {
         System.out.println("收集信息中......");
         try {
             var cmd = """
-                    @echo off
-                    reg query "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\Language" /v InstallLanguage|find "0804">nul&&echo;zh-CN>>"%s/caches/out.txt"||echo;en-US>>"%s/caches/out.txt"
-                    """.formatted(RunningPath, RunningPath);
+                    reg query "hklm\\system\\controlset001\\control\\nls\\language" /v Installlanguage
+                    """;
             var cmdFile = new File(this.RunningPath + "/caches/locale.cmd");
             //noinspection ResultOfMethodCallIgnored
             cmdFile.getParentFile().mkdirs();
-            if(!cmdFile.exists()) {
+            if (!cmdFile.exists()) {
                 //noinspection ResultOfMethodCallIgnored
                 cmdFile.createNewFile();
                 var writer = new FileWriter(cmdFile);
                 writer.write(cmd);
                 writer.close();
             }
-            var outFile = new File(RunningPath + "/caches/out.txt");
-            if(outFile.exists()) //noinspection ResultOfMethodCallIgnored
-                outFile.delete();
-            var process = new ProcessBuilder().command(cmdFile.getAbsolutePath()).start();
+            var process = new ProcessBuilder().command(cmdFile.getAbsolutePath())
+                    .redirectErrorStream(true).start();
             process.waitFor(2500, TimeUnit.MILLISECONDS);
-            var reader = new BufferedReader(new InputStreamReader(new FileInputStream(outFile)));
-            I18NUtil.locale = reader.readLine();
+            var reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            var s = "";
+            while ((s = reader.readLine()) != null) {
+                if (s.contains("0804")) {
+                    I18NUtil.locale = "zh-CN";
+                } else if (s.contains("0409 ")) {
+                    I18NUtil.locale = "en-US";
+                }
+            }
         } catch (IOException | InterruptedException e) {
             //ignore
         }
