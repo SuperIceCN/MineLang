@@ -226,9 +226,9 @@ public final class InfoCollector {
         var files = runtimeFolder.list((dir, name) -> name.endsWith(".jar"));
         if (files == null) return false;
         // TODO: 2021/11/13 优化算法复杂度
-        for (var each : files) {
+        for (var jar : jarList) {
             var found = false;
-            for (var jar : jarList) {
+            for (var each : files) {
                 if (each.contains(jar)) {
                     found = true;
                     if (jar.equals("MineLang")) {
@@ -239,6 +239,7 @@ public final class InfoCollector {
             }
             if (!found) return false;
         }
+        this.MineLangPath = path;
         return true;
     }
 
