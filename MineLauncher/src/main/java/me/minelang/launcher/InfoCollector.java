@@ -139,7 +139,6 @@ public final class InfoCollector {
         if (!isWindows()) {
             return;
         }
-        System.out.println("收集信息中......");
         try {
             var cmd = """
                     reg query "hklm\\system\\controlset001\\control\\nls\\language" /v Installlanguage
