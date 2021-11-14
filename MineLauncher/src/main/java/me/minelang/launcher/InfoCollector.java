@@ -14,7 +14,7 @@ import static me.minelang.launcher.Utils.ok;
 
 public final class InfoCollector {
     public static List<String> jarList = List.of("MineLang", "fastutil", "gson", "antlr4-runtime", "commons-math3"
-            , "truffle-api", "hamcrest-core", "Java-WebSocket", "slf4j-api");
+            , "truffle-api", "hamcrest-core");
 
     public String RunningPath;
     public String GraalPath = null;
