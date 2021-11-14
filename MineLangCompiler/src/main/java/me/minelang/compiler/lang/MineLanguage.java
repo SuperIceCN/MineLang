@@ -32,6 +32,10 @@ public final class MineLanguage extends TruffleLanguage<MineContext> {
 
     public final List<AbstractIniter<?>> initers = new ArrayList<>(1);
 
+    public MineLanguage() {
+
+    }
+
     @Override
     protected MineContext createContext(Env env) {
         return new MineContext(this, env);

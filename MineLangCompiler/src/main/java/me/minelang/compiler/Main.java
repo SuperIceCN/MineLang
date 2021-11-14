@@ -15,7 +15,7 @@ import static me.minelang.compiler.utils.I18NUtil.get;
 import static me.minelang.compiler.utils.PrintUtil.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String... args) {
         var fileName = "eval";
         var code = "";
         var each = "";
@@ -23,6 +23,8 @@ public class Main {
         var stdout = System.out;
         var stderr = System.err;
         var programArgs = new ArrayList<String>();
+        System.out.println(org.antlr.v4.runtime.CharStream.class);
+        var a = org.antlr.v4.runtime.CharStream.class;
 
         var fileMode = true;
 

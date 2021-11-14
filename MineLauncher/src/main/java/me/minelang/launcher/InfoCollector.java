@@ -22,6 +22,7 @@ public final class InfoCollector {
     public String JavaVersion = null;
     public String MineLangPath = null;
     public String MineLangFileName = null;
+    public String TruffleApiFileName = null;
     public boolean cached = false;
 
     public InfoCollector(String runningPath) {
@@ -60,6 +61,7 @@ public final class InfoCollector {
                 this.JavaVersion = ok(json.get("JavaVersion"), JsonElement::getAsString, null);
                 this.MineLangPath = ok(json.get("MineLangPath"), JsonElement::getAsString, null);
                 this.MineLangFileName = ok(json.get("MineLangFileName"), JsonElement::getAsString, null);
+                this.TruffleApiFileName = ok(json.get("TruffleApiFileName"), JsonElement::getAsString, null);
                 I18NUtil.locale = ok(json.get("LocaleTag"), JsonElement::getAsString, "en-US");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -86,6 +88,7 @@ public final class InfoCollector {
         ok(JavaVersion, e -> json.addProperty("JavaVersion", e));
         ok(MineLangPath, e -> json.addProperty("MineLangPath", e));
         ok(MineLangFileName, e -> json.addProperty("MineLangFileName", e));
+        ok(TruffleApiFileName, e -> json.addProperty("TruffleApiFileName", e));
         ok(I18NUtil.locale, e -> json.addProperty("LocaleTag", e));
         var str = new GsonBuilder().setPrettyPrinting().create().toJson(json);
         try {
@@ -233,6 +236,8 @@ public final class InfoCollector {
                     found = true;
                     if (jar.equals("MineLang")) {
                         this.MineLangFileName = each;
+                    } else if(jar.equals("truffle-api")) {
+                        this.TruffleApiFileName = each;
                     }
                     break;
                 }

@@ -3,6 +3,7 @@ package me.minelang.launcher;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static me.minelang.launcher.I18NUtil.get;
 import static me.minelang.launcher.PrintUtil.error;
@@ -36,14 +37,27 @@ public final class Launcher {
                     info(get("refresh_cache"));
                 } else {
                     programArgs.add(each);
-                    var command = infos.GraalPath + "/bin/java -cp " + infos.MineLangPath + "/*.jar -jar " +
-                            infos.MineLangPath + '/' +
-                            infos.MineLangFileName + ' ';
+                    var cmdList = new ArrayList<String>();
+                    cmdList.add(infos.GraalPath+"/bin/java");
+                    cmdList.add("-Dfile.encoding=UTF-8");
+                    cmdList.add("-Dgraalvm.locatorDisabled=true");
+                    cmdList.add("--upgrade-module-path=\"" + (infos.MineLangPath.replace("\\", "/") + ("/runtime/") + infos.TruffleApiFileName).replace("/./", "/") + "\"");
+                    cmdList.add("--add-opens");
+                    cmdList.add("org.graalvm.sdk/org.graalvm.polyglot=ALL-UNNAMED");
+                    cmdList.add("--add-exports");
+                    cmdList.add("java.base/jdk.internal.module=ALL-UNNAMED");
+                    cmdList.add("-classpath");
+                    var cps = new StringBuilder();
+                    for (var jarFile : Objects.requireNonNull(new File(infos.MineLangPath + "/runtime").list((dir, name) -> name.endsWith(".jar")))) {
+                        cps.append(infos.MineLangPath.replace("\\", "/")).append("/runtime/").append(jarFile).append(";");
+                    }
+                    cps.append(infos.MineLangPath.replace("\\", "/")).append("/runtime/").append(infos.MineLangFileName);
+                    cmdList.add(cps.toString().replace("/./", "/"));
+                    cmdList.add("-Dtruffle.class.path.append=\"" + (infos.MineLangPath.replace("\\", "/") + ("/runtime/") + infos.MineLangFileName).replace("/./", "/") + "\"");
+                    cmdList.add("me.minelang.compiler.Main");
+                    cmdList.addAll(programArgs);
                     try {
-                        var list = new ArrayList<String>(1 + programArgs.size());
-                        list.add(command);
-                        list.addAll(programArgs);
-                        var process = new ProcessBuilder(list.toArray(new String[0]))
+                        var process = new ProcessBuilder(cmdList.toArray(new String[0]))
                                 .directory(new File("./")).inheritIO().start();
                         process.waitFor();
                     } catch (IOException | InterruptedException e) {
