@@ -9,11 +9,12 @@ import java.io.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static me.minelang.launcher.Utils.isWindows;
 import static me.minelang.launcher.Utils.ok;
 
 public final class InfoCollector {
     public static List<String> jarList = List.of("MineLang", "fastutil", "gson", "antlr4-runtime", "commons-math3"
-            , "truffle-api", "hamcrest-core", "Java-WebSocket", "slf4j-api" );
+            , "truffle-api", "hamcrest-core", "Java-WebSocket", "slf4j-api");
 
     public String RunningPath;
     public String GraalPath = null;
@@ -35,6 +36,7 @@ public final class InfoCollector {
 
     public void collectAllInfos(boolean force) {
         if (!cached || force) {
+            collectLocaleOnWindows();
             collectGraalInfos();
             collectJavaVersion();
             collectMineLangInfos();
@@ -58,6 +60,7 @@ public final class InfoCollector {
                 this.JavaVersion = ok(json.get("JavaVersion"), JsonElement::getAsString, null);
                 this.MineLangPath = ok(json.get("MineLangPath"), JsonElement::getAsString, null);
                 this.MineLangFileName = ok(json.get("MineLangFileName"), JsonElement::getAsString, null);
+                I18NUtil.locale = ok(json.get("LocaleTag"), JsonElement::getAsString, "en-US");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -83,6 +86,7 @@ public final class InfoCollector {
         ok(JavaVersion, e -> json.addProperty("JavaVersion", e));
         ok(MineLangPath, e -> json.addProperty("MineLangPath", e));
         ok(MineLangFileName, e -> json.addProperty("MineLangFileName", e));
+        ok(I18NUtil.locale, e -> json.addProperty("LocaleTag", e));
         var str = new GsonBuilder().setPrettyPrinting().create().toJson(json);
         try {
             var writer = new FileWriter(cacheFile);
@@ -128,6 +132,29 @@ public final class InfoCollector {
             } catch (IOException | InterruptedException e) {
                 //ignore
             }
+        }
+    }
+
+    private void collectLocaleOnWindows() {
+        if (!isWindows()) {
+            return;
+        }
+        try {
+            var process = new ProcessBuilder().command("reg", "query"
+                    , "\"HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\Language\"", "/v", "InstallLanguage|find"
+                    , "\"0804\">nul&&echo;zh-CN||echo;en-US").redirectErrorStream(true).start();
+            var reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            process.waitFor(500, TimeUnit.MILLISECONDS);
+            var s = "";
+            while ((s = reader.readLine()) != null) {
+                if (s.contains("zh-CN")) {
+                    I18NUtil.locale = "zh-CN";
+                } else if (s.contains("en-US")) {
+                    I18NUtil.locale = "en-US";
+                }
+            }
+        } catch (IOException | InterruptedException e) {
+            //ignore
         }
     }
 
@@ -185,12 +212,12 @@ public final class InfoCollector {
         }
         //检查是否存在java可执行文件
         var files = runtimeFolder.list((dir, name) -> name.endsWith(".jar"));
-        if(files == null) return false;
+        if (files == null) return false;
         // TODO: 2021/11/13 优化算法复杂度
-        for(var each : files) {
+        for (var each : files) {
             var found = false;
-            for(var jar : jarList) {
-                if(each.contains(jar)) {
+            for (var jar : jarList) {
+                if (each.contains(jar)) {
                     found = true;
                     if (jar.equals("MineLang")) {
                         this.MineLangFileName = each;
@@ -198,7 +225,7 @@ public final class InfoCollector {
                     break;
                 }
             }
-            if(!found) return false;
+            if (!found) return false;
         }
         return true;
     }

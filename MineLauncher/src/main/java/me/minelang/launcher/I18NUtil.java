@@ -9,12 +9,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Objects;
 
+import static me.minelang.launcher.Utils.ok;
+
 public final class I18NUtil {
-    public static Locale locale = Locale.getDefault();
+    public static String locale = null;
     public static JsonObject languageRes;
 
-    static {
-        var stream = I18NUtil.class.getResourceAsStream("/languages/" + locale.toLanguageTag() + ".json");
+    public static void init() {
+        if(locale == null)
+            locale = Locale.getDefault().toLanguageTag();
+        var stream = I18NUtil.class.getResourceAsStream("/languages/" + locale + ".json");
         if (stream == null) {
             stream = I18NUtil.class.getResourceAsStream("/languages/en-US.json");
         }
@@ -32,7 +36,8 @@ public final class I18NUtil {
     public static String get(String id, Object... args) {
         var str = languageRes.get(id).getAsString();
         for (var i = 0; i < args.length; i++) {
-            str = str.replaceAll("%" + i, args[i].toString());
+            str = str.replaceAll("%" + i, ok(args[i], e ->
+                    e.toString().replace("\\", "\\\\"), "null"));
         }
         return str;
     }

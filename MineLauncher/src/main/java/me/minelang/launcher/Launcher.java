@@ -12,11 +12,12 @@ public final class Launcher {
     public static final String VERSION = "0.0.1-beta";
 
     public static void main(String[] args) {
+        I18NUtil.init();
         var infos = new InfoCollector();
         var programArgs = new ArrayList<String>();
         var wellPrepared = true;
         if (args.length == 0) {
-            info(get("launcher_info", VERSION, infos.RunningPath, infos.GraalPath, infos.GraalVersion, infos.JavaVersion, infos.MineLangPath));
+            info(get("launcher_info", VERSION, I18NUtil.locale, infos.RunningPath, infos.GraalPath, infos.GraalVersion, infos.JavaVersion, infos.MineLangPath));
         }
         if (infos.GraalPath == null) {
             error(get("graalvm_not_found"));
@@ -32,12 +33,12 @@ public final class Launcher {
                     info(get("launcher_info", VERSION, infos.RunningPath, infos.GraalPath, infos.GraalVersion, infos.JavaVersion, infos.MineLangPath));
                 } else {
                     programArgs.add(each);
-                    var commandBuilder = infos.GraalPath + "/bin/java -cp " + infos.MineLangPath + "/*.jar -jar " +
+                    var command = infos.GraalPath + "/bin/java -cp " + infos.MineLangPath + "/*.jar -jar " +
                             infos.MineLangPath + '/' +
                             infos.MineLangFileName + ' ';
                     try {
                         var list = new ArrayList<String>(1 + programArgs.size());
-                        list.add(commandBuilder.toString());
+                        list.add(command);
                         list.addAll(programArgs);
                         var process = new ProcessBuilder(list.toArray(new String[0]))
                                 .directory(new File("./")).inheritIO().start();

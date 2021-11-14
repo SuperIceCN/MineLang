@@ -19,4 +19,8 @@ public final class Utils {
             consumer.accept(obj);
         }
     }
+
+    public static boolean isWindows() {
+        return System.getProperties().getProperty("os.name").toUpperCase().contains("WINDOWS");
+    }
 }
