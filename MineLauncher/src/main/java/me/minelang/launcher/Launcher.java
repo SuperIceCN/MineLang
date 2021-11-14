@@ -52,5 +52,7 @@ public final class Launcher {
                     }
                 }
             }
+        else
+            infos.collectAllInfos(true);
     }
 }
