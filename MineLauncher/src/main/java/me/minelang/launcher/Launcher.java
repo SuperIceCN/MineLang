@@ -12,8 +12,8 @@ public final class Launcher {
     public static final String VERSION = "0.0.1-beta";
 
     public static void main(String[] args) {
-        I18NUtil.init();
         var infos = new InfoCollector();
+        I18NUtil.init();
         var programArgs = new ArrayList<String>();
         var wellPrepared = true;
         if (args.length == 0) {
@@ -31,6 +31,9 @@ public final class Launcher {
             for (var each : args) {
                 if (each.equals("-launcherInfo")) {
                     info(get("launcher_info", VERSION, infos.RunningPath, infos.GraalPath, infos.GraalVersion, infos.JavaVersion, infos.MineLangPath));
+                } else if (each.equals("-refreshCache")) {
+                    infos.collectAllInfos(true);
+                    info(get("refresh_cache"));
                 } else {
                     programArgs.add(each);
                     var command = infos.GraalPath + "/bin/java -cp " + infos.MineLangPath + "/*.jar -jar " +
@@ -47,7 +50,6 @@ public final class Launcher {
                         error(get("fail_to_launch_minelang"));
                         e.printStackTrace();
                     }
-
                 }
             }
     }

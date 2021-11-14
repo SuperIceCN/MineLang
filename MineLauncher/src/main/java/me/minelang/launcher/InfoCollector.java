@@ -139,20 +139,29 @@ public final class InfoCollector {
         if (!isWindows()) {
             return;
         }
+        System.out.println("收集信息中......");
         try {
-            var process = new ProcessBuilder().command("reg", "query"
-                    , "\"HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\Language\"", "/v", "InstallLanguage|find"
-                    , "\"0804\">nul&&echo;zh-CN||echo;en-US").redirectErrorStream(true).start();
-            var reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            process.waitFor(500, TimeUnit.MILLISECONDS);
-            var s = "";
-            while ((s = reader.readLine()) != null) {
-                if (s.contains("zh-CN")) {
-                    I18NUtil.locale = "zh-CN";
-                } else if (s.contains("en-US")) {
-                    I18NUtil.locale = "en-US";
-                }
+            var cmd = """
+                    @echo off
+                    reg query "HKEY_LOCAL_MACHINE\\SYSTEM\\ControlSet001\\Control\\Nls\\Language" /v InstallLanguage|find "0804">nul&&echo;zh-CN>>"%s/caches/out.txt"||echo;en-US>>"%s/caches/out.txt"
+                    """.formatted(RunningPath, RunningPath);
+            var cmdFile = new File(this.RunningPath + "/caches/locale.cmd");
+            //noinspection ResultOfMethodCallIgnored
+            cmdFile.getParentFile().mkdirs();
+            if(!cmdFile.exists()) {
+                //noinspection ResultOfMethodCallIgnored
+                cmdFile.createNewFile();
+                var writer = new FileWriter(cmdFile);
+                writer.write(cmd);
+                writer.close();
             }
+            var outFile = new File(RunningPath + "/caches/out.txt");
+            if(outFile.exists()) //noinspection ResultOfMethodCallIgnored
+                outFile.delete();
+            var process = new ProcessBuilder().command(cmdFile.getAbsolutePath()).start();
+            process.waitFor(2500, TimeUnit.MILLISECONDS);
+            var reader = new BufferedReader(new InputStreamReader(new FileInputStream(outFile)));
+            I18NUtil.locale = reader.readLine();
         } catch (IOException | InterruptedException e) {
             //ignore
         }

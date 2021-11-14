@@ -8,6 +8,7 @@
   "graalvm_not_found": "VM not found!",
   "minelang_not_found": "MineLang runtime libraries not found!",
   "fail_to_launch_minelang": "Failed to launch MineLang! Please report this problem with the following stacktrace information.",
+  "refresh_cache": "Launcher cache has been refreshed.",
 
   "launcher_info": "MineLang %0.\n----------------------------\nLanguage: %1\nRunning on: %2\nFound VM: %3\nVM Version: %4 - Java%5\nFound MineLang: %6\nCopyright Superice666, 2021."
 }
