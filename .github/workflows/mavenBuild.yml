@@ -73,7 +73,7 @@ jobs:
           name: MineLangLib
           path: |
             MineLangCompiler/target/MineLangCompiler-1.0-SNAPSHOT.jar
-            MineLangCompiler/target/jars/
+            MineLangCompiler/target/libs/*.jar
 
   build-InterpreterServer:
     name: 编译运行服务器
