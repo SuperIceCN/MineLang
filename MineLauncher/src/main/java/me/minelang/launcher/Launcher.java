@@ -31,7 +31,7 @@ public final class Launcher {
         if (wellPrepared)
             for (var each : args) {
                 if (each.equals("-launcherInfo")) {
-                    info(get("launcher_info", VERSION, I18NUtil.locale, I18NUtil.locale, infos.RunningPath, infos.GraalPath, infos.GraalVersion, infos.JavaVersion, infos.MineLangPath));
+                    info(get("launcher_info", VERSION, I18NUtil.locale, infos.RunningPath, infos.GraalPath, infos.GraalVersion, infos.JavaVersion, infos.MineLangPath));
                 } else if (each.equals("-refreshCache")) {
                     infos.collectAllInfos(true);
                     info(get("refresh_cache"));

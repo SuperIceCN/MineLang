@@ -8,8 +8,13 @@ import java.io.File;
 public class TestMain {
     @Test
     public void testMain1() {
-        System.out.println(new File("./").getAbsolutePath());
         Main.main(new File("./").getAbsolutePath().replace("\\", "/").replace(".", "")
-                +"src/test/resources/simpleFunc.ml");
+                +"src/test/resources/simpleFunc.me");
+    }
+
+    @Test
+    public void testMain2() {
+        Main.main(new File("./").getAbsolutePath().replace("\\", "/").replace(".", "")
+                +"src/test/resources/helloworld.me");
     }
 }

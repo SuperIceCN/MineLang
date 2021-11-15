@@ -52,7 +52,7 @@ public class Main {
                 } catch (IOException e) {
                     error(get("fail_to_load_file", each));
                 }
-            } else if (fileMode && each.endsWith(".ml")) {
+            } else if (fileMode && each.endsWith("." + MineLanguage.EXT)) {
                 fileName = each;
                 fileMode = false;
                 try {

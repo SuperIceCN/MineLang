@@ -20,9 +20,13 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import java.util.ArrayList;
 import java.util.List;
 
-@TruffleLanguage.Registration(id = "MineLang", name = "MineLang", version = "VERSION")
+import static me.minelang.compiler.lang.MineLanguage.*;
+
+@TruffleLanguage.Registration(id = "MineLang", name = "MineLang", version = VERSION, defaultMimeType = MIME_TYPE, characterMimeTypes = MIME_TYPE)
 public final class MineLanguage extends TruffleLanguage<MineContext> {
     public static final String VERSION = "0.0.1-beta";
+    public static final String MIME_TYPE = "application/x-minelang";
+    public static final String EXT = "me";
 
     private static final LanguageReference<MineLanguage> REFERENCE = LanguageReference.create(MineLanguage.class);
 
