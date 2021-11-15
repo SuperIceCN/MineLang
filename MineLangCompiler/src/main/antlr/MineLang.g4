@@ -30,6 +30,10 @@ expr: SEMICOLON #split
     | GLOBAL ID? (COMMA ID)* #globalExpr
     ;
 
+WS: [ \n\r\t] -> channel(HIDDEN);
+COMMENT: '//'~[\n]* -> channel(HIDDEN);
+MUTICOMMENT: '/*'.*?'*/' -> channel(HIDDEN);
+
 FUNC: 'func';
 RETURN: 'return';
 USING: 'using';
@@ -76,10 +80,6 @@ BOOL: 'true' | 'false';
 NONE: 'none';
 NAN: 'nan';
 
-fragment IDStart: ~[0-9 @[\]\-+=()*&^%!~`?<>,.:;"'\\|！#【】{}：。“”‘’/？《》，、·￥…（）；\r\n];
-fragment IDPart: ~[ @[\]\-+=()*&^%!~`?<>,.:;"'\\|！#【】{}：。“”‘’/？《》，、·￥…（）；\r\n];
+fragment IDStart: ~[0-9 @[\]\-+=()*&^%!~`?<>,.:;"'\\|！#【】{}：。“”‘’/？《》，、·￥…（）；\r\n\t];
+fragment IDPart: ~[ @[\]\-+=()*&^%!~`?<>,.:;"'\\|！#【】{}：。“”‘’/？《》，、·￥…（）；\r\n\t];
 ID: IDStart IDPart*;
-
-WS: [ \n\r\t] -> channel(HIDDEN);
-COMMENT: '//'~[\n]* -> channel(HIDDEN);
-MUTICOMMENT: '/*'.*?'*/' -> channel(HIDDEN);
