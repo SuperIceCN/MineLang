@@ -183,7 +183,7 @@ jobs:
         with:
           path: artifacts/
 
-      - uses: oexx/github-action-json-file-properties@release
+      - uses: zoexx/github-action-json-file-properties@release
         name: 获取发布信息
         id: get-release-info
         with:
