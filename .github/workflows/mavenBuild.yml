@@ -32,7 +32,7 @@ jobs:
     name: 编译MineLang
     runs-on: ubuntu-latest
     needs: check-files
-    if: contains(needs.check-files.outputs.changed-files, 'MineLangCompiler/')
+    if: contains(needs.check-files.outputs.changed-files, 'MineLangCompiler/') || (github.event_name == 'push' && contains(github.event.commits[0].message, '发布新版本'))
     env:
       graalvm-version: '21.3.0'
       java-version: 'java17'
@@ -79,7 +79,7 @@ jobs:
     name: 编译运行服务器
     runs-on: ubuntu-latest
     needs: check-files
-    if: contains(needs.check-files.outputs.changed-files, 'MineInterpreterServer/')
+    if: contains(needs.check-files.outputs.changed-files, 'MineInterpreterServer/') || (github.event_name == 'push' && contains(github.event.commits[0].message, '发布新版本'))
     env:
       graalvm-version: '21.3.0'
       java-version: 'java17'
@@ -118,7 +118,7 @@ jobs:
     name: 编译启动器
     runs-on: windows-latest
     needs: check-files
-    if: contains(needs.check-files.outputs.changed-files, 'MineLauncher/')
+    if: contains(needs.check-files.outputs.changed-files, 'MineLauncher/') || (github.event_name == 'push' && contains(github.event.commits[0].message, '发布新版本'))
     env:
       graalvm-version: '21.3.0'
       java-version: 'java17'
@@ -165,3 +165,37 @@ jobs:
         with:
           name: Launcher-Windows
           path: MineLauncher/target/libs/MineLang.exe
+
+  release:
+    name: 发布新版本
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && contains(github.event.commits[0].message, '发布新版本')
+    needs:
+      - build-MineLang
+      - build-Launcher
+      - build-InterpreterServer
+    steps:
+      - uses: actions/checkout@v2
+        name: 检出仓库内容
+
+      - uses: actions/download-artifact@v2
+        name: 下载所有构件
+        with:
+          path: artifacts/
+
+      - uses: oexx/github-action-json-file-properties@release
+        name: 获取发布信息
+        id: get-release-info
+        with:
+          file_path: '.github/release-info.json'
+
+      - uses: ncipollo/release-action@v1
+        name: 发布新版本
+        with:
+          artifacts: "artifacts/*.*"
+          tag: ${{ steps.get-release-info.outputs.version }}
+          prerelease: ${{ contains(steps.get-release-info.outputs.version, 'beta') }}
+          bodyFile: ${{ steps.get-release-info.outputs.body_path }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit: master
+          allowUpdates: true
