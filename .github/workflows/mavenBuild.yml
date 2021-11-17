@@ -183,6 +183,9 @@ jobs:
         with:
           path: artifacts/
 
+      - name: 压缩构件
+        run: bash .github/scripts/zip.sh artifacts
+
       - uses: zoexx/github-action-json-file-properties@release
         name: 获取发布信息
         id: get-release-info
@@ -192,7 +195,7 @@ jobs:
       - uses: ncipollo/release-action@v1
         name: 发布新版本
         with:
-          artifacts: "artifacts/*.*"
+          artifacts: "artifacts/*.zip"
           tag: ${{ steps.get-release-info.outputs.version }}
           prerelease: ${{ contains(steps.get-release-info.outputs.version, 'beta') }}
           bodyFile: ${{ steps.get-release-info.outputs.body_path }}
