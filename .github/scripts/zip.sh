@@ -1,5 +1,5 @@
 cd "${1}" || exit
 for file in ./*;
 do
-zip -r "$file.zip" "./zipped/$file"
+zip -r "./zipped/$file.zip" "$file"
 done
