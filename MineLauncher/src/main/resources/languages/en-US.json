@@ -5,9 +5,12 @@
 
   "fail_to_load_file": "Failed to read file \"%0\".",
   "fail_to_create_file": "Failed to create file \"%0\".",
+  "fail_to_launch_minelang": "Failed to launch MineLang! Please report this problem with the following stacktrace information.",
   "graalvm_not_found": "VM not found!",
   "minelang_not_found": "MineLang runtime libraries not found!",
-  "fail_to_launch_minelang": "Failed to launch MineLang! Please report this problem with the following stacktrace information.",
+  "java_version_too_low": "The minimum java version required is %0 but currently %1.",
+  "graalvm_version_too_low": "The minimum graalvm version required is %0 but currently %1.",
+
   "refresh_cache": "Launcher cache has been refreshed.",
 
   "launcher_info": "MineLang %0.\n----------------------------\nLanguage: %1\nRunning on: %2\nFound VM: %3\nVM Version: %4 - Java%5\nFound MineLang: %6\nCopyright Superice666, 2021."

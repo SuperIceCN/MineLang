@@ -11,6 +11,8 @@ import static me.minelang.launcher.PrintUtil.info;
 
 public final class Launcher {
     public static final String VERSION = "0.0.1-beta";
+    public static final String MIN_JAVA_VERSION = "17";
+    public static final String MIN_GRAALVM_VERSION = "21.3";
 
     public static void main(String[] args) {
         var infos = new InfoCollector();
@@ -28,6 +30,14 @@ public final class Launcher {
             error(get("minelang_not_found"));
             wellPrepared = false;
         }
+        if (Utils.compareVersion(MIN_JAVA_VERSION, infos.JavaVersion) > 0) {
+            error(get("java_version_too_low", MIN_JAVA_VERSION, infos.JavaVersion));
+            wellPrepared = false;
+        }
+        if (Utils.compareVersion(MIN_GRAALVM_VERSION, infos.GraalVersion) > 0) {
+            error(get("graalvm_version_too_low", MIN_GRAALVM_VERSION, infos.GraalVersion));
+            wellPrepared = false;
+        }
         if (wellPrepared)
             for (var each : args) {
                 if (each.equals("-launcherInfo")) {
@@ -38,7 +48,7 @@ public final class Launcher {
                 } else {
                     programArgs.add(each);
                     var cmdList = new ArrayList<String>();
-                    cmdList.add(infos.GraalPath+"/bin/java");
+                    cmdList.add(infos.GraalPath + "/bin/java");
                     cmdList.add("-Dfile.encoding=UTF-8");
                     cmdList.add("-Dgraalvm.locatorDisabled=true");
                     cmdList.add("--upgrade-module-path=\"" + (infos.MineLangPath.replace("\\", "/") + ("/runtime/") + infos.TruffleApiFileName).replace("/./", "/") + "\"");
