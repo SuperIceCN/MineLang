@@ -71,8 +71,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: MineLangLib
-          path: |
-            MineLangCompiler/target/MineLangCompiler-1.0-SNAPSHOT.jar
+          path:
             MineLangCompiler/target/libs/*.jar
 
   build-InterpreterServer:
