@@ -1,16 +1,16 @@
 {
-  "print_info": "[信息]",
-  "print_warning": "[警告]",
-  "print_error": "[错误]",
+  "print_info": "[§9信息§r]",
+  "print_warning": "[§g警告§r]",
+  "print_error": "[§c错误§r]",
 
-  "fail_to_load_file": "加载文件\"%0\"失败。",
-  "fail_to_create_file": "创建文件\"%0\"失败。",
+  "fail_to_load_file": "加载文件§9§n\"%0\"§r失败。",
+  "fail_to_create_file": "创建文件§9§n\"%0\"§r失败。",
   "graalvm_not_found": "无法找到虚拟机！",
   "minelang_not_found": "无法找到MineLang运行库！",
   "fail_to_launch_minelang": "启动MineLang失败！请报告此问题并附上下面的堆栈跟踪信息。",
   "refresh_cache": "启动器缓存已更新。",
-  "java_version_too_low": "最低所需Java版本为%0，当前版本为%1。",
-  "graalvm_version_too_low": "最低所需GraalVM版本为%0，当前版本为%1。",
+  "java_version_too_low": "最低所需Java版本为§a%0§r，当前版本为§c%1§r。",
+  "graalvm_version_too_low": "最低所需GraalVM版本为§a%0§r，当前版本为§c%1§r。",
 
-  "launcher_info": "MineLang启动器 %0版本\n----------------------------------\n语言：%1\n当前工作路径: %2\n虚拟机路径: %3\n虚拟机版本: %4 - Java%5\nMineLang路径: %6\n版权所有 超神的冰凉，2021。"
+  "launcher_info": "MineLang启动器 §a%0§r版本\n----------------------------------\n语言：§a%1§r\n当前工作路径: §9§n%2§r\n虚拟机路径: §9§n%3§r\n虚拟机版本: §a%4§r - Java§a%5§r\nMineLang路径: §9§n%6§r\n§7版权所有 超神的冰凉，2021。§r"
 }

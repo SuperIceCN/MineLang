@@ -1,12 +1,12 @@
 {
-  "print_info": "[信息]",
-  "print_warning": "[警告]",
-  "print_error": "[错误]",
+  "print_info": "[§9信息§r]",
+  "print_warning": "[§g警告§r]",
+  "print_error": "[§c错误§r]",
 
-  "fail_to_load_file": "加载文件\"%0\"失败。",
-  "fail_to_create_file": "创建文件\"%0\"失败。",
-  "fail_to_process_source": "无法创建名为\"%0\"的源代码。",
+  "fail_to_load_file": "加载文件§9§n\"%0\"§r失败。",
+  "fail_to_create_file": "创建文件§9§n\"%0\"§r失败。",
+  "fail_to_process_source": "无法创建名为§9§n\"%0\"§r的源代码。",
 
-  "program_exit": "程序结束，返回值为%0。",
-  "version_info": "MineLang语言 %0版本。\n版权所有 Superice666，2021。"
+  "program_exit": "程序结束，返回值为 §n%0§r 。",
+  "version_info": "MineLang语言 §a%0§r版本。\n§7版权所有 Superice666，2021。§r"
 }

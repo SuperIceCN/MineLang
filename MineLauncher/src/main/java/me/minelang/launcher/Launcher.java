@@ -16,6 +16,7 @@ public final class Launcher {
 
     public static void main(String[] args) {
         var infos = new InfoCollector();
+        PrintUtil.init();
         I18NUtil.init();
         var programArgs = new ArrayList<String>();
         var wellPrepared = true;

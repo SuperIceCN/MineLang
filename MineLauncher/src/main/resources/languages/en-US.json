@@ -1,17 +1,17 @@
 {
-  "print_info": "[INFO ]",
-  "print_warning": "[WARN ]",
-  "print_error": "[ERROR]",
+  "print_info": "[§9INFO§r ]",
+  "print_warning": "[§gWARN§r ]",
+  "print_error": "[§cERROR§r]",
 
-  "fail_to_load_file": "Failed to read file \"%0\".",
-  "fail_to_create_file": "Failed to create file \"%0\".",
+  "fail_to_load_file": "Failed to read file §9§n\"%0\"§r.",
+  "fail_to_create_file": "Failed to create file §9§n\"%0\"§r.",
   "fail_to_launch_minelang": "Failed to launch MineLang! Please report this problem with the following stacktrace information.",
   "graalvm_not_found": "VM not found!",
   "minelang_not_found": "MineLang runtime libraries not found!",
-  "java_version_too_low": "The minimum java version required is %0 but currently %1.",
-  "graalvm_version_too_low": "The minimum graalvm version required is %0 but currently %1.",
+  "java_version_too_low": "The minimum java version required is §a%0§r but currently §c%1§r.",
+  "graalvm_version_too_low": "The minimum graalvm version required is §a%0§r but currently §c%1§r.",
 
   "refresh_cache": "Launcher cache has been refreshed.",
 
-  "launcher_info": "MineLang %0.\n----------------------------\nLanguage: %1\nRunning on: %2\nFound VM: %3\nVM Version: %4 - Java%5\nFound MineLang: %6\nCopyright Superice666, 2021."
+  "launcher_info": "MineLang %0.\n----------------------------\nLanguage: §a%1§r\nRunning on: §9§n%2§r\nFound VM: §9§n%3§2rnVM Version: §a%4§r - Java§a%5§r\nFound MineLang: §9§n%6§r\n§oCopyright Superice666, 2021.§r"
 }
