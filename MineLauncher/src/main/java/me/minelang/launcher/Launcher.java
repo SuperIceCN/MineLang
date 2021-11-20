@@ -25,14 +25,6 @@ public final class Launcher {
             info(get("launcher_info", VERSION, I18NUtil.locale, infos.RunningPath, infos.GraalPath, infos.GraalVersion, infos.JavaVersion, infos.MineLangPath));
         }
         if (arrayContains(args, "-fix")) {
-            var downloadManifest = new DownloadManifest();
-            print(downloadManifest.GraalVersion);
-            print(downloadManifest.GraalURL);
-            print(downloadManifest.LatestMineLangVersion);
-            System.out.println(infos.MineLangPath);
-            if(infos.MineLangPath == null) {
-                downloadManifest.downloadLib();
-            }
             wellPrepared = false;
             fixing = true;
         }
