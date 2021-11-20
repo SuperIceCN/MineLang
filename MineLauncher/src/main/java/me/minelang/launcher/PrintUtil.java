@@ -1,5 +1,6 @@
 package me.minelang.launcher;
 
+import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.util.regex.Pattern;
@@ -61,7 +62,7 @@ public final class PrintUtil {
             case "§nn" -> ansi().a(UNDERLINE_DOUBLE);
             case "§o" -> ansi().a(ITALIC);
             case "§r" -> ansi().reset();
-            case "§p" -> ansi().eraseLine();
+            case "§p" -> ansi().eraseLine(Ansi.Erase.ALL);
             case "§q" -> ansi().eraseScreen();
             default -> matchResult.group(2);
         }).toString()));

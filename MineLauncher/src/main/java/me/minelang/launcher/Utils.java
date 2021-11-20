@@ -1,5 +1,6 @@
 package me.minelang.launcher;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -47,5 +48,38 @@ public final class Utils {
         //如果已经分出大小，则直接返回，如果未分出大小，则再比较位数，有子版本的为大；
         diff = (diff != 0) ? diff : versionArray1.length - versionArray2.length;
         return diff;
+    }
+
+    public static <T> boolean arrayContains(T[] array, T obj) {
+        for (var each : array) {
+            if (Objects.equals(each, obj)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static String bytes2MB(long bytes) {
+        return "%.2f".formatted((bytes / (1024.0 * 1024)));
+    }
+
+    public static class Store<T> {
+        private T data;
+
+        public Store() {
+            this.data = null;
+        }
+
+        public Store(T init) {
+            this.data = init;
+        }
+
+        public T get() {
+            return data;
+        }
+
+        public void set(T data) {
+            this.data = data;
+        }
     }
 }

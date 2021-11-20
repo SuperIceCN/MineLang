@@ -8,9 +8,20 @@
   "graalvm_not_found": "无法找到虚拟机！",
   "minelang_not_found": "无法找到MineLang运行库！",
   "fail_to_launch_minelang": "启动MineLang失败！请报告此问题并附上下面的堆栈跟踪信息。",
+  "fail_to_fetch_manifest": "无法从§9§n%1§r获取§l %0 manifest§r。",
+  "fail_to_download": "无法从§9§n%1§r下载§l%0§r。",
   "refresh_cache": "启动器缓存已更新。",
   "java_version_too_low": "最低所需Java版本为§a%0§r，当前版本为§c%1§r。",
   "graalvm_version_too_low": "最低所需GraalVM版本为§a%0§r，当前版本为§c%1§r。",
 
-  "launcher_info": "MineLang启动器 §a%0§r版本\n----------------------------------\n语言：§a%1§r\n当前工作路径: §9§n%2§r\n虚拟机路径: §9§n%3§r\n虚拟机版本: §a%4§r - Java§a%5§r\nMineLang路径: §9§n%6§r\n§7版权所有 超神的冰凉，2021。§r"
+  "fetch_manifest_from": "正在从§r§9§n%1§r获取§l%0清单§r...",
+  "download_from": "正在从§9§n%1§r下载§l%0§r...",
+  "download_process": "§p%0MB §7/§r %1MB §f[§_f%2§r%3§f]§r %4% %5MB/s ",
+
+  "minelang_lib": "MineLang运行依赖库",
+  "minelang_compiler": "MineLang编译器",
+  "graalvm": "Graal虚拟机",
+
+  "launcher_info": "MineLang启动器 §a%0§r版本\n§7§m                                  §r\n语言：§a%1§r\n当前工作路径: §9§n%2§r\n虚拟机路径: §9§n%3§r\n虚拟机版本: §a%4§r - Java§a%5§r\nMineLang路径: §9§n%6§r\n§7版权所有 超神的冰凉，2021。§r",
+  "please_fix_runtime": "MineLang运行时不完整! 请尝试命令§6§nMineLang -fix§r来自动下载并修复运行时。"
 }

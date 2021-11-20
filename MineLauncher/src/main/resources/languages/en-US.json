@@ -6,12 +6,22 @@
   "fail_to_load_file": "Failed to read file §9§n\"%0\"§r.",
   "fail_to_create_file": "Failed to create file §9§n\"%0\"§r.",
   "fail_to_launch_minelang": "Failed to launch MineLang! Please report this problem with the following stacktrace information.",
+  "fail_to_fetch_manifest": "Failed to fetch§l %0 manifest§r from §9§n%1§r.",
+  "fail_to_download": "Failed to download §l%0§r from §9§n%1§r.",
   "graalvm_not_found": "VM not found!",
   "minelang_not_found": "MineLang runtime libraries not found!",
   "java_version_too_low": "The minimum java version required is §a%0§r but currently §c%1§r.",
   "graalvm_version_too_low": "The minimum graalvm version required is §a%0§r but currently §c%1§r.",
 
   "refresh_cache": "Launcher cache has been refreshed.",
+  "fetch_manifest_from": "Fetching§l %0 manifest§r from §9§n%1§r ...",
+  "download_from": "Downloading §l%0§r from §9§n%1§r ...",
+  "download_process": "§p%0MB §7/§r %1MB §f[§_f%2§r%3§f]§r %4% %5MB/s ",
 
-  "launcher_info": "MineLang %0.\n----------------------------\nLanguage: §a%1§r\nRunning on: §9§n%2§r\nFound VM: §9§n%3§2rnVM Version: §a%4§r - Java§a%5§r\nFound MineLang: §9§n%6§r\n§oCopyright Superice666, 2021.§r"
+  "minelang_lib": "MineLang Runtime Library",
+  "minelang_compiler": "MineLang Compiler",
+  "graalvm": "GraalVM",
+
+  "launcher_info": "MineLang %0.\n§7§m                            §r\nLanguage: §a%1§r\nRunning on: §9§n%2§r\nFound VM: §9§n%3§r\nVM Version: §a%4§r - Java§a%5§r\nFound MineLang: §9§n%6§r\n§oCopyright Superice666, 2021.§r",
+  "please_fix_runtime": "MineLang runtime is incomplete! Please try §6§nMineLang -fix§r to auto download and fix runtime."
 }
