@@ -13,5 +13,5 @@
 
   "refresh_cache": "Launcher cache has been refreshed.",
 
-  "launcher_info": "MineLang %0.\n----------------------------\nLanguage: §a%1§r\nRunning on: §9§n%2§r\nFound VM: §9§n%3§2rnVM Version: §a%4§r - Java§a%5§r\nFound MineLang: §9§n%6§r\n§oCopyright Superice666, 2021.§r"
+  "launcher_info": "MineLang %0.\\n§7§m                            §r\\nLanguage: §a%1§r\\nRunning on: §9§n%2§r\\nFound VM: §9§n%3§r\\nVM Version: §a%4§r - Java§a%5§r\\nFound MineLang: §9§n%6§r\\n§oCopyright Superice666, 2021.§r"
 }

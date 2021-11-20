@@ -12,5 +12,5 @@
   "java_version_too_low": "最低所需Java版本为§a%0§r，当前版本为§c%1§r。",
   "graalvm_version_too_low": "最低所需GraalVM版本为§a%0§r，当前版本为§c%1§r。",
 
-  "launcher_info": "MineLang启动器 §a%0§r版本\n----------------------------------\n语言：§a%1§r\n当前工作路径: §9§n%2§r\n虚拟机路径: §9§n%3§r\n虚拟机版本: §a%4§r - Java§a%5§r\nMineLang路径: §9§n%6§r\n§7版权所有 超神的冰凉，2021。§r"
+  "launcher_info": "MineLang启动器 §a%0§r版本\\n§7§m                                  §r\\n语言：§a%1§r\\n当前工作路径: §9§n%2§r\\n虚拟机路径: §9§n%3§r\\n虚拟机版本: §a%4§r - Java§a%5§r\\nMineLang路径: §9§n%6§r\\n§7版权所有 超神的冰凉，2021。§r"
 }
