@@ -17,6 +17,9 @@ public final class PrintUtil {
     }
 
     private static String processColor(String str) {
+        if(color == null) {
+            return str;
+        }
         if (!str.contains("§")) {
             return str;
         }

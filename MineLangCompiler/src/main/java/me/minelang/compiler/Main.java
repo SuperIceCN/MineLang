@@ -23,8 +23,6 @@ public class Main {
         var stdout = System.out;
         var stderr = System.err;
         var programArgs = new ArrayList<String>();
-        System.out.println(org.antlr.v4.runtime.CharStream.class);
-        var a = org.antlr.v4.runtime.CharStream.class;
 
         var fileMode = true;
 
