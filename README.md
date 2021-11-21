@@ -1,8 +1,6 @@
 <div style="text-align: center">
 
 ![MineLang Logo](docs/images/logo/Banner.png "MineLang")  
-木兰编程语言在JVM上不严谨的子集重制  
-
 </div>  
 
 ## 项目状态  
@@ -10,6 +8,10 @@
 当前阶段的主要目标是完成一个能运行的解释器。debugger、标准库暂未投入资源开发。
 
 欢迎各位参与MineLang开发。
+
+## 教程与文档  
+
+- [安装MineLang](docs/安装.md)
 
 ## 背景  
 ### 关于命名
