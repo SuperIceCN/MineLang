@@ -1,5 +1,9 @@
-# MineLang  
+<div style="text-align: center">
+
+![MineLang Logo](docs/images/logo/Banner.png "MineLang")  
 木兰编程语言在JVM上不严谨的子集重制  
+
+</div>  
 
 ## 项目状态  
 项目当前正在处于早期开发阶段，尚不能投入测试或生产。  
