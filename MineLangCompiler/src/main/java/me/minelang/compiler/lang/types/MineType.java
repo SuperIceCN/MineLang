@@ -16,15 +16,15 @@ import me.minelang.compiler.lang.MineLanguage;
 
 /**
  * 这里是MineLang的自带类型定义。当前阶段实现暂未考虑创建其他类型，如{@code type}关键字定义等。
- *
+ * <p>
  * {@link this.isInstance(Object, InteropLibrary)}所检查的每一个类型的逻辑都使用一个函数接口封装，当前它们的逻辑
  * 是使用interoperability互操作库中的检查函数。 {@// TODO: 2021/10/11 进行拓展并优化性能 }
  * 之所以要这么做，是因为外部语言，如js、java、python在与MineLang交互的时候就可以自动对一等值进行检查并确认种类以便优化
- *
+ * <p>
  * 该类实现了{@link InteropLibrary}库中的互操作约定（{@link InteropLibrary#isMetaObject(Object)}、{@link InteropLibrary#isMetaInstance(Object, Object)}），
  * 这使得其他语言和第三方（或许以后会有自带的）工具能够通过interoperability互操作库对MineLang进行类型检查，
  * 其中，{@code MetaObject}是描述一个值的类型的对象，类似于java中的Class对象或者js中的原型链。
- *
+ * <p>
  * 为了让其他语言能确认值的种类，每个值类都必须实现{@link InteropLibrary#getMetaObject(Object)}。
  * 但很显然基本类型，如byte、int并不能在内部实现互操作约定中的getMetaObject，所以需要我们通过LanguageView，
  * 即语言概览来实现。参阅{@link MineLanguageView}。
@@ -39,11 +39,12 @@ public final class MineType implements TruffleObject {
     public static final MineType NUMBER = new MineType("Number", (l, v) -> l.isNumber(v) || v instanceof MineBigInteger || v instanceof MineBigDecimal);
     public static final MineType NONE = new MineType("None", InteropLibrary::isNull);
     public static final MineType NAN = new MineType("Nan", (l, v) -> {
-        if(v == MineNan.SINGLETON) return true;
-        else if(v instanceof Float f) return Float.isNaN(f);
-        else if(v instanceof Double d) return Double.isNaN(d);
+        if (v == MineNan.SINGLETON) return true;
+        else if (v instanceof Float f) return Float.isNaN(f);
+        else if (v instanceof Double d) return Double.isNaN(d);
         return false;
     });
+    public static final MineType UNDEFINED = new MineType("Undefined", (l, v) -> v == MineUndefined.SINGLETON);
     public static final MineType STRING = new MineType("String", InteropLibrary::isString);
     public static final MineType BOOLEAN = new MineType("Boolean", InteropLibrary::isBoolean);
     public static final MineType FUNCTION = new MineType("Function", InteropLibrary::isExecutable);
@@ -54,7 +55,7 @@ public final class MineType implements TruffleObject {
      * TODO: 2021/10/12 考虑将函数作为对象的可行性
      */
     @CompilationFinal(dimensions = 1)
-    public static final MineType[] PRECEDENCE = new MineType[]{NONE, NAN, BOOLEAN, NUMBER, STRING, FUNCTION, OBJECT};
+    public static final MineType[] PRECEDENCE = new MineType[]{NONE, UNDEFINED, NAN, BOOLEAN, NUMBER, STRING, FUNCTION, OBJECT};
 
     private final String name;
     private final TypeCheck isInstance;

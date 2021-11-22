@@ -12,7 +12,7 @@ import java.math.BigInteger;
 @TypeSystem({
         boolean.class,
         byte.class, short.class, int.class, long.class, MineBigInteger.class, float.class, double.class, MineBigDecimal.class,
-        String.class, MineFunction.class, MineNone.class, MineNan.class
+        String.class, MineFunction.class, MineNone.class, MineNan.class, MineUndefined.class
 })
 public abstract class MineTypeSystem {
     @ImplicitCast
@@ -209,6 +209,23 @@ public abstract class MineTypeSystem {
     public static MineNan asMineNan(Object value){
         assert isMineNone(value);
         return MineNan.SINGLETON;
+    }
+
+    /*
+     * 同上
+     */
+    @TypeCheck(MineUndefined.class)
+    public static boolean isMineUndefined(Object value){
+        return value == MineUndefined.SINGLETON;
+    }
+
+    /*
+     * 同上
+     */
+    @TypeCast(MineUndefined.class)
+    public static MineUndefined asMineUndefined(Object value){
+        assert isMineNone(value);
+        return MineUndefined.SINGLETON;
     }
 
 }
