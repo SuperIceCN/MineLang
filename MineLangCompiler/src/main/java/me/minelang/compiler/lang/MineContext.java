@@ -5,7 +5,7 @@ import com.oracle.truffle.api.TruffleLanguage.ContextReference;
 import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.frame.MaterializedFrame;
 import com.oracle.truffle.api.nodes.Node;
-import me.minelang.compiler.lang.types.MineNone;
+import me.minelang.compiler.lang.types.MineUndefined;
 
 public final class MineContext {
     private final MineLanguage language;
@@ -19,7 +19,7 @@ public final class MineContext {
     public MineContext(MineLanguage language, TruffleLanguage.Env env) {
         this.language = language;
         this.env = env;
-        this.rootFrameDescriptor = new FrameDescriptor(MineNone.SINGLETON);
+        this.rootFrameDescriptor = new FrameDescriptor(MineUndefined.SINGLETON);
     }
 
     public MineLanguage getLanguage() {

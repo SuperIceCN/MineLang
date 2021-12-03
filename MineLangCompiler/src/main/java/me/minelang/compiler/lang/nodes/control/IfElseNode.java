@@ -7,7 +7,7 @@ import com.oracle.truffle.api.nodes.ExplodeLoop;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.profiles.ConditionProfile;
 import me.minelang.compiler.lang.nodes.MineNode;
-import me.minelang.compiler.lang.types.MineNone;
+import me.minelang.compiler.lang.types.MineUndefined;
 import me.minelang.compiler.utils.ConditionUtil;
 
 @NodeInfo(language = "MineLang", shortName = "ifElse", description = "A if-else condition node.")
@@ -47,6 +47,6 @@ public final class IfElseNode extends MineNode {
             }
         }
 
-        return MineNone.SINGLETON;
+        return MineUndefined.SINGLETON;
     }
 }

@@ -1,14 +1,14 @@
 package me.minelang.compiler.lang.exceptions.control;
 
 import com.oracle.truffle.api.nodes.ControlFlowException;
-import me.minelang.compiler.lang.types.MineNone;
+import me.minelang.compiler.lang.types.MineUndefined;
 
 import java.io.Serial;
 
 public final class LoopBreakException extends ControlFlowException {
     @Serial
     private static final long serialVersionUID = -8562545277317690467L;
-    public static final LoopBreakException SINGLETON = new LoopBreakException(MineNone.SINGLETON);
+    public static final LoopBreakException SINGLETON = new LoopBreakException(MineUndefined.SINGLETON);
 
     private final Object returnValue;
 
@@ -21,7 +21,7 @@ public final class LoopBreakException extends ControlFlowException {
     }
 
     public static LoopBreakException create(Object returnValue) {
-        if (returnValue == MineNone.SINGLETON) {
+        if (returnValue == MineUndefined.SINGLETON) {
             return SINGLETON;
         } else {
             return new LoopBreakException(returnValue);

@@ -4,7 +4,7 @@ import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.UnexpectedResultException;
 import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.nodes.control.EmptyNodeFactory;
-import me.minelang.compiler.lang.types.MineNone;
+import me.minelang.compiler.lang.types.MineUndefined;
 
 public final class ConditionUtil {
     /**
@@ -27,7 +27,7 @@ public final class ConditionUtil {
             return conditionNode.executeBool(frame);
         } catch (UnexpectedResultException e1) {
             try {
-                return conditionNode.executeNone(frame) == MineNone.SINGLETON;
+                return conditionNode.executeUndefined(frame) == MineUndefined.SINGLETON;
             } catch (UnexpectedResultException e2) {
                 try {
                     return conditionNode.executeString(frame).length() != 0;

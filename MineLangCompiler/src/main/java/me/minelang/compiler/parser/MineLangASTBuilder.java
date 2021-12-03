@@ -15,7 +15,7 @@ import me.minelang.compiler.lang.nodes.value.GlobalVarReadNodeFactory;
 import me.minelang.compiler.lang.nodes.value.GlobalVarWriteNodeFactory;
 import me.minelang.compiler.lang.nodes.value.LocalVarReadNodeFactory;
 import me.minelang.compiler.lang.nodes.value.LocalVarWriteNodeFactory;
-import me.minelang.compiler.lang.types.MineNone;
+import me.minelang.compiler.lang.types.MineUndefined;
 import me.minelang.compiler.parser.exceptions.InvalidParseNodeException;
 import me.minelang.compiler.parser.exceptions.VarNotFoundException;
 import me.minelang.compiler.utils.StringUtil;
@@ -94,11 +94,11 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
 
     @Override
     public VisitResult<LexicalScope> visitBlockExpr(MineLangParser.BlockExprContext ctx) {
-        return this.visitBlockExpr(ctx, new FrameDescriptor(MineNone.SINGLETON), true);
+        return this.visitBlockExpr(ctx, new FrameDescriptor(MineUndefined.SINGLETON), true);
     }
 
     public VisitResult<LexicalScope> visitBlockExpr(MineLangParser.BlockExprContext ctx, boolean useInnerFrame) {
-        return this.visitBlockExpr(ctx, new FrameDescriptor(MineNone.SINGLETON), useInnerFrame);
+        return this.visitBlockExpr(ctx, new FrameDescriptor(MineUndefined.SINGLETON), useInnerFrame);
     }
 
     public VisitResult<LexicalScope> visitBlockExpr(MineLangParser.BlockExprContext ctx, FrameDescriptor blockFd, boolean useInnerFrame) {
@@ -352,7 +352,7 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
 
         VisitResult<?> bodyNodeVisitResult;
         if(body instanceof MineLangParser.BlockExprContext blockBody) {
-            var blockFd = new FrameDescriptor(MineNone.SINGLETON);
+            var blockFd = new FrameDescriptor(MineUndefined.SINGLETON);
             idNames.forEach(each -> blockFd.addFrameSlot(each, FrameSlotKind.Object));
             bodyNodeVisitResult = visitBlockExpr(scope(blockBody, fd), blockFd, false);
         } else {

@@ -185,7 +185,7 @@ public class ParserTest {
 
     @Test
     public void testParse13() {
-        Assert.assertEquals("none", eval("""
+        Assert.assertEquals("undefined", eval("""
                 (func _(){
                     return;
                 })();

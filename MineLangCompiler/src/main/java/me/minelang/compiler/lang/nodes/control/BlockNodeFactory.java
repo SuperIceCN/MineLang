@@ -2,7 +2,7 @@ package me.minelang.compiler.lang.nodes.control;
 
 import com.oracle.truffle.api.frame.FrameDescriptor;
 import me.minelang.compiler.lang.nodes.MineNode;
-import me.minelang.compiler.lang.types.MineNone;
+import me.minelang.compiler.lang.types.MineUndefined;
 
 public final class BlockNodeFactory {
     public static BlockNode create(FrameDescriptor descriptor, MineNode... bodyNodes) {
@@ -10,7 +10,7 @@ public final class BlockNodeFactory {
     }
 
     public static BlockNode create(MineNode... bodyNodes) {
-        return new BlockNode(new FrameDescriptor(MineNone.SINGLETON), bodyNodes);
+        return new BlockNode(new FrameDescriptor(MineUndefined.SINGLETON), bodyNodes);
     }
 
     public static BlockNode create(FrameDescriptor descriptor, boolean useInnerFrame, MineNode... bodyNodes) {
@@ -18,6 +18,6 @@ public final class BlockNodeFactory {
     }
 
     public static BlockNode create(boolean useInnerFrame, MineNode... bodyNodes) {
-        return new BlockNode(new FrameDescriptor(MineNone.SINGLETON), bodyNodes, useInnerFrame);
+        return new BlockNode(new FrameDescriptor(MineUndefined.SINGLETON), bodyNodes, useInnerFrame);
     }
 }

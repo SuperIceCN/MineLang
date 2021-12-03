@@ -1,14 +1,14 @@
 package me.minelang.compiler.lang.exceptions.control;
 
 import com.oracle.truffle.api.nodes.ControlFlowException;
-import me.minelang.compiler.lang.types.MineNone;
+import me.minelang.compiler.lang.types.MineUndefined;
 
 import java.io.Serial;
 
 public final class FunctionReturnException extends ControlFlowException {
     @Serial
     private static final long serialVersionUID = -9195384461112954365L;
-    public static final FunctionReturnException SINGLETON = new FunctionReturnException(MineNone.SINGLETON);
+    public static final FunctionReturnException SINGLETON = new FunctionReturnException(MineUndefined.SINGLETON);
 
     private final Object returnValue;
 
@@ -21,7 +21,7 @@ public final class FunctionReturnException extends ControlFlowException {
     }
 
     public static FunctionReturnException create(Object returnValue) {
-        if (returnValue == MineNone.SINGLETON) {
+        if (returnValue == MineUndefined.SINGLETON) {
             return SINGLETON;
         } else {
             return new FunctionReturnException(returnValue);

@@ -10,7 +10,7 @@ import me.minelang.compiler.lang.nodes.MineRootNode;
 import me.minelang.compiler.lang.runtime.initers.AbstractIniter;
 import me.minelang.compiler.lang.runtime.initers.BuiltInFunctionIniter;
 import me.minelang.compiler.lang.types.MineLanguageView;
-import me.minelang.compiler.lang.types.MineNone;
+import me.minelang.compiler.lang.types.MineUndefined;
 import me.minelang.compiler.parser.MineLangASTBuilder;
 import me.minelang.compiler.parser.MineLangLexer;
 import me.minelang.compiler.parser.MineLangParser;
@@ -20,7 +20,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.minelang.compiler.lang.MineLanguage.*;
+import static me.minelang.compiler.lang.MineLanguage.MIME_TYPE;
+import static me.minelang.compiler.lang.MineLanguage.VERSION;
 
 @TruffleLanguage.Registration(id = "MineLang", name = "MineLang", version = VERSION, defaultMimeType = MIME_TYPE, characterMimeTypes = MIME_TYPE)
 public final class MineLanguage extends TruffleLanguage<MineContext> {
@@ -52,7 +53,7 @@ public final class MineLanguage extends TruffleLanguage<MineContext> {
 
     @Override
     protected CallTarget parse(ParsingRequest request) {
-        var rootFrameDescriptor = new FrameDescriptor(MineNone.SINGLETON);
+        var rootFrameDescriptor = new FrameDescriptor(MineUndefined.SINGLETON);
         var sourceName = request.getSource().getName();
         var sourceContent = request.getSource().getCharacters().toString();
         var charStream = CharStreams.fromString(sourceContent, sourceName);

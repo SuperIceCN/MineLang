@@ -29,7 +29,7 @@ public class EndlessLoopNodeTest {
 
     @Test
     public void testLoop2() {
-        Assert.assertEquals("none", eval("""
+        Assert.assertEquals("undefined", eval("""
                 loop break
                 """).toString());
     }

@@ -71,6 +71,10 @@ public abstract class MineNode extends Node {
         return MineTypeSystemGen.expectMineNan(this.execute(frame));
     }
 
+    public MineUndefined executeUndefined(VirtualFrame frame) throws UnexpectedResultException {
+        return MineTypeSystemGen.expectMineUndefined(this.execute(frame));
+    }
+
     public abstract Object execute(VirtualFrame frame);
 
     @Override
