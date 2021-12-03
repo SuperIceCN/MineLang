@@ -7,7 +7,7 @@ program: expr*
 callArgs: LB expr? (COMMA expr)* COMMA? RB;
 
 expr: SEMICOLON #split
-    |(INT | DEC | STRING | BOOL | NONE | NAN) #literalExpr
+    |(INT | DEC | STRING | BOOL | NONE | NAN | UNDEFINED) #literalExpr
     | ID #varUseExpr
     | expr DOT ID #getExpr
     | expr callArgs #funcCallExpr
@@ -79,6 +79,7 @@ DEC: INTEGER'.'INTEGER;
 BOOL: 'true' | 'false';
 NONE: 'none';
 NAN: 'nan';
+UNDEFINED: 'undefined';
 
 fragment IDStart: ~[0-9 @[\]\-+=()*&^%!~`?<>,.:;"'\\|！#【】{}：。“”‘’/？《》，、·￥…（）；\r\n\t];
 fragment IDPart: ~[ @[\]\-+=()*&^%!~`?<>,.:;"'\\|！#【】{}：。“”‘’/？《》，、·￥…（）；\r\n\t];

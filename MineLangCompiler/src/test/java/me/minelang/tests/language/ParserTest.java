@@ -198,4 +198,23 @@ public class ParserTest {
                 return 0
                 """).asInt());
     }
+
+    @Test
+    public void testParse15() {
+        Assert.assertEquals("undefined", eval("""
+                a = undefined;
+                a
+                """).toString());
+    }
+
+    @Test
+    public void testParse16() {
+        Assert.assertEquals("true", eval("""
+                _ = 0
+                a = loop {
+                    if _ == 0 break
+                }
+                a == undefined
+                """).toString());
+    }
 }

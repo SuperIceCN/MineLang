@@ -10,6 +10,7 @@ import me.minelang.compiler.lang.nodes.function.*;
 import me.minelang.compiler.lang.nodes.literial.LiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.NanLiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.literial.NoneLiteralNodeFactory;
+import me.minelang.compiler.lang.nodes.literial.UndefinedLiteralNodeFactory;
 import me.minelang.compiler.lang.nodes.operator.*;
 import me.minelang.compiler.lang.nodes.value.GlobalVarReadNodeFactory;
 import me.minelang.compiler.lang.nodes.value.GlobalVarWriteNodeFactory;
@@ -25,10 +26,6 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static me.minelang.compiler.parser.LexicalScope.of;
@@ -145,6 +142,8 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
             return of(NoneLiteralNodeFactory.create().setSourceSection(section(ctx)));
         } else if (ctx.NAN() != null) {
             return of(NanLiteralNodeFactory.create().setSourceSection(section(ctx)));
+        } else if (ctx.UNDEFINED() != null) {
+            return of(UndefinedLiteralNodeFactory.create().setSourceSection(section(ctx)));
         } else if (ctx.INT() != null) {
             return of(ins.createNumberNode(ctx.INT().getText()).setSourceSection(section(ctx)));
         } else if (ctx.DEC() != null) {
@@ -351,7 +350,7 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
         var body = ctx.expr();
 
         VisitResult<?> bodyNodeVisitResult;
-        if(body instanceof MineLangParser.BlockExprContext blockBody) {
+        if (body instanceof MineLangParser.BlockExprContext blockBody) {
             var blockFd = new FrameDescriptor(MineUndefined.SINGLETON);
             idNames.forEach(each -> blockFd.addFrameSlot(each, FrameSlotKind.Object));
             bodyNodeVisitResult = visitBlockExpr(scope(blockBody, fd), blockFd, false);
@@ -402,10 +401,5 @@ public final class MineLangASTBuilder extends MineLangBaseVisitor<VisitResult<?>
 
     private LexicalScope getScope(ParserRuleContext ctx) {
         return lexicalScopes.get(ctx);
-    }
-
-    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
-        Set<Object> seen = ConcurrentHashMap.newKeySet();
-        return t -> seen.add(keyExtractor.apply(t));
     }
 }

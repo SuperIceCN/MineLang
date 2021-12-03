@@ -224,7 +224,7 @@ public abstract class MineTypeSystem {
      */
     @TypeCast(MineUndefined.class)
     public static MineUndefined asMineUndefined(Object value){
-        assert isMineNone(value);
+        assert isMineUndefined(value);
         return MineUndefined.SINGLETON;
     }
 

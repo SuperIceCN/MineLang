@@ -42,7 +42,8 @@ DEC=41
 BOOL=42
 NONE=43
 NAN=44
-ID=45
+UNDEFINED=45
+ID=46
 'func'=4
 'return'=5
 'using'=6
@@ -78,3 +79,4 @@ ID=45
 '<='=38
 'none'=43
 'nan'=44
+'undefined'=45

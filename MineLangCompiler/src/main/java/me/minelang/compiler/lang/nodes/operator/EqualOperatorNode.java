@@ -8,6 +8,7 @@ import me.minelang.compiler.lang.nodes.MineNode;
 import me.minelang.compiler.lang.types.MineBigDecimal;
 import me.minelang.compiler.lang.types.MineBigInteger;
 import me.minelang.compiler.lang.types.MineNan;
+import me.minelang.compiler.lang.types.MineUndefined;
 
 @NodeInfo(language = "MineLang", shortName = "==", description = "operatorEqual")
 @NodeChild(value = "left", type = MineNode.class)
@@ -74,6 +75,11 @@ public abstract class EqualOperatorNode extends AbstractOperatorNode {
     @Specialization
     boolean compareMineNan(MineNan a, MineNan b) {
         return false;
+    }
+
+    @Specialization
+    boolean compareUndefined(MineUndefined a, MineUndefined b) {
+        return a == b;
     }
 
     @Fallback
